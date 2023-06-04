@@ -9,11 +9,14 @@ using System.Text;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.IO;
+//using ConversionHelpers;
 
 namespace UDKtoUE4Tool
 {
     public partial class Form1 : Form
     {
+        #region Declarations
+        ConversionHelpers ConversionTools;
         private string input;
         private string path;
 
@@ -276,6 +279,7 @@ namespace UDKtoUE4Tool
         private string NoInnerCone = "InnerConeAngle=1.000000";
         private string NoOutterCone = "OuterConeAngle=45.000000";
 
+        private string materialsTemp;
         private string LoopOutput;
         private string KactorOutput;
         private string SKmeshOutput;
@@ -339,10 +343,8 @@ namespace UDKtoUE4Tool
 
         int i;
 
-        string materialsTemp;
-        string RecombinedMaterials;
-
         string SaveFilePath = @"UserData.txt";
+        #endregion
 
 
         /************************* Material Converter *********************/
@@ -409,7 +411,7 @@ namespace UDKtoUE4Tool
             ParticlesMatch = null;
             InterpMatch = null;
             FogMatch = null;
-            FoliageMatch = null;
+           // FoliageMatch = null;
             DestructMatch = null;
             ApexMatch = null;
 
@@ -678,731 +680,39 @@ namespace UDKtoUE4Tool
             UE4ProjectPath = string.Empty;
             UE4Directories.Clear();
 
-            materialsTemp = null;
-            RecombinedMaterials = null;
+          //  materialsTemp = null;
+            //RecombinedMaterials = null;
         }
 
 
-        //function for converting the Location from UE3 to UE4 format
-        private string ConvertLocation(List<string> list, int i)
-        {
-            temp = null;
-            temp = list[i].Replace("Location=", "RelativeLocation=");
-
-            if (checkBox1.Checked == true)
-            {
-                split = temp.Split(",".ToCharArray());
-                newX = split[0];
-                newY = split[1];
-                newZ = split[2];
-
-                newX = newX.Replace("RelativeLocation=(X=", "");
-                newY = newY.Replace("Y=", "");
-                newZ = newZ.Replace("Z=", "");
-                newZ = newZ.Replace(")", "");
-
-                if (float.TryParse(newX, out X))
-                {
-                    X = X * 2;
-                }
-                if (float.TryParse(newY, out Y))
-                {
-                    Y = Y * 2;
-                }
-                if (float.TryParse(newZ, out Z))
-                {
-                    Z = Z * 2;
-                }
-
-                temp = "	    RelativeLocation=(X=" + X.ToString() + ",Y=" + Y.ToString() + ",Z=" + Z.ToString() + ")";
-            }
-            return temp;
-        }
-
-        //function for converting the Rotation from UE3 to UE4 format
-        private string ConvertRotation(List<string> list, int i)
-        {
-            temp = null;
-            temp = list[i];
-            split = temp.Split(",".ToCharArray());
-            newPitch = split[0];
-            newYaw = split[1];
-            newRoll = split[2];
-
-            newPitch = newPitch.Replace("Rotation=(Pitch=", "");
-            newYaw = newYaw.Replace("Yaw=", "");
-            newRoll = newRoll.Replace("Roll=", "");
-            newRoll = newRoll.Replace(")", "");
-
-            if (float.TryParse(newPitch, out Pitch))
-            {
-                Pitch = Pitch / 65536 * 360;
-            }
-            if (float.TryParse(newYaw, out Yaw))
-            {
-                Yaw = Yaw / 65536 * 360;
-            }
-            if (float.TryParse(newRoll, out Roll))
-            {
-                Roll = Roll / 65536 * 360;
-            }
-
-            temp = "	    RelativeRotation=(Pitch=" + Pitch.ToString() + ",Yaw=" + Yaw.ToString() + ",Roll=" + Roll.ToString() + ")";
-            return temp;
-        }
-
-        //function for converting the Scale3D from UE3 to UE4 format
-        private string ConvertScale3D(List<string> list, int i, List<string> list2)
-        {
-            temp = null;
-            temp = list[i];
-            temp = temp.Replace("DrawScale3D=", "");
-            temp = temp.Replace(" ", "");
-
-            split = temp.Split(",".ToCharArray());
-            newX = split[0];
-            newY = split[1];
-            newZ = split[2];
-
-            newX = newX.Replace("(X=", "");
-            newY = newY.Replace("Y=", "");
-            newZ = newZ.Replace("Z=", "");
-            newZ = newZ.Replace(")", "");
-
-            if (float.TryParse(list2[i], out DrawScale))
-            {
-                if (float.TryParse(newX, out X))
-                {
-                    X = X * DrawScale;
-                }
-                else
-                {
-                    richTextBox1.Text = richTextBox1.Text + "\n X Failed to Parse";
-                }
-                if (float.TryParse(newY, out Y))
-                {
-                    Y = Y * DrawScale;
-                }
-                else
-                {
-                    richTextBox1.Text = richTextBox1.Text + "\n Y Failed to Parse";
-                }
-                if (float.TryParse(newZ, out Z))
-                {
-                    Z = Z * DrawScale;
-                }
-                else
-                {
-                    richTextBox1.Text = richTextBox1.Text + "\n Z Failed to Parse";
-                }
-            }
-            else
-            {
-                richTextBox1.Text = richTextBox1.Text + "\n Drawscale Failed to Parse";
-            }
-
-            if (checkBox2.Checked == true)
-            {
-                X = X * 2;
-                Y = Y * 2;
-                Z = Z * 2;
-            }
-
-            temp = "(X=" + X + ",Y=" + Y + ",Z=" + Z + ")";
-            return temp;
-        }
-
-        //Scale was removed in UE4, there is just Scale3D, this function blanks out the entry, the scale property is applied in ConvertScale3D() function
-        private string ConvertScale(List<string> list, int i)
-        {
-            temp = null;
-            temp = list[i].Replace("DrawScale=", "");
-            temp = temp.Replace(" ", "");
-            return temp;
-        }
-
-        //function for checking if a path exsits
-        private bool CheckIfPathExists(string path)
-        {
-            return UE4Directories.Any(s => s.Contains(path));
-        }
-
-         
-        private string GetPath(string path)
-        {
-            int index = UE4Directories.FindIndex(s => s.Contains(path));
-
-            return UE4Directories[index];
-        }
-
-        //function for converting the StaticMesh line from UE3 to UE4 format
-        private string ConvertStaticMeshPath(List<string> list, int i, int type)
-        {
-            temp = null;
-            if (list[i] != string.Empty)
-            {
-                if (UE4ProjectPath != string.Empty)
-                {
-                    temp = list[i].Replace(".", "/");
-                    temp = temp.Replace("\\", "/");
-                    temp = temp.Replace("'", "");
-                    temp = temp.Replace(")", "");
-
-                    split = temp.Split("/".ToCharArray());
-
-                    //Console.WriteLine(split[split.Length - 1]);
-
-                    if (CheckIfPathExists(split[split.Length - 1]))
-                    {
-
-                        temp2 = GetPath(split[split.Length - 1]).Replace("\\", "/");
-                        // UE4Directories
-                        if (type == 1)
-                        {
-                            temp = "SkeletalMesh=SkeletalMesh'" + temp2 + "'";
-                        }
-                        else if (type == 2)
-                        {
-                            temp = "Template=ParticleSystem'" + temp2 + "'";
-                        }
-                        else if (type == 3)
-                        {
-                            temp = "SkeletalMesh=DestructibleMesh'" + temp2 + "'";
-                        }
-                        else if (type == 4)
-                        {
-                            temp = "SkeletalMesh=DestructibleMesh'" + temp2 + "'";
-                        }
-                        else if (type == 5)
-                        {
-                            temp = "Sound=SoundCue'" + temp2 + "'";
-                        }
-                        else if (type == 6)
-                        {
-                            temp = "Sound=SoundWave'" + temp2 + "'";
-                        }
-                        else
-                        {
-                            temp = "StaticMesh=StaticMesh'" + temp2 + "'";
-                        }               
-                    }
-                    else
-                    {
-                        //Mesh Path
-                        temp = list[i].Replace(".", "/");
-                        temp = temp.Replace("\\", "/");
-                        if (type == 1)
-                        {
-                            temp = temp.Replace("SkeletalMesh'", "SkeletalMesh'" + textBox1.Text.ToString());
-                        }
-                        else if (type == 2)
-                        {
-                            temp = temp.Replace("ParticleSystem'", "ParticleSystem'" + textBox1.Text.ToString());
-                        }
-                        else if (type == 3)
-                        {
-                            //temp = temp.Replace("StaticMesh'", "DestructibleMesh'" + textBox1.Text.ToString());
-                            temp = temp.Replace("StaticMesh=FracturedStaticMesh'", "SkeletalMesh=DestructibleMesh'" + textBox1.Text.ToString());
-                        }
-                        else if (type == 4)
-                        {
-                            //temp = temp.Replace("StaticMesh'", "DestructibleMesh'" + textBox1.Text.ToString());
-                            temp = temp.Replace("Asset=ApexDestructibleAsset'", "SkeletalMesh=DestructibleMesh'" + textBox1.Text.ToString());
-                        }
-                        else if (type == 5)
-                        {
-                            //temp = temp.Replace("StaticMesh'", "DestructibleMesh'" + textBox1.Text.ToString());
-                            temp = temp.Replace("SoundCue'", "SoundCue'" + textBox1.Text.ToString());
-                        }
-                        else if (type == 6)
-                        {
-                           // temp = "Sound=SoundWave'" + temp2 + "'";
-                            temp = temp.Replace("SoundSlots(0)=(Wave=SoundNodeWave'", "Sound=SoundWave'" + textBox1.Text.ToString());
-                            temp = temp.Replace(")","");
-                        }
-                        else
-                        {
-                            temp = temp.Replace("StaticMesh'", "StaticMesh'" + textBox1.Text.ToString());
-                        }
-
-                        //Append the last entry and a period to the end
-                        split = temp.Split("/".ToCharArray());
-                        temp = temp.Remove(temp.Length - 1);
-                        temp = temp + "." + split[split.Length - 1];
-                    }
-
-                }
-                else
-                {
-                    //replace text
-                    temp = list[i].Replace(".", "/");
-                    temp = temp.Replace("\\", "/");
-
-                    //append the Text in the asset path text box
-                    if (type == 1)
-                    {
-                        temp = temp.Replace("SkeletalMesh'", "SkeletalMesh'" + textBox1.Text.ToString());
-                    }
-                    else if (type == 2)
-                    {
-                        temp = temp.Replace("ParticleSystem'", "ParticleSystem'" + textBox1.Text.ToString());
-                    }
-                    else if (type == 3)
-                    {
-                        //temp = temp.Replace("StaticMesh'", "DestructibleMesh'" + textBox1.Text.ToString());
-                        temp = temp.Replace("StaticMesh=FracturedStaticMesh'", "SkeletalMesh=DestructibleMesh'" + textBox1.Text.ToString());
-                    }
-                    else if (type == 4)
-                    {
-                        //temp = temp.Replace("StaticMesh'", "DestructibleMesh'" + textBox1.Text.ToString());
-                        temp = temp.Replace("Asset=ApexDestructibleAsset'", "SkeletalMesh=DestructibleMesh'" + textBox1.Text.ToString());
-                    }
-                    else if (type == 5)
-                    {
-                        temp = temp.Replace("SoundCue'", "SoundCue'" + textBox1.Text.ToString());
-                    }
-                    else if (type == 6)
-                    {
-                        // temp = "Sound=SoundWave'" + temp2 + "'";
-                        temp = temp.Replace("SoundSlots(0)=(Wave=SoundNodeWave'", "Sound=SoundWave'" + textBox1.Text.ToString());
-                        temp = temp.Replace(")", "");
-                    }
-                    else
-                    {
-                        temp = temp.Replace("StaticMesh'", "StaticMesh'" + textBox1.Text.ToString());
-                    }  
-
-                    //Append the last entry and a period to the end
-                    split = temp.Split("/".ToCharArray());
-                    temp = temp.Remove(temp.Length - 1);
-                    temp = temp + "." + split[split.Length - 1];
-                }
-            }
-            else
-            {
-                temp = string.Empty;
-            }
-
-            return temp;
-        }
-
-        //function for converting the Overide Material line from UE3 to UE4 format
-        private string ConvertMaterial(List<string> list, int i)
-        {
-            string Final = string.Empty;
-            string[] SplitLine;
-            //split the string by the added "---" text
-
-            SplitLine = Regex.Split(list[i], Environment.NewLine);
-
-            //foreach (string value in SplitLine)
-
-            for (int it = 0; it < SplitLine.Length - 1; it++)
-            {
-                temp = SplitLine[it].Replace(".", "/");
-               temp = temp.Replace("\\", "/");
-               temp = temp.Replace("'", "");
-               
-                //spilt the material string by it's slashes
-               split = temp.Split("/".ToCharArray());
-
-                //check to see if the name of the material exists in the list of assets from UE4, 
-               if (CheckIfPathExists(split[split.Length - 1]))
-               {
-                   split2 = temp.Split("=".ToCharArray());
-
-                   temp2 = GetPath(split[split.Length - 1]).Replace("\\", "/");
-                   temp = split2[0] + "=Material'" + temp2 + "'" + Environment.NewLine;
-
-               }else{
-
-                   //check to see if the material is an instance
-                   if (temp.Contains("InstanceConstant"))
-                   {
-                       temp = temp.Replace("=MaterialInstanceConstant", "=MaterialInstanceConstant'" + textBox1.Text.ToString());
-                   }
-                   else
-                   {
-                       temp = temp.Replace("=Material", "=Material'" + textBox1.Text.ToString());
-                   }
-
-                   temp = temp + "." + split[split.Length - 1] + "'";
-                   temp = temp.Replace(".'", "");
-                   temp = "         " + temp + Environment.NewLine;                  
-                }
-
-               Final = Final + temp;
-               
-            }
-            
-            return Final;
-        }
-
-        //function for converting the Vertex Color lines from UE3 to UE4 format, strips out UE3 code
-        private string ConvertVC(List<string> list, List<string> list2, int i)
-        {
-            //change the text from the First Vertex color list, and remove the last brace.
-            temp = list[i].Replace("LODData(0)=(", "            CustomProperties CustomLODData LOD=0 ");
-            temp = temp.Remove(temp.Length - 1);
-            temp = temp.Remove(temp.Length - 1);
-            temp = temp.Replace(",(Position", ",((Position");
-            temp = temp.Replace(",Color", ",(Color");
-            temp = temp.Replace(",Normal", ",(Normal");
-
-            //extract from the 2nd vertext list the number of actual paitned verts.
-            temp3 = Regex.Match(list2[i], @"\(([^)]*)\)").Groups[1].Value.ToString();
-            //Console.WriteLine(temp3);
-
-            //remove text from the second vertex color list.
-            temp2 = list2[i].Replace("CustomProperties CustomLODData LOD=0 ","");
-            temp2 = temp2.Replace("           ColorVertexData(", "ColorVertexData(");
-
-            //add the number of painted verts to the first list.
-            temp = temp.Replace("PaintedVertices=", "PaintedVertices(" + temp3 + ")=");
-
-            //combine the two lists into one entry.
-            temp = temp + temp2;
-            return temp;
-        }
-
-        //function for getting the name of the actor, strips out UE3 code
-        private string ConvertName(List<string> list, int i)
-        {
-            temp = string.Empty;
-            temp2 = string.Empty; 
-
-            temp = list[i].Replace("Begin Actor Class=StaticMeshActor", "");
-            temp = temp.Replace("Archetype=StaticMeshActor\'Engine.Default__StaticMeshActor\'", "");
-
-            temp = temp.Replace("Begin Actor Class=PointLight ", "");
-            temp = temp.Replace("Begin Actor Class=PointLightToggleable ", "");
-            temp = temp.Replace("Begin Actor Class=PointLightMovable ", "");
-            temp = temp.Replace("Archetype=PointLight'Engine.Default__PointLight", "");
-            temp = temp.Replace("Archetype=PointLightMovable'Engine.Default__PointLightMovable'", "");
-            temp = temp.Replace("Archetype=PointLightToggleable'Engine.Default__PointLightToggleable'", "");
-
-            temp = temp.Replace("Begin Actor Class=SpotLight ", "");
-            temp = temp.Replace("Begin Actor Class=SpotLightToggleable ", "");
-            temp = temp.Replace("Begin Actor Class=SpotLightMovable ", "");
-            temp = temp.Replace("Archetype=SpotLight'Engine.Default__SpotLight'", "");
-            temp = temp.Replace("Archetype=SpotLightMovable'Engine.Default__SpotLightMovable'", "");
-            temp = temp.Replace("Archetype=SpotLightToggleable'Engine.Default__SpotLightToggleable'", "");
-
-            temp = temp.Replace("Begin Actor Class=DirectionalLight ", "");
-            temp = temp.Replace("Archetype=DirectionalLight'Engine.Default__DirectionalLight'", "");
-
-            temp = temp.Replace("Begin Actor Class=DominantDirectionalLight ", "");
-            temp = temp.Replace("Archetype=DominantDirectionalLight'Engine.Default__DominantDirectionalLight'", "");
-
-            temp = temp.Replace("Begin Actor Class=DominantPointLight ", "");
-            temp = temp.Replace("Archetype=DominantPointLight'Engine.Default__DominantPointLight'", "");
-
-            temp = temp.Replace("Begin Actor Class=DominantSpotLight ", "");
-            temp = temp.Replace("Archetype=DominantSpotLight'Engine.Default__DominantSpotLight'", "");
-
-            temp = temp.Replace("Begin Actor Class=PlayerStart ", "");
-            temp = temp.Replace("Archetype=PlayerStart'Engine.Default__PlayerStart'", "");
-
-            temp = temp.Replace("Begin Actor Class=CameraActor ", "");
-            temp = temp.Replace("Archetype=CameraActor'Engine.Default__CameraActor'", "");
-
-            temp = temp.Replace("Begin Actor Class=DecalActor ", "");
-            temp = temp.Replace("Archetype=DecalActor'Engine.Default__DecalActor'", "");
-
-            temp = temp.Replace("Begin Actor Class=KActor ", "");
-            temp = temp.Replace("Archetype=KActor'Engine.Default__KActor'", "");
-
-            temp = temp.Replace("Begin Actor Class=SkeletalMeshActor ", "");
-            temp = temp.Replace("Archetype=SkeletalMeshActor'Engine.Default__SkeletalMeshActor'", "");
-
-            temp = temp.Replace("Begin Actor Class=Emitter ", "");
-            temp = temp.Replace("Archetype=Emitter'Engine.Default__Emitter'", "");
-
-            temp = temp.Replace("Begin Actor Class=InterpActor ", "");
-            temp = temp.Replace("Archetype=InterpActor'Engine.Default__InterpActor'", "");
-
-            temp = temp.Replace("Begin Actor Class=ExponentialHeightFog ", "");
-            temp = temp.Replace("Archetype=ExponentialHeightFog'Engine.Default__ExponentialHeightFog'", "");
-
-            temp = temp.Replace("Begin Actor Class=InteractiveFoliageActor ", "");
-            temp = temp.Replace("Archetype=InteractiveFoliageActor'Engine.Default__InteractiveFoliageActor'", "");
-
-            temp = temp.Replace("Begin Actor Class=ApexDestructibleActor ", "");
-            temp = temp.Replace("Archetype=ApexDestructibleActor'Engine.Default__ApexDestructibleActor'", "");
-
-            temp = temp.Replace("Begin Actor Class=FracturedStaticMeshActor ", "");
-            temp = temp.Replace("Archetype=FracturedStaticMeshActor'Engine.Default__FracturedStaticMeshActor'", "");
-
-            temp = temp.Replace("Begin Actor Class=AmbientSoundSimple ", "");
-            temp = temp.Replace("Begin Actor Class=AmbientSound ", "");
-            temp = temp.Replace("Archetype=AmbientSound'Engine.Default__AmbientSound'", "");
-            temp = temp.Replace("Archetype=AmbientSoundSimple'Engine.Default__AmbientSoundSimple'", "");
-
-            temp = temp.Replace("Name=", "");
-            temp = temp.Replace(" ", "");
-            temp = temp.Replace("/n", "");
-            return temp;
-        }
-
-        //function for Converting Light Intensity
-        private string ConvertIntensity(List<string> list, int i, bool DirLight)
-        {
-            temp = list[i].Replace("Brightness=", "");
-            if (float.TryParse(temp, out intensity))
-            {
-                if (!DirLight)
-                {
-                    intensity = intensity * 5000;
-                }
-                else
-                {
-                    intensity = intensity * 10;
-                }
-            }
-            temp = "Intensity=" + intensity.ToString();
-            return temp;
-        }
-
-        //function for Converting Light Radius
-        private string ConvertRadius(List<string> list, int i)
-        {
-            temp = list[i].Replace(" Radius=", "");
-            temp = list[i].Replace("            Radius=", "");
-            temp = list[i].Replace("Radius=", "");
-            if (float.TryParse(temp, out radius))
-            {   
-             radius = radius / 1024 * 1000;                
-            }
-           temp = "AttenuationRadius=" + radius.ToString();
-            return temp;
-        }
-
-        //function for Converting Camera FOV
-        private string ConvertFOV(List<string> list, int i)
-        {
-
-            temp = list[i].Replace("FOVAngle=", "");
-            temp = temp.Replace("         FOVAngle=", "");
-            temp = temp.Replace("AspectRatio=", "");
-            temp = temp.Replace(" AspectRatio=", "");
-            temp = temp.Replace("         AspectRatio=", "");
-            temp = temp.Replace("         ", "");
-            return temp;
-        }
-
-        //function for Converting Decal Scaling (in UE3 width and height were interal properties of the actor, they where removed and instead DrawScale3D is used)
-        private string GetDecalScale(List<string> list,List<string> list2, int i)
-        {
-            temp3 = list[i].Replace("            Width=","");
-            temp3 = list[i].Replace("Width=", "");
-            temp4 = list2[i].Replace("            Height=", "");
-            temp4 = list2[i].Replace("Height=", "");
-
-            if (checkBox2.Checked == true)
-            {
-                if (float.TryParse(temp3, out width))
-                {
-                    width = width * 2;
-                }
-
-                if (float.TryParse(temp4, out height))
-                {
-                    height = height * 2;
-                }
-
-                temp = "(X=128.000000,Y=" + width + ",Z=" + height + ")";
-            }
-            else
-            {
-                temp = "(X=128.000000,Y=" + temp3 + ",Z=" + temp4 + ")";
-            }
-            
-            return temp;
-        }
-
-        //function for Converting The Decal material line
-        private string ConvertDecalMat(List<string> list, int i)
-        {
-            temp = null;
-            if (list[i] != string.Empty)
-            {
-                if (UE4ProjectPath != string.Empty)
-                {
-                    temp = list[i].Replace(".", "/");
-                    temp = temp.Replace("\\", "/");
-                    temp = temp.Replace("'", "");
-
-                    split = temp.Split("/".ToCharArray());
-
-                    //Console.WriteLine(split[split.Length - 1]);
-
-                    if (CheckIfPathExists(split[split.Length - 1]))
-                    {
-
-                        temp2 = GetPath(split[split.Length - 1]).Replace("\\", "/");
-                        // UE4Directories
-                        temp = "DecalMaterial=DecalMaterial'" + temp2 + "'";
-                        //Console.WriteLine(temp);
-                    }
-                    else
-                    {
-                        //Mesh Path
-                        temp = list[i].Replace(".", "/");
-                        temp = temp.Replace("\\", "/");
-                        temp = temp.Replace("DecalMaterial'", "DecalMaterial'" + textBox1.Text.ToString());
-
-                        split = temp.Split("/".ToCharArray());
-                        temp = temp.Remove(temp.Length - 1);
-                        temp = temp + "." + split[split.Length - 1];
-                    }
-
-                }
-                else
-                {//Mesh Path
-
-                    temp = list[i].Replace(".", "/");
-
-                    temp = temp.Replace("\\", "/");
-                    temp = temp.Replace("DecalMaterial'", "DecalMaterial'" + textBox1.Text.ToString());
-
-                    split = temp.Split("/".ToCharArray());
-                    temp = temp.Remove(temp.Length - 1);
-                    temp = temp + "." + split[split.Length - 1];
-                }
-            }
-            else
-            {
-                temp = string.Empty;
-            }
-
-            return temp;
-        }
-
-        //function for Converting Fog Color
-        private string ConvertFogColor(List<string> list, int i, bool type)
-        {
-            //remove text
-            temp = list[i].Replace("LightInscatteringColor=", "");
-            temp = temp.Replace("OppositeLightColor=", "");
-
-            temp = temp.Replace("R=", "");
-            temp = temp.Replace("G=", "");
-            temp = temp.Replace("B=", "");
-            temp = temp.Replace("A=", "");
-            temp = temp.Replace("(", "");
-            temp = temp.Replace(")", "");
-
-            //split values
-            split = temp.Split(",".ToCharArray());
-            newB = split[0];
-            newG = split[1];
-            newR = split[2];
-            newA = split[3];
-
-           // Console.WriteLine(newR + " " + newG + " " + newB + " " + newA);
-
-            //convert values
-            if (float.TryParse(newR, out R))
-            {
-                R = R / 255;
-            }
-            if (float.TryParse(newG, out G))
-            {
-                G = G / 255;
-            }
-            if (float.TryParse(newB, out B))
-            {
-                B = B / 255;
-            }
-            if (float.TryParse(newA, out A))
-            {
-                A = A / 255;
-            }
-
-            //recombine values
-            temp = "(R=" +R.ToString() +",G=" + G.ToString() + ",B=" + B.ToString() + ",A=" + A.ToString() + ")";
-
-            if (type)
-            {
-                temp = "DirectionalInscatteringColor=" + temp;
-            }
-            else {
-                temp = "FogInscatteringColor=" + temp;
-            }
-            return temp;
-        }
-
-        //function for Audio Modulation
-        private string ConvertModulation(List<string> list, int i)
-        {
-            temp = list[i].Replace("Pitch","PitchModulation");
-            temp = temp.Replace("Volume","VolumeModulation");
-            return temp;
-        }
-
-        //function for Converting Audio radius 
-        private string ConvertSoundRadius(List<string> list, int i, bool type)
-        {
-            temp = list[i].Replace("            RadiusMin=", "");
-            temp = temp.Replace("            RadiusMax=", "");
-            temp = temp.Replace("RadiusMax=", "");
-            temp = temp.Replace("RadiusMin=", "");
-            if (type)
-            {
-                temp = "AttenuationShapeExtents=(X=" + temp + ",Y=0.000000,Z=0.000000),";
-            }
-            else
-            {
-                temp = "FalloffDistance=" + temp;
-            }
-            return temp;
-        }
-
-        //function for Building an array of all the files in a given directory. Used to get all the filenames and paths in the UE4 Content folder
-        void DirSearch(string sDir, List<string> list)
-        {
-            //Grab any files that are in the root "content" folder
-            foreach (string f in Directory.GetFiles(sDir))
-            {
-                list.Add(f);
-            }
-
-            //go through every subdirectory and add the files from them
-            foreach (string d in Directory.GetDirectories(sDir))
-            {
-                foreach (string f in Directory.GetFiles(d))
-                {
-                    //Console.WriteLine(f);
-                    //f.Replace
-                    list.Add(f);
-                }
-                DirSearch(d, list);
-            }
-        }
 
         private void button3_Click(object sender, EventArgs e)
         {
-
+            //Grab Input from the user
+            #region GrabInput
             ResetData();
 
             //grab the input
             input = richTextBox1.Text.ToString();
-            path = textBox1.Text.ToString();
+            path = TB_AssetPath.Text.ToString();
 
-            if (textBox2.Text != string.Empty)
+            
+            if (TB_ContentDir.Text != string.Empty)
             {
-                UE4ProjectPath = textBox2.Text;
+                UE4ProjectPath = TB_ContentDir.Text;
                 split = UE4ProjectPath.Split("\\".ToCharArray());
 
+               
                 if (!split.Contains<String>("Content"))
                 {
+                    //if no content folder was provided
                     MessageBox.Show("No Content Folder Found");
                     return;
                 }
                 else
                 {
                     //get all the file names and paths from the project folder
-                    DirSearch(UE4ProjectPath, UE4Directories);
+                    ConversionTools.DirSearch(UE4ProjectPath, UE4Directories);
 
                     //loop through the all file paths and remove the Drive path to the project "C://" etc...., so we just have the relative engine paths for each file.
                     for (i = 0; i < UE4Directories.Count; i++)
@@ -1416,43 +726,12 @@ namespace UDKtoUE4Tool
                             UE4Directories[i] = UE4Directories[i] + "." + split[split.Length - 1];
                         }
                     }
-
-                    //This code was debug testing the DirSearch() function.
-
-                    /* if (File.Exists(@"UE4Files.txt"))
-                     {
-                         File.Delete(@"UE4Files.txt");
-                     }
-
-                     // Delete the file if it exists. 
-                     if (!File.Exists(@"UE4Files.txt"))
-                     {
-                         // Create the file. 
-                         using (FileStream fs = File.Create(@"UE4Files.txt"))
-                         {
-                             foreach (var item in UE4Directories)
-                             {
-                                 Byte[] info = new UTF8Encoding(true).GetBytes(item.ToString() + Environment.NewLine);
-
-                                 // Add some information to the file.
-                                 fs.Write(info, 0, info.Length);
-                             }
-
-                         }
-                     }*/
-
-                    /*
-                    //print out all the found files
-                    if (UE4Directories != null)
-                    {
-                        foreach (var item in UE4Directories)
-                        {
-                            Console.WriteLine(item.ToString());
-                        }
-                    }*/
                 }
             }
+            #endregion
 
+            //use Regular Expressions to Search through the T3D
+            #region SearchThroughInput
             //get all the text inbetween all sets of "Begin Actor Class=__"  and "End Actor", store the results in the arrays
             Regex r = new Regex(@"(?s)(Begin Actor Class=StaticMeshActor).+?(End Actor)");
             StaticMeshmatch = r.Matches(richTextBox1.Text);
@@ -1516,6 +795,12 @@ namespace UDKtoUE4Tool
                 MessageBox.Show("No Actors found");
                 return;
             }
+            #endregion
+
+            //Filter the Regular expressions results and strip away any other text so we are down to the raw values we need and store them.
+            #region FilterResults
+
+
 
             //find any Static Meshes, insert default entries if missing, then store the data into arrays for access
 
@@ -3585,6 +2870,10 @@ namespace UDKtoUE4Tool
                 }
             }
 
+            #endregion
+
+            //convert the data and generate new T3D Syntax
+            #region ConvertMesh
 
             if (checkedListBox1.GetItemCheckState(0) == CheckState.Checked)
             {
@@ -3593,23 +2882,24 @@ namespace UDKtoUE4Tool
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
                     for (i = 0; i <= NumberOfAssets - 1; i++)
                     {
-                        Name2[i] = ConvertName(Name2, i);
-                        StaticMesh[i] = ConvertStaticMeshPath(StaticMesh, i, 0);
-                        location[i] = ConvertLocation(location, i);
-                        rotation[i] = ConvertRotation(rotation, i);
-                        scale[i] = ConvertScale(scale, i);
-                        scale3D[i] = ConvertScale3D(scale3D, i, scale);
+                        Name2[i] = ConversionTools.ConvertName(Name2, i);
+                        StaticMesh[i] = ConversionTools.ConvertStaticMeshPath(StaticMesh, i, 0, TB_AssetPath);
+                        location[i] = ConversionTools.ConvertLocation(location, i, CB_MultiplyPosition);
+                        rotation[i] = ConversionTools.ConvertRotation(rotation, i);
+                        scale[i] = ConversionTools.ConvertScale(scale, i);
+                        scale3D[i] = ConversionTools.ConvertScale3D(scale3D, i, scale, richTextBox1, CB_MultiplyScale);
+                        
                         //Console.Write(Materials[i] + Environment.NewLine);
                         if (Materials[i] != string.Empty && Materials[i] != null)
                         {
-                            Materials[i] = ConvertMaterial(Materials, i);
+                            Materials[i] = ConversionTools.ConvertMaterial(Materials, i, TB_AssetPath);
                         }
 
-                        if (checkBox4.Checked == true)
+                        if (CB_VertextColors.Checked == true)
                         {
                             if (VertexColors[i] != string.Empty && VertexColors[i] != null)
                             {
-                                VertexColors[i] = ConvertVC(VertexColors, VertexColorsData, i);
+                                VertexColors[i] = ConversionTools.ConvertVC(VertexColors, VertexColorsData, i);
                             }
 
                             // Console.Write(NumOfVC);
@@ -3618,32 +2908,62 @@ namespace UDKtoUE4Tool
                     }
 
 
-                    //create a new static mesh entry using UE4 syntax for every static mesh found
-                    for (i = 0; i <= NumberOfAssets - 1; i++)
+                    if (CB_UE4Mode.Checked)
                     {
-                        LoopOutput = LoopOutput + Environment.NewLine + "      Begin Actor Class=StaticMeshActor Name=" + Name2[i] + " Archetype=StaticMeshActor'/Script/Engine.Default__StaticMeshActor'" + Environment.NewLine + "         Begin Object Class=StaticMeshComponent Name=StaticMeshComponent0 ObjName=StaticMeshComponent0 Archetype=StaticMeshComponent'/Script/Engine.Default__StaticMeshActor:StaticMeshComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Name=StaticMeshComponent0" + Environment.NewLine;
-                        LoopOutput = LoopOutput + "        " + StaticMesh[i] + Environment.NewLine;
-                        if (Materials[i] != string.Empty)
+                        //create a new static mesh entry using UE4 syntax for every static mesh found
+                        for (i = 0; i <= NumberOfAssets - 1; i++)
                         {
-                            LoopOutput = LoopOutput + Materials[i];
-                        }
-                        if (LightMap[i] != string.Empty)
-                        {
-                            LoopOutput = LoopOutput + "                    bOverrideLightMapRes=True" + Environment.NewLine + "        " + LightMap[i] + Environment.NewLine;
-                        }
-                        LoopOutput = LoopOutput + "                    BodyInstance=(Scale3D=(" + scale3D[i] + "))" + Environment.NewLine;
-                        LoopOutput = LoopOutput + "           " + location[i] + Environment.NewLine + "            " + rotation[i] + Environment.NewLine + "                    RelativeScale3D=" + scale3D[i] + Environment.NewLine;
+                            LoopOutput = LoopOutput + Environment.NewLine + "      Begin Actor Class=StaticMeshActor Name=" + Name2[i] + " Archetype=StaticMeshActor'/Script/Engine.Default__StaticMeshActor'" + Environment.NewLine + "         Begin Object Class=StaticMeshComponent Name=StaticMeshComponent0 ObjName=StaticMeshComponent0 Archetype=StaticMeshComponent'/Script/Engine.Default__StaticMeshActor:StaticMeshComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Name=StaticMeshComponent0" + Environment.NewLine;
+                            LoopOutput = LoopOutput + "        " + StaticMesh[i] + Environment.NewLine;
+                            if (Materials[i] != string.Empty)
+                            {
+                                LoopOutput = LoopOutput + Materials[i];
+                            }
+                            if (LightMap[i] != string.Empty)
+                            {
+                                LoopOutput = LoopOutput + "                    bOverrideLightMapRes=True" + Environment.NewLine + "        " + LightMap[i] + Environment.NewLine;
+                            }
+                            LoopOutput = LoopOutput + "                    BodyInstance=(Scale3D=(" + scale3D[i] + "))" + Environment.NewLine;
+                            LoopOutput = LoopOutput + "           " + location[i] + Environment.NewLine + "            " + rotation[i] + Environment.NewLine + "                    RelativeScale3D=" + scale3D[i] + Environment.NewLine;
 
-                        if (VertexColors[i] != string.Empty)
-                        {
-                            LoopOutput = LoopOutput + VertexColors[i] + Environment.NewLine;
-                        }
-                        LoopOutput = LoopOutput + "         End Object" + Environment.NewLine + "        StaticMeshComponent=StaticMeshComponent0" + Environment.NewLine + "        RootComponent=StaticMeshComponent0" + Environment.NewLine + "        ActorLabel=\"" + Name2[i] + "\"\n      End Actor";
+                            if (VertexColors[i] != string.Empty)
+                            {
+                                LoopOutput = LoopOutput + VertexColors[i] + Environment.NewLine;
+                            }
+                            LoopOutput = LoopOutput + "         End Object" + Environment.NewLine + "        StaticMeshComponent=StaticMeshComponent0" + Environment.NewLine + "        RootComponent=StaticMeshComponent0" + Environment.NewLine + "        ActorLabel=\"" + Name2[i] + "\"\n      End Actor";
 
+                        }
+                    }
+                    else
+                    {
+                        //UE5
+                        for (i = 0; i <= NumberOfAssets - 1; i++)
+                        {
+                            LoopOutput = LoopOutput + Environment.NewLine + "      Begin Actor Class=StaticMeshActor Name=" + Name2[i] + " Archetype=StaticMeshActor'/Script/Engine.Default__StaticMeshActor'" + Environment.NewLine + "         Begin Object Class=StaticMeshComponent Name=StaticMeshComponent0 ObjName=StaticMeshComponent0 Archetype=StaticMeshComponent'/Script/Engine.Default__StaticMeshActor:StaticMeshComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Name=StaticMeshComponent0" + Environment.NewLine;
+                            LoopOutput = LoopOutput + "        " + StaticMesh[i] + Environment.NewLine;
+                            if (Materials[i] != string.Empty)
+                            {
+                                LoopOutput = LoopOutput + Materials[i];
+                            }
+                            if (LightMap[i] != string.Empty)
+                            {
+                                LoopOutput = LoopOutput + "                    bOverrideLightMapRes=True" + Environment.NewLine + "        " + LightMap[i] + Environment.NewLine;
+                            }
+                            LoopOutput = LoopOutput + "                    BodyInstance=(Scale3D=(" + scale3D[i] + "))" + Environment.NewLine;
+                            LoopOutput = LoopOutput + "           " + location[i] + Environment.NewLine + "            " + rotation[i] + Environment.NewLine + "                    RelativeScale3D=" + scale3D[i] + Environment.NewLine;
+
+                            if (VertexColors[i] != string.Empty)
+                            {
+                                LoopOutput = LoopOutput + VertexColors[i] + Environment.NewLine;
+                            }
+                            LoopOutput = LoopOutput + "         End Object" + Environment.NewLine + "        StaticMeshComponent=StaticMeshComponent0" + Environment.NewLine + "        RootComponent=StaticMeshComponent0" + Environment.NewLine + "        ActorLabel=\"" + Name2[i] + "\"\n      End Actor";
+
+                        }
                     }
                 }
             }
-
+            #endregion
+            #region ConvertKActor 
             //KActor Output
             if (checkedListBox1.GetItemCheckState(2) == CheckState.Checked)
             {
@@ -3652,16 +2972,16 @@ namespace UDKtoUE4Tool
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
                     for (i = 0; i <= NumberOfKactors - 1; i++)
                     {
-                        KName2[i] = ConvertName(KName2, i);
-                        KStaticMesh[i] = ConvertStaticMeshPath(KStaticMesh, i, 0);
-                        Klocation[i] = ConvertLocation(Klocation, i);
-                        Krotation[i] = ConvertRotation(Krotation, i);
-                        Kscale[i] = ConvertScale(Kscale, i);
-                        Kscale3D[i] = ConvertScale3D(Kscale3D, i, Kscale);
+                        KName2[i] = ConversionTools.ConvertName(KName2, i);
+                        KStaticMesh[i] = ConversionTools.ConvertStaticMeshPath(KStaticMesh, i, 0, TB_AssetPath);
+                        Klocation[i] = ConversionTools.ConvertLocation(Klocation, i, CB_MultiplyPosition);
+                        Krotation[i] = ConversionTools.ConvertRotation(Krotation, i);
+                        Kscale[i] = ConversionTools.ConvertScale(Kscale, i);
+                        Kscale3D[i] = ConversionTools.ConvertScale3D(Kscale3D, i, Kscale, richTextBox1, CB_MultiplyScale);
 
                         if (KMaterials[i] != string.Empty && KMaterials[i] != null)
                         {
-                            KMaterials[i] = ConvertMaterial(KMaterials, i);
+                            KMaterials[i] = ConversionTools.ConvertMaterial(KMaterials, i, TB_AssetPath);
                         }
                     }
 
@@ -3688,7 +3008,8 @@ namespace UDKtoUE4Tool
                     }
                 }
             }
-
+            #endregion
+            #region ConvertInterop
             //interop actors
             if (checkedListBox1.GetItemCheckState(3) == CheckState.Checked)
             {
@@ -3697,16 +3018,16 @@ namespace UDKtoUE4Tool
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
                     for (i = 0; i <= NumberOfInterp - 1; i++)
                     {
-                        InterpName[i] = ConvertName(InterpName, i);
-                        InterpStaticMesh[i] = ConvertStaticMeshPath(InterpStaticMesh, i, 0);
-                        InterpLocation[i] = ConvertLocation(InterpLocation, i);
-                        InterpRotation[i] = ConvertRotation(InterpRotation, i);
-                        InterpScale[i] = ConvertScale(InterpScale, i);
-                        InterpScale3D[i] = ConvertScale3D(InterpScale3D, i, InterpScale);
+                        InterpName[i] = ConversionTools.ConvertName(InterpName, i);
+                        InterpStaticMesh[i] = ConversionTools.ConvertStaticMeshPath(InterpStaticMesh, i, 0, TB_AssetPath);
+                        InterpLocation[i] = ConversionTools.ConvertLocation(InterpLocation, i, CB_MultiplyPosition);
+                        InterpRotation[i] = ConversionTools.ConvertRotation(InterpRotation, i);
+                        InterpScale[i] = ConversionTools.ConvertScale(InterpScale, i);
+                        InterpScale3D[i] = ConversionTools.ConvertScale3D(InterpScale3D, i, InterpScale, richTextBox1, CB_MultiplyScale);
 
                         if (InterpMaterials[i] != string.Empty && InterpMaterials[i] != null)
                         {
-                            InterpMaterials[i] = ConvertMaterial(InterpMaterials, i);
+                            InterpMaterials[i] = ConversionTools.ConvertMaterial(InterpMaterials, i, TB_AssetPath);
                         }
                     }
 
@@ -3729,7 +3050,8 @@ namespace UDKtoUE4Tool
                     }
                 }
             }
-
+            #endregion
+            #region ConvertDestructable
             //destructable actors
 
             if (checkedListBox1.GetItemCheckState(4) == CheckState.Checked)
@@ -3739,16 +3061,16 @@ namespace UDKtoUE4Tool
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
                     for (i = 0; i <= NumberOfDestruct - 1; i++)
                     {
-                        DestructName[i] = ConvertName(DestructName, i);
-                        DestructStaticMesh[i] = ConvertStaticMeshPath(DestructStaticMesh, i, 3);
-                        DestructLocation[i] = ConvertLocation(DestructLocation, i);
-                        DestructRotation[i] = ConvertRotation(DestructRotation, i);
-                        DestructScale[i] = ConvertScale(DestructScale, i);
-                        DestructScale3D[i] = ConvertScale3D(DestructScale3D, i, DestructScale);
+                        DestructName[i] = ConversionTools.ConvertName(DestructName, i);
+                        DestructStaticMesh[i] = ConversionTools.ConvertStaticMeshPath(DestructStaticMesh, i, 3, TB_AssetPath);
+                        DestructLocation[i] = ConversionTools.ConvertLocation(DestructLocation, i, CB_MultiplyPosition);
+                        DestructRotation[i] = ConversionTools.ConvertRotation(DestructRotation, i);
+                        DestructScale[i] = ConversionTools.ConvertScale(DestructScale, i);
+                        DestructScale3D[i] = ConversionTools.ConvertScale3D(DestructScale3D, i, DestructScale, richTextBox1, CB_MultiplyScale);
 
                         if (DestructMaterials[i] != string.Empty && DestructMaterials[i] != null)
                         {
-                            DestructMaterials[i] = ConvertMaterial(DestructMaterials, i);
+                            DestructMaterials[i] = ConversionTools.ConvertMaterial(DestructMaterials, i, TB_AssetPath);
                         }
                     }
 
@@ -3772,16 +3094,16 @@ namespace UDKtoUE4Tool
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
                     for (i = 0; i <= NumberOfApex - 1; i++)
                     {
-                        ApexName[i] = ConvertName(ApexName, i);
-                        ApexStaticMesh[i] = ConvertStaticMeshPath(ApexStaticMesh, i, 3);
-                        ApexLocation[i] = ConvertLocation(ApexLocation, i);
-                        ApexRotation[i] = ConvertRotation(ApexRotation, i);
-                        ApexScale[i] = ConvertScale(ApexScale, i);
-                        ApexScale3D[i] = ConvertScale3D(ApexScale3D, i, ApexScale);
+                        ApexName[i] = ConversionTools.ConvertName(ApexName, i);
+                        ApexStaticMesh[i] = ConversionTools.ConvertStaticMeshPath(ApexStaticMesh, i, 3, TB_AssetPath);
+                        ApexLocation[i] = ConversionTools.ConvertLocation(ApexLocation, i, CB_MultiplyPosition);
+                        ApexRotation[i] = ConversionTools.ConvertRotation(ApexRotation, i);
+                        ApexScale[i] = ConversionTools.ConvertScale(ApexScale, i);
+                        ApexScale3D[i] = ConversionTools.ConvertScale3D(ApexScale3D, i, ApexScale, richTextBox1, CB_MultiplyScale);
 
                         if (ApexMaterials[i] != string.Empty && ApexMaterials[i] != null)
                         {
-                            ApexMaterials[i] = ConvertMaterial(ApexMaterials, i);
+                            ApexMaterials[i] = ConversionTools.ConvertMaterial(ApexMaterials, i, TB_AssetPath);
                         }
                     }
 
@@ -3800,7 +3122,8 @@ namespace UDKtoUE4Tool
                     }
                 }
             }
-
+            #endregion
+            #region ConvertFoilage
             //foliage actor output
 
             if (checkedListBox1.GetItemCheckState(5) == CheckState.Checked)
@@ -3810,16 +3133,16 @@ namespace UDKtoUE4Tool
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
                     for (i = 0; i <= NumberOfFoliage - 1; i++)
                     {
-                        FoliageName[i] = ConvertName(FoliageName, i);
-                        FoliageStaticMesh[i] = ConvertStaticMeshPath(FoliageStaticMesh, i, 0);
-                        FoliageLocation[i] = ConvertLocation(FoliageLocation, i);
-                        FoliageRotation[i] = ConvertRotation(FoliageRotation, i);
-                        FoliageScale[i] = ConvertScale(FoliageScale, i);
-                        FoliageScale3D[i] = ConvertScale3D(FoliageScale3D, i, FoliageScale);
+                        FoliageName[i] = ConversionTools.ConvertName(FoliageName, i);
+                        FoliageStaticMesh[i] = ConversionTools.ConvertStaticMeshPath(FoliageStaticMesh, i, 0, TB_AssetPath);
+                        FoliageLocation[i] = ConversionTools.ConvertLocation(FoliageLocation, i, CB_MultiplyPosition);
+                        FoliageRotation[i] = ConversionTools.ConvertRotation(FoliageRotation, i);
+                        FoliageScale[i] = ConversionTools.ConvertScale(FoliageScale, i);
+                        FoliageScale3D[i] = ConversionTools.ConvertScale3D(FoliageScale3D, i, FoliageScale, richTextBox1, CB_MultiplyScale);
 
                         if (FoliageMaterials[i] != string.Empty || FoliageMaterials[i] != null)
                         {
-                            FoliageMaterials[i] = ConvertMaterial(FoliageMaterials, i);
+                            FoliageMaterials[i] = ConversionTools.ConvertMaterial(FoliageMaterials, i, TB_AssetPath);
                         }
                     }
 
@@ -3842,7 +3165,8 @@ namespace UDKtoUE4Tool
                     }
                 }
             }
-
+            #endregion
+            #region ConvertSkeletalMeshes
             //skeletal mesh output
 
             if (checkedListBox1.GetItemCheckState(1) == CheckState.Checked)
@@ -3853,16 +3177,16 @@ namespace UDKtoUE4Tool
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
                     for (i = 0; i <= NumberofSKMesh - 1; i++)
                     {
-                        SKName[i] = ConvertName(SKName, i);
-                        SKStaticMesh[i] = ConvertStaticMeshPath(SKStaticMesh, i, 1);
-                        SKlocation[i] = ConvertLocation(SKlocation, i);
-                        SKrotation[i] = ConvertRotation(SKrotation, i);
-                        SKscale[i] = ConvertScale(SKscale, i);
-                        SKscale3D[i] = ConvertScale3D(SKscale3D, i, SKscale);
+                        SKName[i] = ConversionTools.ConvertName(SKName, i);
+                        SKStaticMesh[i] = ConversionTools.ConvertStaticMeshPath(SKStaticMesh, i, 1, TB_AssetPath);
+                        SKlocation[i] = ConversionTools.ConvertLocation(SKlocation, i, CB_MultiplyPosition);
+                        SKrotation[i] = ConversionTools.ConvertRotation(SKrotation, i);
+                        SKscale[i] = ConversionTools.ConvertScale(SKscale, i);
+                        SKscale3D[i] = ConversionTools.ConvertScale3D(SKscale3D, i, SKscale, richTextBox1, CB_MultiplyScale);
 
                         if (SKMaterials[i] != string.Empty && SKMaterials[i] != null)
                         {
-                            SKMaterials[i] = ConvertMaterial(SKMaterials, i);
+                            SKMaterials[i] = ConversionTools.ConvertMaterial(SKMaterials, i, TB_AssetPath);
                         }
 
                     }
@@ -3882,6 +3206,8 @@ namespace UDKtoUE4Tool
                     }
                 }
             }
+            #endregion
+            #region ConvertPointLights
 
             if (checkedListBox1.GetItemCheckState(6) == CheckState.Checked)
             {
@@ -3889,13 +3215,13 @@ namespace UDKtoUE4Tool
                 {
                     for (i = 0; i <= NumberOfPLights - 1; i++)
                     {
-                        PLightsName[i] = ConvertName(PLightsName, i);
-                        PLightsLocation[i] = ConvertLocation(PLightsLocation, i);
-                        PLightsRotation[i] = ConvertRotation(PLightsRotation, i);
-                        PLightsScale[i] = ConvertScale(PLightsScale, i);
-                        PLightsScale3D[i] = ConvertScale3D(PLightsScale3D, i, PLightsScale);
-                        PLightsIntensity[i] = ConvertIntensity(PLightsIntensity, i, false);
-                        PLightsRadius[i] = ConvertRadius(PLightsRadius, i);
+                        PLightsName[i] = ConversionTools.ConvertName(PLightsName, i);
+                        PLightsLocation[i] = ConversionTools.ConvertLocation(PLightsLocation, i, CB_MultiplyPosition);
+                        PLightsRotation[i] = ConversionTools.ConvertRotation(PLightsRotation, i);
+                        PLightsScale[i] = ConversionTools.ConvertScale(PLightsScale, i);
+                        PLightsScale3D[i] = ConversionTools.ConvertScale3D(PLightsScale3D, i, PLightsScale, richTextBox1, CB_MultiplyScale);
+                        PLightsIntensity[i] = ConversionTools.ConvertIntensity(PLightsIntensity, i, false);
+                        PLightsRadius[i] = ConversionTools.ConvertRadius(PLightsRadius, i);
                     }
 
                     for (i = 0; i <= NumberOfPLights - 1; i++)
@@ -3907,7 +3233,7 @@ namespace UDKtoUE4Tool
                         }
                         else
                         {
-                            if (checkBox3.Checked)
+                            if (CB_StaticLights.Checked)
                             {
                                 PLightOutput = PLightOutput + "                    Mobility=Static" + Environment.NewLine;
                             }
@@ -3923,13 +3249,13 @@ namespace UDKtoUE4Tool
                 {
                     for (i = 0; i <= NumberOfDomPLights - 1; i++)
                     {
-                        DomPLightsName[i] = ConvertName(DomPLightsName, i);
-                        DomPLightsLocation[i] = ConvertLocation(DomPLightsLocation, i);
-                        DomPLightsRotation[i] = ConvertRotation(DomPLightsRotation, i);
-                        DomPLightsScale[i] = ConvertScale(DomPLightsScale, i);
-                        DomPLightsScale3D[i] = ConvertScale3D(DomPLightsScale3D, i, DomPLightsScale);
-                        DomPLightsIntensity[i] = ConvertIntensity(DomPLightsIntensity, i, false);
-                        DomPLightsRadius[i] = ConvertRadius(DomPLightsRadius, i);
+                        DomPLightsName[i] = ConversionTools.ConvertName(DomPLightsName, i);
+                        DomPLightsLocation[i] = ConversionTools.ConvertLocation(DomPLightsLocation, i, CB_MultiplyPosition);
+                        DomPLightsRotation[i] = ConversionTools.ConvertRotation(DomPLightsRotation, i);
+                        DomPLightsScale[i] = ConversionTools.ConvertScale(DomPLightsScale, i);
+                        DomPLightsScale3D[i] = ConversionTools.ConvertScale3D(DomPLightsScale3D, i, DomPLightsScale, richTextBox1, CB_MultiplyScale);
+                        DomPLightsIntensity[i] = ConversionTools.ConvertIntensity(DomPLightsIntensity, i, false);
+                        DomPLightsRadius[i] = ConversionTools.ConvertRadius(DomPLightsRadius, i);
                     }
 
                     for (i = 0; i <= NumberOfDomPLights - 1; i++)
@@ -3941,6 +3267,8 @@ namespace UDKtoUE4Tool
                     //DomPLightOutput = DomPLightsName.Count.ToString() + ", " + DomPLightsLocation.Count.ToString() + ", " + DomPLightsRotation.Count.ToString() + ", " + DomPLightsScale.Count.ToString() + ", " + DomPLightsScale3D.Count.ToString() + ", " + DomPLightsIntensity.Count.ToString() + ", " + DomPLightsRadius.Count.ToString() + ", " + DomPLightsColor.Count.ToString();
                 }
             }
+            #endregion
+            #region ConvertSpotLights
 
             if (checkedListBox1.GetItemCheckState(6) == CheckState.Checked)
             {
@@ -3948,13 +3276,13 @@ namespace UDKtoUE4Tool
                 {
                     for (i = 0; i <= NumberOfSLights - 1; i++)
                     {
-                        SLightsName[i] = ConvertName(SLightsName, i);
-                        SLightsLocation[i] = ConvertLocation(SLightsLocation, i);
-                        SLightsRotation[i] = ConvertRotation(SLightsRotation, i);
-                        SLightsScale[i] = ConvertScale(SLightsScale, i);
-                        SLightsScale3D[i] = ConvertScale3D(SLightsScale3D, i, SLightsScale);
-                        SLightsIntensity[i] = ConvertIntensity(SLightsIntensity, i, false);
-                        SLightsRadius[i] = ConvertRadius(SLightsRadius, i);
+                        SLightsName[i] = ConversionTools.ConvertName(SLightsName, i);
+                        SLightsLocation[i] = ConversionTools.ConvertLocation(SLightsLocation, i, CB_MultiplyPosition);
+                        SLightsRotation[i] = ConversionTools.ConvertRotation(SLightsRotation, i);
+                        SLightsScale[i] = ConversionTools.ConvertScale(SLightsScale, i);
+                        SLightsScale3D[i] = ConversionTools.ConvertScale3D(SLightsScale3D, i, SLightsScale, richTextBox1, CB_MultiplyScale);
+                        SLightsIntensity[i] = ConversionTools.ConvertIntensity(SLightsIntensity, i, false);
+                        SLightsRadius[i] = ConversionTools.ConvertRadius(SLightsRadius, i);
                     }
 
                     for (i = 0; i <= NumberOfSLights - 1; i++)
@@ -3966,7 +3294,7 @@ namespace UDKtoUE4Tool
                         }
                         else
                         {
-                            if (checkBox3.Checked)
+                            if (CB_StaticLights.Checked)
                             {
                                 SLightOutput = SLightOutput + Environment.NewLine + "                    Mobility=Static";
                             }
@@ -3981,13 +3309,13 @@ namespace UDKtoUE4Tool
                 {
                     for (i = 0; i <= NumberOfDomSLights - 1; i++)
                     {
-                        DomSLightsName[i] = ConvertName(DomSLightsName, i);
-                        DomSLightsLocation[i] = ConvertLocation(DomSLightsLocation, i);
-                        DomSLightsRotation[i] = ConvertRotation(DomSLightsRotation, i);
-                        DomSLightsScale[i] = ConvertScale(DomSLightsScale, i);
-                        DomSLightsScale3D[i] = ConvertScale3D(DomSLightsScale3D, i, DomSLightsScale);
-                        DomSLightsIntensity[i] = ConvertIntensity(DomSLightsIntensity, i, false);
-                        DomSLightsRadius[i] = ConvertRadius(DomSLightsRadius, i);
+                        DomSLightsName[i] = ConversionTools.ConvertName(DomSLightsName, i);
+                        DomSLightsLocation[i] = ConversionTools.ConvertLocation(DomSLightsLocation, i, CB_MultiplyPosition);
+                        DomSLightsRotation[i] = ConversionTools.ConvertRotation(DomSLightsRotation, i);
+                        DomSLightsScale[i] = ConversionTools.ConvertScale(DomSLightsScale, i);
+                        DomSLightsScale3D[i] = ConversionTools.ConvertScale3D(DomSLightsScale3D, i, DomSLightsScale, richTextBox1, CB_MultiplyScale);
+                        DomSLightsIntensity[i] = ConversionTools.ConvertIntensity(DomSLightsIntensity, i, false);
+                        DomSLightsRadius[i] = ConversionTools.ConvertRadius(DomSLightsRadius, i);
                     }
 
                     for (i = 0; i <= NumberOfDomSLights - 1; i++)
@@ -3999,6 +3327,8 @@ namespace UDKtoUE4Tool
                     //SLightOutput = DomSLightsName.Count.ToString() + ", " + DomSLightsLocation.Count.ToString() + ", " + DomSLightsRotation.Count.ToString() + ", " + DomSLightsScale.Count.ToString() + ", " + DomSLightsScale3D.Count.ToString() + ", " + DomSLightsIntensity.Count.ToString() + ", " + DomSLightsInnerRadius.Count.ToString() + ", " + DomSLightsOutterRadius.Count.ToString() + ", " + DomSLightsColor.Count.ToString();
                 }
             }
+            #endregion
+            #region ConvertDirectionalLights
 
             if (checkedListBox1.GetItemCheckState(8) == CheckState.Checked)
             {
@@ -4006,12 +3336,12 @@ namespace UDKtoUE4Tool
                 {
                     for (i = 0; i <= NumberOfDLights - 1; i++)
                     {
-                        DLightsName[i] = ConvertName(DLightsName, i);
-                        DLightsLocation[i] = ConvertLocation(DLightsLocation, i);
-                        DLightsRotation[i] = ConvertRotation(DLightsRotation, i);
-                        DLightsScale[i] = ConvertScale(DLightsScale, i);
-                        DLightsScale3D[i] = ConvertScale3D(DLightsScale3D, i, DLightsScale);
-                        DLightsIntensity[i] = ConvertIntensity(DLightsIntensity, i, true);
+                        DLightsName[i] = ConversionTools.ConvertName(DLightsName, i);
+                        DLightsLocation[i] = ConversionTools.ConvertLocation(DLightsLocation, i, CB_MultiplyPosition);
+                        DLightsRotation[i] = ConversionTools.ConvertRotation(DLightsRotation, i);
+                        DLightsScale[i] = ConversionTools.ConvertScale(DLightsScale, i);
+                        DLightsScale3D[i] = ConversionTools.ConvertScale3D(DLightsScale3D, i, DLightsScale, richTextBox1, CB_MultiplyScale);
+                        DLightsIntensity[i] = ConversionTools.ConvertIntensity(DLightsIntensity, i, true);
                     }
 
                     for (i = 0; i <= NumberOfDLights - 1; i++)
@@ -4026,12 +3356,12 @@ namespace UDKtoUE4Tool
                 {
                     for (i = 0; i <= NumberOfDomDLights - 1; i++)
                     {
-                        DomDLightsName[i] = ConvertName(DomDLightsName, i);
-                        DomDLightsLocation[i] = ConvertLocation(DomDLightsLocation, i);
-                        DomDLightsRotation[i] = ConvertRotation(DomDLightsRotation, i);
-                        DomDLightsScale[i] = ConvertScale(DomDLightsScale, i);
-                        DomDLightsScale3D[i] = ConvertScale3D(DomDLightsScale3D, i, DomDLightsScale);
-                        DomDLightsIntensity[i] = ConvertIntensity(DomDLightsIntensity, i, true);
+                        DomDLightsName[i] = ConversionTools.ConvertName(DomDLightsName, i);
+                        DomDLightsLocation[i] = ConversionTools.ConvertLocation(DomDLightsLocation, i, CB_MultiplyPosition);
+                        DomDLightsRotation[i] = ConversionTools.ConvertRotation(DomDLightsRotation, i);
+                        DomDLightsScale[i] = ConversionTools.ConvertScale(DomDLightsScale, i);
+                        DomDLightsScale3D[i] = ConversionTools.ConvertScale3D(DomDLightsScale3D, i, DomDLightsScale, richTextBox1, CB_MultiplyScale);
+                        DomDLightsIntensity[i] = ConversionTools.ConvertIntensity(DomDLightsIntensity, i, true);
                     }
 
                     for (i = 0; i <= NumberOfDomDLights - 1; i++)
@@ -4043,7 +3373,7 @@ namespace UDKtoUE4Tool
                         }
                         else
                         {
-                            if (checkBox3.Checked)
+                            if (CB_StaticLights.Checked)
                             {
                                 DomDLightOutput = DomDLightOutput + Environment.NewLine + "                    Mobility=Static";
                             }
@@ -4053,6 +3383,8 @@ namespace UDKtoUE4Tool
                     // DomDLightOutput = DomDLightsName.Count.ToString() + ", " + DomDLightsLocation.Count.ToString() + ", " + DomDLightsRotation.Count.ToString() + ", " + DomDLightsScale.Count.ToString() + ", " + DomDLightsScale3D.Count.ToString() + ", " + DomDLightsIntensity.Count.ToString() + ", " + DomDLightsColor.Count.ToString();
                 }
             }
+            #endregion
+            #region ConvertPlayerStarts
 
             if (checkedListBox1.GetItemCheckState(9) == CheckState.Checked)
             {
@@ -4061,11 +3393,11 @@ namespace UDKtoUE4Tool
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
                     for (i = 0; i <= NumberOfPlayerStarts - 1; i++)
                     {
-                        PlayerStartsName[i] = ConvertName(PlayerStartsName, i);
-                        PlayerStartsLocation[i] = ConvertLocation(PlayerStartsLocation, i);
-                        PlayerStartsRotation[i] = ConvertRotation(PlayerStartsRotation, i);
-                        PlayerStartsScale[i] = ConvertScale(PlayerStartsScale, i);
-                        PlayerStartsScale3D[i] = ConvertScale3D(PlayerStartsScale3D, i, PlayerStartsScale);
+                        PlayerStartsName[i] = ConversionTools.ConvertName(PlayerStartsName, i);
+                        PlayerStartsLocation[i] = ConversionTools.ConvertLocation(PlayerStartsLocation, i, CB_MultiplyPosition);
+                        PlayerStartsRotation[i] = ConversionTools.ConvertRotation(PlayerStartsRotation, i);
+                        PlayerStartsScale[i] = ConversionTools.ConvertScale(PlayerStartsScale, i);
+                        PlayerStartsScale3D[i] = ConversionTools.ConvertScale3D(PlayerStartsScale3D, i, PlayerStartsScale, richTextBox1, CB_MultiplyScale);
                     }
 
                     //create a new static mesh entry using UE4 syntax for every static mesh found
@@ -4085,13 +3417,13 @@ namespace UDKtoUE4Tool
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
                     for (i = 0; i <= NumberOfCameras - 1; i++)
                     {
-                        CamerasName[i] = ConvertName(CamerasName, i);
-                        CamerasLocation[i] = ConvertLocation(CamerasLocation, i);
-                        CamerasRotation[i] = ConvertRotation(CamerasRotation, i);
-                        CamerasScale[i] = ConvertScale(CamerasScale, i);
-                        CamerasScale3D[i] = ConvertScale3D(CamerasScale3D, i, CamerasScale);
-                        CamerasFOV[i] = ConvertFOV(CamerasFOV, i);
-                        CamerasAS[i] = ConvertFOV(CamerasAS, i);
+                        CamerasName[i] = ConversionTools.ConvertName(CamerasName, i);
+                        CamerasLocation[i] = ConversionTools.ConvertLocation(CamerasLocation, i, CB_MultiplyPosition);
+                        CamerasRotation[i] = ConversionTools.ConvertRotation(CamerasRotation, i);
+                        CamerasScale[i] = ConversionTools.ConvertScale(CamerasScale, i);
+                        CamerasScale3D[i] = ConversionTools.ConvertScale3D(CamerasScale3D, i, CamerasScale, richTextBox1, CB_MultiplyScale);
+                        CamerasFOV[i] = ConversionTools.ConvertFOV(CamerasFOV, i);
+                        CamerasAS[i] = ConversionTools.ConvertFOV(CamerasAS, i);
                     }
 
                     //create a new Camera entry using UE4 syntax for every Camera found
@@ -4111,6 +3443,8 @@ namespace UDKtoUE4Tool
                     }
                 }
             }
+            #endregion
+            #region ConvertDecals
 
             if (checkedListBox1.GetItemCheckState(11) == CheckState.Checked)
             {
@@ -4119,11 +3453,11 @@ namespace UDKtoUE4Tool
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
                     for (i = 0; i <= NumberOfDecals - 1; i++)
                     {
-                        DecalsName[i] = ConvertName(DecalsName, i);
-                        DecalsLocation[i] = ConvertLocation(DecalsLocation, i);
-                        DecalsRotation[i] = ConvertRotation(DecalsRotation, i);
-                        DecalsMat[i] = ConvertDecalMat(DecalsMat, i);
-                        temp2 = GetDecalScale(DecalsWidth, DecalsHeight, i);
+                        DecalsName[i] = ConversionTools.ConvertName(DecalsName, i);
+                        DecalsLocation[i] = ConversionTools.ConvertLocation(DecalsLocation, i, CB_MultiplyPosition);
+                        DecalsRotation[i] = ConversionTools.ConvertRotation(DecalsRotation, i);
+                        DecalsMat[i] = ConversionTools.ConvertDecalMat(DecalsMat, i,TB_AssetPath);
+                        temp2 = ConversionTools.GetDecalScale(DecalsWidth, DecalsHeight, i, CB_MultiplyScale);
                     }
 
                     //create a new Decal entry using UE4 syntax for every Decal found
@@ -4144,7 +3478,8 @@ namespace UDKtoUE4Tool
 
                 }
             }
-
+            #endregion
+            #region ConvertParticles
             //particles
             if (checkedListBox1.GetItemCheckState(12) == CheckState.Checked)
             {
@@ -4153,16 +3488,16 @@ namespace UDKtoUE4Tool
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
                     for (i = 0; i <= NumberOfParticles - 1; i++)
                     {
-                        ParticlesName[i] = ConvertName(ParticlesName, i);
-                        Particles[i] = ConvertStaticMeshPath(Particles, i, 2);
-                        ParticlesLocation[i] = ConvertLocation(ParticlesLocation, i);
-                        ParticlesRotation[i] = ConvertRotation(ParticlesRotation, i);
-                        ParticlesScale[i] = ConvertScale(ParticlesScale, i);
-                        ParticlesScale3D[i] = ConvertScale3D(ParticlesScale3D, i, ParticlesScale);
+                        ParticlesName[i] = ConversionTools.ConvertName(ParticlesName, i);
+                        Particles[i] = ConversionTools.ConvertStaticMeshPath(Particles, i, 2, TB_AssetPath);
+                        ParticlesLocation[i] = ConversionTools.ConvertLocation(ParticlesLocation, i, CB_MultiplyPosition);
+                        ParticlesRotation[i] = ConversionTools.ConvertRotation(ParticlesRotation, i);
+                        ParticlesScale[i] = ConversionTools.ConvertScale(ParticlesScale, i);
+                        ParticlesScale3D[i] = ConversionTools.ConvertScale3D(ParticlesScale3D, i, ParticlesScale, richTextBox1, CB_MultiplyScale);
 
                         if (ParticlesMaterials[i] != string.Empty && ParticlesMaterials[i] != null)
                         {
-                            ParticlesMaterials[i] = ConvertMaterial(ParticlesMaterials, i);
+                            ParticlesMaterials[i] = ConversionTools.ConvertMaterial(ParticlesMaterials, i, TB_AssetPath);
                         }
                     }
 
@@ -4181,6 +3516,8 @@ namespace UDKtoUE4Tool
                     }
                 }
             }
+            #endregion
+            #region ConvertFog
 
             //Fog Actors
             if (checkedListBox1.GetItemCheckState(13) == CheckState.Checked)
@@ -4190,13 +3527,13 @@ namespace UDKtoUE4Tool
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
                     for (i = 0; i <= NumberofFog - 1; i++)
                     {
-                        FogName[i] = ConvertName(FogName, i);
-                        FogLocation[i] = ConvertLocation(FogLocation, i);
-                        FogRotation[i] = ConvertRotation(FogRotation, i);
-                        FogScale[i] = ConvertScale(FogScale, i);
-                        FogScale3D[i] = ConvertScale3D(FogScale3D, i, FogScale);
-                        FogOppLightColor[i] = ConvertFogColor(FogOppLightColor, i, true);
-                        FogLightInScatterColor[i] = ConvertFogColor(FogLightInScatterColor, i, false);
+                        FogName[i] = ConversionTools.ConvertName(FogName, i);
+                        FogLocation[i] = ConversionTools.ConvertLocation(FogLocation, i, CB_MultiplyPosition);
+                        FogRotation[i] = ConversionTools.ConvertRotation(FogRotation, i);
+                        FogScale[i] = ConversionTools.ConvertScale(FogScale, i);
+                        FogScale3D[i] = ConversionTools.ConvertScale3D(FogScale3D, i, FogScale, richTextBox1, CB_MultiplyScale);
+                        FogOppLightColor[i] = ConversionTools.ConvertFogColor(FogOppLightColor, i, true);
+                        FogLightInScatterColor[i] = ConversionTools.ConvertFogColor(FogLightInScatterColor, i, false);
 
                     }
 
@@ -4214,6 +3551,8 @@ namespace UDKtoUE4Tool
                 }
             }
 
+            #endregion
+            #region ConvertSounds
             //sounds
 
             if (checkedListBox1.GetItemCheckState(14) == CheckState.Checked)
@@ -4223,23 +3562,23 @@ namespace UDKtoUE4Tool
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
                     for (i = 0; i <= NumberOfSounds - 1; i++)
                     {
-                        SoundsName[i] = ConvertName(SoundsName, i);
+                        SoundsName[i] = ConversionTools.ConvertName(SoundsName, i);
                         if (!SoundsSimple[i])
                         {
-                            SoundCue[i] = ConvertStaticMeshPath(SoundCue, i, 5);
+                            SoundCue[i] = ConversionTools.ConvertStaticMeshPath(SoundCue, i, 5, TB_AssetPath);
                         }
                         else
                         {
-                            SoundsSlots[i] = ConvertStaticMeshPath(SoundsSlots, i, 6);
+                            SoundsSlots[i] = ConversionTools.ConvertStaticMeshPath(SoundsSlots, i, 6, TB_AssetPath);
                         }
-                        SoundsLocation[i] = ConvertLocation(SoundsLocation, i);
-                        SoundsRotation[i] = ConvertRotation(SoundsRotation, i);
-                        SoundsScale[i] = ConvertScale(SoundsScale, i);
-                        SoundsScale3D[i] = ConvertScale3D(SoundsScale3D, i, SoundsScale);
-                        SoundsVolMin[i] = ConvertModulation(SoundsVolMin, i);
-                        SoundsVolMax[i] = ConvertModulation(SoundsVolMax, i);
-                        SoundsPitchMin[i] = ConvertModulation(SoundsPitchMin, i);
-                        SoundsPitchMax[i] = ConvertModulation(SoundsPitchMax, i);
+                        SoundsLocation[i] = ConversionTools.ConvertLocation(SoundsLocation, i, CB_MultiplyPosition);
+                        SoundsRotation[i] = ConversionTools.ConvertRotation(SoundsRotation, i);
+                        SoundsScale[i] = ConversionTools.ConvertScale(SoundsScale, i);
+                        SoundsScale3D[i] = ConversionTools.ConvertScale3D(SoundsScale3D, i, SoundsScale, richTextBox1, CB_MultiplyScale);
+                        SoundsVolMin[i] = ConversionTools.ConvertModulation(SoundsVolMin, i);
+                        SoundsVolMax[i] = ConversionTools.ConvertModulation(SoundsVolMax, i);
+                        SoundsPitchMin[i] = ConversionTools.ConvertModulation(SoundsPitchMin, i);
+                        SoundsPitchMax[i] = ConversionTools.ConvertModulation(SoundsPitchMax, i);
 
                         temp4 = string.Empty;
 
@@ -4270,8 +3609,8 @@ namespace UDKtoUE4Tool
                             temp4 = temp4 + SoundsLPFMax[i] + ",";
                         }
 
-                        SoundsRadiusMin[i] = ConvertSoundRadius(SoundsRadiusMin, i, true);
-                        SoundsRadiusMax[i] = ConvertSoundRadius(SoundsRadiusMax, i, false);
+                        SoundsRadiusMin[i] = ConversionTools.ConvertSoundRadius(SoundsRadiusMin, i, true);
+                        SoundsRadiusMax[i] = ConversionTools.ConvertSoundRadius(SoundsRadiusMax, i, false);
                         temp4 = temp4 + SoundsRadiusMin[i] + SoundsRadiusMax[i];
                     }
 
@@ -4298,7 +3637,10 @@ namespace UDKtoUE4Tool
                     }
                 }
             }
+            #endregion
 
+            //Combine all outputs
+            #region FinalOutput
             //wrap the New generated T3D actors in the level code.
             Finaloutput = "Begin Map" + Environment.NewLine + "   Begin Level" + Environment.NewLine;
 
@@ -4382,28 +3724,12 @@ namespace UDKtoUE4Tool
             Finaloutput = Finaloutput +  "   End Level" + Environment.NewLine + "Begin Surface" + Environment.NewLine + "End Surface" + Environment.NewLine + "End Map";
 
             richTextBox1.Text = Finaloutput;
+            #endregion
 
         }
 
-        /******************** Code for Material Converter ************************ */
 
-       /* private void button4_Click(object sender, EventArgs e)
-        {
-
-            // Displays an OpenFileDialog so the user can select a Cursor.
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Filter = "T3D Files|*.t3d";
-            openFileDialog1.Title = "Select a T3D File";
-
-            // Show the Dialog.
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                // Assign the cursor in the Stream to the Form's Cursor property.
-                textBox3.Text = openFileDialog1.FileName.ToString();
-                UE3MaterialPath = textBox3.Text;
-            }
-        }*/
-
+        #region UnsuedMaterialConverter
         //function for converting UE3 Material T3D
         private void button6_Click(object sender, EventArgs e)
         {
@@ -4442,6 +3768,8 @@ namespace UDKtoUE4Tool
             }
         }
 
+
+        
         /******************** Code for Material Converter ************************ */
 
         private void contactToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4459,7 +3787,7 @@ namespace UDKtoUE4Tool
                     string s = "";
                     while ((s = sr.ReadLine()) != null)
                     {
-                        textBox2.Text = s;
+                        TB_ContentDir.Text = s;
                        // textBox5.Text = s;
                     }
                 }
@@ -4483,7 +3811,7 @@ namespace UDKtoUE4Tool
         {
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
-                textBox2.Text = folderBrowserDialog1.SelectedPath;
+                TB_ContentDir.Text = folderBrowserDialog1.SelectedPath;
                // textBox5.Text = folderBrowserDialog1.SelectedPath;
                 WriteToSaveFile(folderBrowserDialog1.SelectedPath);
             }
@@ -4520,11 +3848,14 @@ namespace UDKtoUE4Tool
         {
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
-                textBox2.Text = folderBrowserDialog1.SelectedPath;
+                TB_ContentDir.Text = folderBrowserDialog1.SelectedPath;
                // textBox5.Text = folderBrowserDialog1.SelectedPath;
                 WriteToSaveFile(folderBrowserDialog1.SelectedPath);
             }
+
+
         }
+        #endregion
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -4546,6 +3877,6 @@ namespace UDKtoUE4Tool
 
         }
     }
-     // PaintedVertices(26)=((Position=(X=0.000000,Y=-191.999969,Z=0.000014),(Normal=(X=127,Y=127,Z=0,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-191.999969,Z=0.000014),(Normal=(X=127,Y=127,Z=0,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-0.000008,Z=0.000000),(Normal=(X=127,Y=127,Z=0,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-0.000008,Z=0.000000),(Normal=(X=127,Y=127,Z=0,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-0.000008,Z=0.000000),(Normal=(X=127,Y=127,Z=0,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-191.999969,Z=0.000014),(Normal=(X=127,Y=127,Z=0,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-191.999939,Z=32.000015),(Normal=(X=127,Y=0,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-191.999939,Z=32.000015),(Normal=(X=127,Y=0,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-191.999969,Z=0.000014),(Normal=(X=127,Y=0,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-191.999969,Z=0.000014),(Normal=(X=127,Y=0,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-0.000008,Z=0.000000),(Normal=(X=127,Y=254,Z=127,W=255),(Color=(B=0,G=0,R=255,A=255)),((Position=(X=512.000000,Y=-0.000008,Z=0.000000),(Normal=(X=127,Y=254,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-0.000002,Z=32.000000),(Normal=(X=127,Y=254,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-0.000002,Z=32.000000),(Normal=(X=127,Y=254,Z=127,W=255),(Color=(B=0,G=0,R=255,A=255)),((Position=(X=512.000000,Y=-191.999939,Z=32.000015),(Normal=(X=254,Y=127,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-0.000002,Z=32.000000),(Normal=(X=254,Y=127,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-0.000008,Z=0.000000),(Normal=(X=254,Y=127,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-191.999969,Z=0.000014),(Normal=(X=254,Y=127,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-191.999939,Z=32.000015),(Normal=(X=127,Y=127,Z=254,W=255),(Color=(B=0,G=0,R=255,A=255)),((Position=(X=0.000000,Y=-0.000002,Z=32.000000),(Normal=(X=127,Y=127,Z=254,W=255),(Color=(B=0,G=0,R=255,A=255)),((Position=(X=512.000000,Y=-0.000002,Z=32.000000),(Normal=(X=127,Y=127,Z=254,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-191.999939,Z=32.000015),(Normal=(X=127,Y=127,Z=254,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-191.999969,Z=0.000014),(Normal=(X=0,Y=127,Z=127,W=255),(Color=(B=0,G=0,R=255,A=255)),((Position=(X=0.000000,Y=-0.000008,Z=0.000000),(Normal=(X=0,Y=127,Z=127,W=255),(Color=(B=0,G=0,R=255,A=255)),((Position=(X=0.000000,Y=-0.000002,Z=32.000000),(Normal=(X=0,Y=127,Z=127,W=255),(Color=(B=0,G=0,R=255,A=255)),((Position=(X=0.000000,Y=-191.999939,Z=32.000015),(Normal=(X=0,Y=127,Z=127,W=255),(Color=(B=0,G=0,R=255,A=255)) ColorVertexData(26)=(ffffffff,ffffffff,ffffffff,ffffffff,ffffffff,ffffffff,ffffffff,ffffffff,ffffffff,ffffffff,ffff0000,ffffffff,ffffffff,ffff0000,ffffffff,ffffffff,ffffffff,ffffffff,ffff0000,ffff0000,ffffffff,ffffffff,ffff0000,ffff0000,ffff0000,ffff0000)
+    // PaintedVertices(26)=((Position=(X=0.000000,Y=-191.999969,Z=0.000014),(Normal=(X=127,Y=127,Z=0,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-191.999969,Z=0.000014),(Normal=(X=127,Y=127,Z=0,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-0.000008,Z=0.000000),(Normal=(X=127,Y=127,Z=0,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-0.000008,Z=0.000000),(Normal=(X=127,Y=127,Z=0,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-0.000008,Z=0.000000),(Normal=(X=127,Y=127,Z=0,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-191.999969,Z=0.000014),(Normal=(X=127,Y=127,Z=0,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-191.999939,Z=32.000015),(Normal=(X=127,Y=0,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-191.999939,Z=32.000015),(Normal=(X=127,Y=0,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-191.999969,Z=0.000014),(Normal=(X=127,Y=0,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-191.999969,Z=0.000014),(Normal=(X=127,Y=0,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-0.000008,Z=0.000000),(Normal=(X=127,Y=254,Z=127,W=255),(Color=(B=0,G=0,R=255,A=255)),((Position=(X=512.000000,Y=-0.000008,Z=0.000000),(Normal=(X=127,Y=254,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-0.000002,Z=32.000000),(Normal=(X=127,Y=254,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-0.000002,Z=32.000000),(Normal=(X=127,Y=254,Z=127,W=255),(Color=(B=0,G=0,R=255,A=255)),((Position=(X=512.000000,Y=-191.999939,Z=32.000015),(Normal=(X=254,Y=127,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-0.000002,Z=32.000000),(Normal=(X=254,Y=127,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-0.000008,Z=0.000000),(Normal=(X=254,Y=127,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-191.999969,Z=0.000014),(Normal=(X=254,Y=127,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-191.999939,Z=32.000015),(Normal=(X=127,Y=127,Z=254,W=255),(Color=(B=0,G=0,R=255,A=255)),((Position=(X=0.000000,Y=-0.000002,Z=32.000000),(Normal=(X=127,Y=127,Z=254,W=255),(Color=(B=0,G=0,R=255,A=255)),((Position=(X=512.000000,Y=-0.000002,Z=32.000000),(Normal=(X=127,Y=127,Z=254,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-191.999939,Z=32.000015),(Normal=(X=127,Y=127,Z=254,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-191.999969,Z=0.000014),(Normal=(X=0,Y=127,Z=127,W=255),(Color=(B=0,G=0,R=255,A=255)),((Position=(X=0.000000,Y=-0.000008,Z=0.000000),(Normal=(X=0,Y=127,Z=127,W=255),(Color=(B=0,G=0,R=255,A=255)),((Position=(X=0.000000,Y=-0.000002,Z=32.000000),(Normal=(X=0,Y=127,Z=127,W=255),(Color=(B=0,G=0,R=255,A=255)),((Position=(X=0.000000,Y=-191.999939,Z=32.000015),(Normal=(X=0,Y=127,Z=127,W=255),(Color=(B=0,G=0,R=255,A=255)) ColorVertexData(26)=(ffffffff,ffffffff,ffffffff,ffffffff,ffffffff,ffffffff,ffffffff,ffffffff,ffffffff,ffffffff,ffff0000,ffffffff,ffffffff,ffff0000,ffffffff,ffffffff,ffffffff,ffffffff,ffff0000,ffff0000,ffffffff,ffffffff,ffff0000,ffff0000,ffff0000,ffff0000)
     
 }

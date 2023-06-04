@@ -37,16 +37,16 @@
             this.contactToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.button3 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.BTN_Convert = new System.Windows.Forms.Button();
+            this.TB_AssetPath = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.TB_ContentDir = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.CB_StaticLights = new System.Windows.Forms.CheckBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.CB_VertextColors = new System.Windows.Forms.CheckBox();
             this.label23 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
@@ -59,17 +59,18 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.folderPath = new System.Windows.Forms.Button();
+            this.BTN_BrowseFolder = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.CB_MultiplyPosition = new System.Windows.Forms.CheckBox();
+            this.CB_MultiplyScale = new System.Windows.Forms.CheckBox();
+            this.BTN_CopyToClipboard = new System.Windows.Forms.Button();
+            this.BTN_Exit = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.CB_UE4Mode = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -98,7 +99,7 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(93, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -125,30 +126,30 @@
             this.contactToolStripMenuItem.Text = "About";
             this.contactToolStripMenuItem.Click += new System.EventHandler(this.contactToolStripMenuItem_Click);
             // 
-            // button3
+            // BTN_Convert
             // 
-            this.button3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button3.Location = new System.Drawing.Point(709, 691);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 12;
-            this.button3.Text = "Convert";
-            this.toolTip1.SetToolTip(this.button3, "Converts the T3D script UE4\'s Format");
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.BTN_Convert.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BTN_Convert.Location = new System.Drawing.Point(709, 691);
+            this.BTN_Convert.Name = "BTN_Convert";
+            this.BTN_Convert.Size = new System.Drawing.Size(75, 23);
+            this.BTN_Convert.TabIndex = 12;
+            this.BTN_Convert.Text = "Convert";
+            this.toolTip1.SetToolTip(this.BTN_Convert, "Converts the T3D script UE4\'s Format");
+            this.BTN_Convert.UseVisualStyleBackColor = true;
+            this.BTN_Convert.Click += new System.EventHandler(this.button3_Click);
             // 
-            // textBox1
+            // TB_AssetPath
             // 
-            this.textBox1.AllowDrop = true;
-            this.textBox1.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.textBox1.Location = new System.Drawing.Point(127, 120);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(852, 20);
-            this.textBox1.TabIndex = 3;
-            this.textBox1.Text = "/Game/";
-            this.toolTip1.SetToolTip(this.textBox1, "If no UE4 path is found, the Path from UE3 is converted, use this to specifiy a s" +
+            this.TB_AssetPath.AllowDrop = true;
+            this.TB_AssetPath.ImeMode = System.Windows.Forms.ImeMode.On;
+            this.TB_AssetPath.Location = new System.Drawing.Point(127, 120);
+            this.TB_AssetPath.Name = "TB_AssetPath";
+            this.TB_AssetPath.Size = new System.Drawing.Size(852, 20);
+            this.TB_AssetPath.TabIndex = 3;
+            this.TB_AssetPath.Text = "/Game/";
+            this.toolTip1.SetToolTip(this.TB_AssetPath, "If no UE4 path is found, the Path from UE3 is converted, use this to specifiy a s" +
         "ubfolder");
-            this.textBox1.WordWrap = false;
+            this.TB_AssetPath.WordWrap = false;
             // 
             // label1
             // 
@@ -161,39 +162,39 @@
             this.toolTip1.SetToolTip(this.label1, "If no UE4 path is found, the Path from UE3 is converted, use this to specifiy a s" +
         "ubfolder");
             // 
-            // textBox2
+            // TB_ContentDir
             // 
-            this.textBox2.AllowDrop = true;
-            this.textBox2.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.textBox2.Location = new System.Drawing.Point(127, 97);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(771, 20);
-            this.textBox2.TabIndex = 20;
-            this.toolTip1.SetToolTip(this.textBox2, "Path to Your UE4 Content Folder ");
-            this.textBox2.WordWrap = false;
+            this.TB_ContentDir.AllowDrop = true;
+            this.TB_ContentDir.ImeMode = System.Windows.Forms.ImeMode.On;
+            this.TB_ContentDir.Location = new System.Drawing.Point(127, 97);
+            this.TB_ContentDir.Name = "TB_ContentDir";
+            this.TB_ContentDir.Size = new System.Drawing.Size(771, 20);
+            this.TB_ContentDir.TabIndex = 20;
+            this.toolTip1.SetToolTip(this.TB_ContentDir, "Path to Your UE4 Content Folder ");
+            this.TB_ContentDir.WordWrap = false;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(12, 100);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(116, 13);
+            this.label10.Size = new System.Drawing.Size(110, 13);
             this.label10.TabIndex = 21;
-            this.label10.Text = "UE4 Content Directory:";
+            this.label10.Text = "UE Content Directory:";
             this.toolTip1.SetToolTip(this.label10, "Path to Your UE4 Content Folder ");
             // 
-            // checkBox3
+            // CB_StaticLights
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Checked = true;
-            this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox3.Location = new System.Drawing.Point(859, 419);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(84, 17);
-            this.checkBox3.TabIndex = 23;
-            this.checkBox3.Text = "Static Lights";
-            this.toolTip1.SetToolTip(this.checkBox3, "If true, non-moveable Lights will be set to static instead of Staionary");
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.CB_StaticLights.AutoSize = true;
+            this.CB_StaticLights.Checked = true;
+            this.CB_StaticLights.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CB_StaticLights.Location = new System.Drawing.Point(859, 458);
+            this.CB_StaticLights.Name = "CB_StaticLights";
+            this.CB_StaticLights.Size = new System.Drawing.Size(84, 17);
+            this.CB_StaticLights.TabIndex = 23;
+            this.CB_StaticLights.Text = "Static Lights";
+            this.toolTip1.SetToolTip(this.CB_StaticLights, "If true, non-moveable Lights will be set to static instead of Staionary");
+            this.CB_StaticLights.UseVisualStyleBackColor = true;
             // 
             // openFileDialog1
             // 
@@ -202,8 +203,9 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.CB_UE4Mode);
             this.tabPage1.Controls.Add(this.checkedListBox1);
-            this.tabPage1.Controls.Add(this.checkBox4);
+            this.tabPage1.Controls.Add(this.CB_VertextColors);
             this.tabPage1.Controls.Add(this.label23);
             this.tabPage1.Controls.Add(this.label22);
             this.tabPage1.Controls.Add(this.label21);
@@ -211,23 +213,23 @@
             this.tabPage1.Controls.Add(this.label19);
             this.tabPage1.Controls.Add(this.label18);
             this.tabPage1.Controls.Add(this.label12);
-            this.tabPage1.Controls.Add(this.checkBox3);
+            this.tabPage1.Controls.Add(this.CB_StaticLights);
             this.tabPage1.Controls.Add(this.groupBox1);
-            this.tabPage1.Controls.Add(this.folderPath);
+            this.tabPage1.Controls.Add(this.BTN_BrowseFolder);
             this.tabPage1.Controls.Add(this.label10);
             this.tabPage1.Controls.Add(this.label9);
-            this.tabPage1.Controls.Add(this.textBox2);
-            this.tabPage1.Controls.Add(this.textBox1);
+            this.tabPage1.Controls.Add(this.TB_ContentDir);
+            this.tabPage1.Controls.Add(this.TB_AssetPath);
             this.tabPage1.Controls.Add(this.richTextBox1);
             this.tabPage1.Controls.Add(this.label8);
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.label6);
             this.tabPage1.Controls.Add(this.label7);
-            this.tabPage1.Controls.Add(this.checkBox1);
-            this.tabPage1.Controls.Add(this.button3);
-            this.tabPage1.Controls.Add(this.checkBox2);
-            this.tabPage1.Controls.Add(this.button2);
-            this.tabPage1.Controls.Add(this.button1);
+            this.tabPage1.Controls.Add(this.CB_MultiplyPosition);
+            this.tabPage1.Controls.Add(this.BTN_Convert);
+            this.tabPage1.Controls.Add(this.CB_MultiplyScale);
+            this.tabPage1.Controls.Add(this.BTN_CopyToClipboard);
+            this.tabPage1.Controls.Add(this.BTN_Exit);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -263,15 +265,15 @@
             this.checkedListBox1.TabIndex = 33;
             this.checkedListBox1.SelectedIndexChanged += new System.EventHandler(this.checkedListBox1_SelectedIndexChanged);
             // 
-            // checkBox4
+            // CB_VertextColors
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(859, 396);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(128, 17);
-            this.checkBox4.TabIndex = 31;
-            this.checkBox4.Text = "Convert Vertex Colors";
-            this.checkBox4.UseVisualStyleBackColor = true;
+            this.CB_VertextColors.AutoSize = true;
+            this.CB_VertextColors.Location = new System.Drawing.Point(859, 435);
+            this.CB_VertextColors.Name = "CB_VertextColors";
+            this.CB_VertextColors.Size = new System.Drawing.Size(128, 17);
+            this.CB_VertextColors.TabIndex = 31;
+            this.CB_VertextColors.Text = "Convert Vertex Colors";
+            this.CB_VertextColors.UseVisualStyleBackColor = true;
             // 
             // label23
             // 
@@ -390,16 +392,16 @@
             this.label3.TabIndex = 6;
             this.label3.Text = "2. Browse for your UE4 \"Content\" folder in your project directory, ";
             // 
-            // folderPath
+            // BTN_BrowseFolder
             // 
-            this.folderPath.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.folderPath.Location = new System.Drawing.Point(904, 95);
-            this.folderPath.Name = "folderPath";
-            this.folderPath.Size = new System.Drawing.Size(75, 23);
-            this.folderPath.TabIndex = 22;
-            this.folderPath.Text = "Browse...";
-            this.folderPath.UseVisualStyleBackColor = true;
-            this.folderPath.Click += new System.EventHandler(this.folderPath_Click);
+            this.BTN_BrowseFolder.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BTN_BrowseFolder.Location = new System.Drawing.Point(904, 95);
+            this.BTN_BrowseFolder.Name = "BTN_BrowseFolder";
+            this.BTN_BrowseFolder.Size = new System.Drawing.Size(75, 23);
+            this.BTN_BrowseFolder.TabIndex = 22;
+            this.BTN_BrowseFolder.Text = "Browse...";
+            this.BTN_BrowseFolder.UseVisualStyleBackColor = true;
+            this.BTN_BrowseFolder.Click += new System.EventHandler(this.folderPath_Click);
             // 
             // label9
             // 
@@ -452,52 +454,52 @@
             this.label7.TabIndex = 13;
             this.label7.Text = "Static Meshes: 0";
             // 
-            // checkBox1
+            // CB_MultiplyPosition
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = true;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(859, 465);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(124, 17);
-            this.checkBox1.TabIndex = 15;
-            this.checkBox1.Text = "Multiply Position by 2";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.CB_MultiplyPosition.AutoSize = true;
+            this.CB_MultiplyPosition.Checked = true;
+            this.CB_MultiplyPosition.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CB_MultiplyPosition.Location = new System.Drawing.Point(859, 504);
+            this.CB_MultiplyPosition.Name = "CB_MultiplyPosition";
+            this.CB_MultiplyPosition.Size = new System.Drawing.Size(124, 17);
+            this.CB_MultiplyPosition.TabIndex = 15;
+            this.CB_MultiplyPosition.Text = "Multiply Position by 2";
+            this.CB_MultiplyPosition.UseVisualStyleBackColor = true;
+            this.CB_MultiplyPosition.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // checkBox2
+            // CB_MultiplyScale
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Checked = true;
-            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox2.Location = new System.Drawing.Point(859, 442);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(114, 17);
-            this.checkBox2.TabIndex = 16;
-            this.checkBox2.Text = "Multiply Scale by 2";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.CB_MultiplyScale.AutoSize = true;
+            this.CB_MultiplyScale.Checked = true;
+            this.CB_MultiplyScale.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CB_MultiplyScale.Location = new System.Drawing.Point(859, 481);
+            this.CB_MultiplyScale.Name = "CB_MultiplyScale";
+            this.CB_MultiplyScale.Size = new System.Drawing.Size(114, 17);
+            this.CB_MultiplyScale.TabIndex = 16;
+            this.CB_MultiplyScale.Text = "Multiply Scale by 2";
+            this.CB_MultiplyScale.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // BTN_CopyToClipboard
             // 
-            this.button2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button2.Location = new System.Drawing.Point(790, 691);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(116, 23);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Copy To Clipboard";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.BTN_CopyToClipboard.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BTN_CopyToClipboard.Location = new System.Drawing.Point(790, 691);
+            this.BTN_CopyToClipboard.Name = "BTN_CopyToClipboard";
+            this.BTN_CopyToClipboard.Size = new System.Drawing.Size(116, 23);
+            this.BTN_CopyToClipboard.TabIndex = 1;
+            this.BTN_CopyToClipboard.Text = "Copy To Clipboard";
+            this.BTN_CopyToClipboard.UseVisualStyleBackColor = true;
+            this.BTN_CopyToClipboard.Click += new System.EventHandler(this.button2_Click);
             // 
-            // button1
+            // BTN_Exit
             // 
-            this.button1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button1.Location = new System.Drawing.Point(912, 691);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Exit";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.BTN_Exit.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BTN_Exit.Location = new System.Drawing.Point(912, 691);
+            this.BTN_Exit.Name = "BTN_Exit";
+            this.BTN_Exit.Size = new System.Drawing.Size(75, 23);
+            this.BTN_Exit.TabIndex = 0;
+            this.BTN_Exit.Text = "Exit";
+            this.BTN_Exit.UseVisualStyleBackColor = true;
+            this.BTN_Exit.Click += new System.EventHandler(this.button1_Click);
             // 
             // tabControl1
             // 
@@ -507,6 +509,18 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1005, 750);
             this.tabControl1.TabIndex = 23;
+            // 
+            // CB_UE4Mode
+            // 
+            this.CB_UE4Mode.AutoSize = true;
+            this.CB_UE4Mode.Checked = true;
+            this.CB_UE4Mode.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CB_UE4Mode.Location = new System.Drawing.Point(859, 412);
+            this.CB_UE4Mode.Name = "CB_UE4Mode";
+            this.CB_UE4Mode.Size = new System.Drawing.Size(47, 17);
+            this.CB_UE4Mode.TabIndex = 34;
+            this.CB_UE4Mode.Text = "UE4";
+            this.CB_UE4Mode.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -518,7 +532,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "UDK To UE4 T3D Tool";
+            this.Text = "UDK To UE4/5 T3D Tool";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -544,7 +558,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.CheckedListBox checkedListBox1;
-        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.CheckBox CB_VertextColors;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label21;
@@ -552,28 +566,29 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox CB_StaticLights;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button folderPath;
+        private System.Windows.Forms.Button BTN_BrowseFolder;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox TB_ContentDir;
+        private System.Windows.Forms.TextBox TB_AssetPath;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckBox CB_MultiplyPosition;
+        private System.Windows.Forms.Button BTN_Convert;
+        private System.Windows.Forms.CheckBox CB_MultiplyScale;
+        private System.Windows.Forms.Button BTN_CopyToClipboard;
+        private System.Windows.Forms.Button BTN_Exit;
         private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.CheckBox CB_UE4Mode;
     }
 }
 

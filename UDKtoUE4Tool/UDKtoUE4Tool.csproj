@@ -79,6 +79,8 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="ActorClasses.cs" />
+    <Compile Include="ConversionHelpers.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
