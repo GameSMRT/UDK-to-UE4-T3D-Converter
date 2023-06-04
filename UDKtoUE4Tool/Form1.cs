@@ -45,17 +45,7 @@ namespace UDKtoUE4Tool
 
         //arrays to store data
 
-
-        private List<string> StaticMesh = new List<string>();
-        private List<string> Name2 = new List<string>();
-        private List<string> location = new List<string>();
-        private List<string> rotation = new List<string>();
-        private List<string> scale = new List<string>();
-        private List<string> scale3D = new List<string>();
-        private List<string> Materials = new List<string>();
-        private List<string> LightMap = new List<string>();
-        private List<string> VertexColors = new List<string>();
-        private List<string> VertexColorsData = new List<string>();
+        StaticMeshData meshData = new StaticMeshData();
 
         private List<string> KStaticMesh = new List<string>();
         private List<string> KName2 = new List<string>();
@@ -316,6 +306,7 @@ namespace UDKtoUE4Tool
         private void button2_Click(object sender, EventArgs e)
         {
             Clipboard.SetText(richTextBox1.Text);
+            MessageBox.Show("Copied To Clipboard");
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -357,7 +348,6 @@ namespace UDKtoUE4Tool
             Particles1.Collection = null;
             InteropStaticMeshs.Collection = null;
             Fogs.Collection = null;
-            // Foliages.Collection = null;
             DestructableStaticMeshs.Collection = null;
             ApexMeshs.Collection = null;
 
@@ -378,16 +368,7 @@ namespace UDKtoUE4Tool
             Fogs.Count = 0;
             Foliages.Count = 0;
 
-            StaticMesh.Clear();
-            Name2.Clear();
-            location.Clear();
-            rotation.Clear();
-            scale.Clear();
-            scale3D.Clear();
-            LightMap.Clear();
-            VertexColors.Clear();
-            VertexColorsData.Clear();
-
+            StaticMeshes.ListOfData.Clear();
             KStaticMesh.Clear();
             KName2.Clear();
             Klocation.Clear();
@@ -768,6 +749,8 @@ namespace UDKtoUE4Tool
                 materialsTemp = string.Empty;
                 // RecombinedMaterials = string.Empty;
 
+                
+
                 //loop through all the matched blocks of text for static meshes
                 for (i = 0; i < StaticMeshes.Collection.Count; i++)
                 {
@@ -776,40 +759,48 @@ namespace UDKtoUE4Tool
 
                     if (StaticMeshes.results[i].IndexOf("StaticMesh=") == -1)
                     {
-                        StaticMesh.Add(string.Empty);
+                        meshData.AssetPath = string.Empty;
+                        //StaticMesh.Add(string.Empty);
                     }
 
 
                     if (StaticMeshes.results[i].IndexOf("Location=") == -1)
                     {
-                        location.Add(NoLocation);
+                        meshData.location = NoLocation;
+                       // location.Add(NoLocation);
                     }
 
                     //check for missing entries, if so push blank values into arrays
                     if (StaticMeshes.results[i].IndexOf("DrawScale3D=") == -1)
                     {
-                        scale3D.Add(NoScale3D);
+                        // scale3D.Add(NoScale3D);
+                        meshData.scale3D = NoScale3D;
                     }
 
                     if (StaticMeshes.results[i].IndexOf("DrawScale=") == -1)
                     {
-                        scale.Add("1.000000");
+                        //scale.Add("1.000000");
+                        meshData.scale = "1.000000";
                     }
 
                     if (StaticMeshes.results[i].IndexOf("Rotation=") == -1)
                     {
-                        rotation.Add(NoRotation);
+                       // rotation.Add(NoRotation);
+                        meshData.rotation = NoRotation;
                     }
 
                     if (StaticMeshes.results[i].IndexOf("OverriddenLightMapRes=") == -1)
                     {
-                        LightMap.Add(string.Empty);
+                        //.Add(string.Empty);
+                        meshData.LightMap = string.Empty;
                     }
 
                     if (StaticMeshes.results[i].IndexOf("LODData(0)=") == -1)
                     {
-                        VertexColors.Add(string.Empty);
-                        VertexColorsData.Add(string.Empty);
+                      //  VertexColors.Add(string.Empty);
+                       // VertexColorsData.Add(string.Empty);
+                        meshData.VertexColors = (string.Empty);
+                        meshData.VertexColorData = (string.Empty);
                     }
 
                     //spilt each line of the text into an array to parse through
@@ -820,27 +811,31 @@ namespace UDKtoUE4Tool
                         //add lines to Lists to store them.
                         if (value.IndexOf("Begin Actor Class=StaticMeshActor") != -1)
                         {
-                            Name2.Add(value);
+                            meshData.Name = value;
                         }
                         if (value.IndexOf("StaticMesh=") != -1)
                         {
-                            StaticMesh.Add(value);
+                            meshData.AssetPath = value;
                         }
                         if (value.IndexOf("Location=") != -1)
                         {
-                            location.Add(value);
+                            meshData.location = value;
+                          
                         }
                         if (value.IndexOf("Rotation=") != -1)
                         {
-                            rotation.Add(value);
+                            meshData.rotation = value;
+                           
                         }
                         if (value.IndexOf("DrawScale=") != -1)
                         {
-                            scale.Add(value);
+                            meshData.scale = value;
+     
                         }
                         if (value.IndexOf("DrawScale3D=") != -1)
                         {
-                            scale3D.Add(value);
+                            meshData.scale3D = value;
+  
                         }
 
                         if (value.IndexOf(" Materials(") != -1)
@@ -851,29 +846,34 @@ namespace UDKtoUE4Tool
 
                         if (value.IndexOf("OverriddenLightMapRes=") != -1)
                         {
-                            LightMap.Add(value);
+                            meshData.LightMap = value;
+                           // LightMap.Add(value);
                         }
 
                         if (value.IndexOf("LODData(0)=") != -1)
                         {
-                            VertexColors.Add(value);
+                            meshData.VertexColors = value;
+                           // VertexColors.Add(value);
                         }
 
                         if (value.IndexOf("ColorVertexData(") != -1)
                         {
-                            VertexColorsData.Add(value);
+                            meshData.VertexColorData = value;
+                            //VertexColorsData.Add(value);
                         }
 
                     }
                     if (materialsTemp != string.Empty)
                     {
-                        Materials.Add(materialsTemp);
+                        meshData.Materials = materialsTemp;
                     }
                     else
                     {
-                        Materials.Add(string.Empty);
+                        meshData.Materials = string.Empty;
                     }
                     materialsTemp = string.Empty;
+
+                    StaticMeshes.ListOfData.Add(meshData);
 
                     //Console.Write(Environment.NewLine + Materials.Count + Environment.NewLine);
                 }
@@ -2832,24 +2832,25 @@ namespace UDKtoUE4Tool
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
                     for (i = 0; i <= NumberOfAssets - 1; i++)
                     {
-                        Name2[i] = ConversionTools.ConvertName(Name2, i);
-                        StaticMesh[i] = ConversionTools.ConvertStaticMeshPath(StaticMesh, i, 0, TB_AssetPath);
-                        location[i] = ConversionTools.ConvertLocation(location, i, CB_MultiplyPosition);
-                        rotation[i] = ConversionTools.ConvertRotation(rotation, i);
-                        scale[i] = ConversionTools.ConvertScale(scale, i);
-                        scale3D[i] = ConversionTools.ConvertScale3D(scale3D, i, scale, richTextBox1, CB_MultiplyScale);
+                        StaticMeshes.ListOfData[i].Name = ConversionTools.ConvertName(StaticMeshes.ListOfData[i].Name);
+                       // Name2[i] = ConversionTools.ConvertName(Name2, i);
+                        StaticMeshes.ListOfData[i].AssetPath = ConversionTools.ConvertStaticMeshPath(StaticMeshes.ListOfData[i].AssetPath, 0, TB_AssetPath);
+                        StaticMeshes.ListOfData[i].location = ConversionTools.ConvertLocation(StaticMeshes.ListOfData[i].location, CB_MultiplyPosition);
+                        StaticMeshes.ListOfData[i].rotation = ConversionTools.ConvertRotation(StaticMeshes.ListOfData[i].rotation);
+                        StaticMeshes.ListOfData[i].scale = ConversionTools.ConvertScale(StaticMeshes.ListOfData[i].scale);
+                        StaticMeshes.ListOfData[i].scale3D = ConversionTools.ConvertScale3D(StaticMeshes.ListOfData[i].scale3D, StaticMeshes.ListOfData[i].scale, richTextBox1, CB_MultiplyScale);
 
-                        //Console.Write(Materials[i] + Environment.NewLine);
-                        if (Materials[i] != string.Empty && Materials[i] != null)
+                        //Console.Write(StaticMeshes.ListOfData[i].Materials + Environment.NewLine);
+                        if (StaticMeshes.ListOfData[i].Materials != string.Empty && StaticMeshes.ListOfData[i].Materials != null)
                         {
-                            Materials[i] = ConversionTools.ConvertMaterial(Materials, i, TB_AssetPath);
+                            StaticMeshes.ListOfData[i].Materials = ConversionTools.ConvertMaterial(StaticMeshes.ListOfData[i].Materials, TB_AssetPath);
                         }
 
                         if (CB_VertextColors.Checked == true)
                         {
-                            if (VertexColors[i] != string.Empty && VertexColors[i] != null)
+                            if (StaticMeshes.ListOfData[i].VertexColors != string.Empty && StaticMeshes.ListOfData[i].VertexColors != null)
                             {
-                                VertexColors[i] = ConversionTools.ConvertVC(VertexColors, VertexColorsData, i);
+                                StaticMeshes.ListOfData[i].VertexColors = ConversionTools.ConvertVC(StaticMeshes.ListOfData[i].VertexColors, StaticMeshes.ListOfData[i].VertexColorData);
                             }
 
                             // Console.Write(NumOfVC);
@@ -2863,24 +2864,24 @@ namespace UDKtoUE4Tool
                         //create a new static mesh entry using UE4 syntax for every static mesh found
                         for (i = 0; i <= NumberOfAssets - 1; i++)
                         {
-                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + Environment.NewLine + "      Begin Actor Class=StaticMeshActor Name=" + Name2[i] + " Archetype=StaticMeshActor'/Script/Engine.Default__StaticMeshActor'" + Environment.NewLine + "         Begin Object Class=StaticMeshComponent Name=StaticMeshComponent0 ObjName=StaticMeshComponent0 Archetype=StaticMeshComponent'/Script/Engine.Default__StaticMeshActor:StaticMeshComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Name=StaticMeshComponent0" + Environment.NewLine;
-                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "        " + StaticMesh[i] + Environment.NewLine;
-                            if (Materials[i] != string.Empty)
+                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + Environment.NewLine + "      Begin Actor Class=StaticMeshActor Name=" + StaticMeshes.ListOfData[i].Name + " Archetype=StaticMeshActor'/Script/Engine.Default__StaticMeshActor'" + Environment.NewLine + "         Begin Object Class=StaticMeshComponent Name=StaticMeshComponent0 ObjName=StaticMeshComponent0 Archetype=StaticMeshComponent'/Script/Engine.Default__StaticMeshActor:StaticMeshComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Name=StaticMeshComponent0" + Environment.NewLine;
+                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "        " + StaticMeshes.ListOfData[i].AssetPath + Environment.NewLine;
+                            if (StaticMeshes.ListOfData[i].Materials != string.Empty)
                             {
-                                StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + Materials[i];
+                                StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + StaticMeshes.ListOfData[i].Materials;
                             }
-                            if (LightMap[i] != string.Empty)
+                            if (StaticMeshes.ListOfData[i].LightMap != string.Empty)
                             {
-                                StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "                    bOverrideLightMapRes=True" + Environment.NewLine + "        " + LightMap[i] + Environment.NewLine;
+                                StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "                    bOverrideLightMapRes=True" + Environment.NewLine + "        " + StaticMeshes.ListOfData[i].LightMap + Environment.NewLine;
                             }
-                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "                    BodyInstance=(Scale3D=(" + scale3D[i] + "))" + Environment.NewLine;
-                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "           " + location[i] + Environment.NewLine + "            " + rotation[i] + Environment.NewLine + "                    RelativeScale3D=" + scale3D[i] + Environment.NewLine;
+                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "                    BodyInstance=(Scale3D=(" + StaticMeshes.ListOfData[i].scale3D + "))" + Environment.NewLine;
+                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "           " + StaticMeshes.ListOfData[i].location + Environment.NewLine + "            " + StaticMeshes.ListOfData[i].rotation + Environment.NewLine + "                    RelativeScale3D=" + StaticMeshes.ListOfData[i].scale3D + Environment.NewLine;
 
-                            if (VertexColors[i] != string.Empty)
+                            if (StaticMeshes.ListOfData[i].VertexColors != string.Empty)
                             {
-                                StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + VertexColors[i] + Environment.NewLine;
+                                StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + StaticMeshes.ListOfData[i].VertexColors + Environment.NewLine;
                             }
-                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "         End Object" + Environment.NewLine + "        StaticMeshComponent=StaticMeshComponent0" + Environment.NewLine + "        RootComponent=StaticMeshComponent0" + Environment.NewLine + "        ActorLabel=\"" + Name2[i] + "\"\n      End Actor";
+                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "         End Object" + Environment.NewLine + "        StaticMeshComponent=StaticMeshComponent0" + Environment.NewLine + "        RootComponent=StaticMeshComponent0" + Environment.NewLine + "        ActorLabel=\"" + StaticMeshes.ListOfData[i].Name + "\"\n      End Actor";
 
                         }
                     }
@@ -2889,24 +2890,24 @@ namespace UDKtoUE4Tool
                         //UE5
                         for (i = 0; i <= NumberOfAssets - 1; i++)
                         {
-                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + Environment.NewLine + "      Begin Actor Class=StaticMeshActor Name=" + Name2[i] + " Archetype=StaticMeshActor'/Script/Engine.Default__StaticMeshActor'" + Environment.NewLine + "         Begin Object Class=StaticMeshComponent Name=StaticMeshComponent0 ObjName=StaticMeshComponent0 Archetype=StaticMeshComponent'/Script/Engine.Default__StaticMeshActor:StaticMeshComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Name=StaticMeshComponent0" + Environment.NewLine;
-                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "        " + StaticMesh[i] + Environment.NewLine;
-                            if (Materials[i] != string.Empty)
+                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + Environment.NewLine + "      Begin Actor Class=StaticMeshActor Name=" + StaticMeshes.ListOfData[i].Name + " Archetype=StaticMeshActor'/Script/Engine.Default__StaticMeshActor'" + Environment.NewLine + "         Begin Object Class=StaticMeshComponent Name=StaticMeshComponent0 ObjName=StaticMeshComponent0 Archetype=StaticMeshComponent'/Script/Engine.Default__StaticMeshActor:StaticMeshComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Name=StaticMeshComponent0" + Environment.NewLine;
+                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "        " + StaticMeshes.ListOfData[i].AssetPath + Environment.NewLine;
+                            if (StaticMeshes.ListOfData[i].Materials != string.Empty)
                             {
-                                StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + Materials[i];
+                                StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + StaticMeshes.ListOfData[i].Materials;
                             }
-                            if (LightMap[i] != string.Empty)
+                            if (StaticMeshes.ListOfData[i].LightMap != string.Empty)
                             {
-                                StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "                    bOverrideLightMapRes=True" + Environment.NewLine + "        " + LightMap[i] + Environment.NewLine;
+                                StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "                    bOverrideLightMapRes=True" + Environment.NewLine + "        " + StaticMeshes.ListOfData[i].LightMap + Environment.NewLine;
                             }
-                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "                    BodyInstance=(Scale3D=(" + scale3D[i] + "))" + Environment.NewLine;
-                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "           " + location[i] + Environment.NewLine + "            " + rotation[i] + Environment.NewLine + "                    RelativeScale3D=" + scale3D[i] + Environment.NewLine;
+                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "                    BodyInstance=(Scale3D=(" + StaticMeshes.ListOfData[i].scale3D + "))" + Environment.NewLine;
+                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "           " + StaticMeshes.ListOfData[i].location+ Environment.NewLine + "            " + StaticMeshes.ListOfData[i].rotation + Environment.NewLine + "                    RelativeScale3D=" + StaticMeshes.ListOfData[i].scale3D + Environment.NewLine;
 
-                            if (VertexColors[i] != string.Empty)
+                            if (StaticMeshes.ListOfData[i].VertexColors != string.Empty)
                             {
-                                StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + VertexColors[i] + Environment.NewLine;
+                                StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + StaticMeshes.ListOfData[i].VertexColors + Environment.NewLine;
                             }
-                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "         End Object" + Environment.NewLine + "        StaticMeshComponent=StaticMeshComponent0" + Environment.NewLine + "        RootComponent=StaticMeshComponent0" + Environment.NewLine + "        ActorLabel=\"" + Name2[i] + "\"\n      End Actor";
+                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "         End Object" + Environment.NewLine + "        StaticMeshComponent=StaticMeshComponent0" + Environment.NewLine + "        RootComponent=StaticMeshComponent0" + Environment.NewLine + "        ActorLabel=\"" + StaticMeshes.ListOfData[i].Name + "\"\n      End Actor";
 
                         }
                     }
