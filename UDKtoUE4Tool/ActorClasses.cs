@@ -18,7 +18,8 @@ namespace UDKtoUE4Tool
         public MatchCollection Collection;
         public List<StaticMeshData> ListOfData = new List<StaticMeshData>();
         public int Count;
-        public string[] results;
+        public string[] results; public string FinalOutput;
+
     }
 
     public class StaticMeshData
@@ -41,7 +42,7 @@ namespace UDKtoUE4Tool
         public MatchCollection Collection;
         public List<KStaticMeshData> ListOfData = new List<KStaticMeshData>();
         public int Count;
-        public string[] results;
+        public string[] results; public string FinalOutput;
     }
 
     public class KStaticMeshData
@@ -62,7 +63,7 @@ namespace UDKtoUE4Tool
         public MatchCollection Collection;
         public List<SkeletalMeshData> ListOfData = new List<SkeletalMeshData>();
         public int Count;
-        public string[] results;
+        public string[] results; public string FinalOutput;
     }
 
     public class SkeletalMeshData
@@ -81,7 +82,7 @@ namespace UDKtoUE4Tool
         public MatchCollection Collection;
         public List<InteropStaticMeshData> ListOfData = new List<InteropStaticMeshData>();
         public int Count;
-        public string[] results;
+        public string[] results; public string FinalOutput;
     }
 
 
@@ -102,7 +103,7 @@ namespace UDKtoUE4Tool
         public MatchCollection Collection;
         public List<FoliageActorData> ListOfData = new List<FoliageActorData>();
         public int Count;
-        public string[] results;
+        public string[] results; public string FinalOutput;
     }
 
     public class FoliageActorData
@@ -122,7 +123,7 @@ namespace UDKtoUE4Tool
         public MatchCollection Collection;
         public List<PointLightData> ListOfData = new List<PointLightData>();
         public int Count;
-        public string[] results;
+        public string[] results; public string FinalOutput;
     }
 
     public class PointLightData
@@ -143,7 +144,7 @@ namespace UDKtoUE4Tool
         public MatchCollection Collection;
         public List<SpotLIghtData> ListOfData = new List<SpotLIghtData>();
         public int Count;
-        public string[] results;
+        public string[] results; public string FinalOutput;
     }
 
     public class SpotLIghtData
@@ -166,7 +167,7 @@ namespace UDKtoUE4Tool
         public MatchCollection Collection;
         public List<DirectionalLightData> ListOfData = new List<DirectionalLightData>();
         public int Count;
-        public string[] results;
+        public string[] results; public string FinalOutput;
     }
 
     public class DirectionalLightData
@@ -186,7 +187,7 @@ namespace UDKtoUE4Tool
         public MatchCollection Collection;
         public List<PlayerStartData> ListOfData = new List<PlayerStartData>();
         public int Count;
-        public string[] results;
+        public string[] results; public string FinalOutput;
     }
 
     public class PlayerStartData
@@ -203,7 +204,7 @@ namespace UDKtoUE4Tool
         public MatchCollection Collection;
         public List<CameraData> ListOfData = new List<CameraData>();
         public int Count;
-        public string[] results;
+        public string[] results; public string FinalOutput;
     }
 
     public class CameraData
@@ -223,7 +224,7 @@ namespace UDKtoUE4Tool
         public MatchCollection Collection;
         public List<SoundData> ListOfData = new List<SoundData>();
         public int Count;
-        public string[] results;
+        public string[] results; public string FinalOutput;
     }
 
     public class SoundData
@@ -253,12 +254,12 @@ namespace UDKtoUE4Tool
         string SoundsLPFMax;
     }
 
-    public class Decals
+    public class Decal
     {
         public MatchCollection Collection;
         public List<DecalsData> ListOfData = new List<DecalsData>();
         public int Count;
-        public string[] results;
+        public string[] results; public string FinalOutput;
     }
     public class DecalsData
     {
@@ -270,12 +271,12 @@ namespace UDKtoUE4Tool
         string DecalsHeight;
     }
 
-    public class Particles
+    public class Particle
     {
         public MatchCollection Collection;
         public List<ParticlesData> ListOfData = new List<ParticlesData>();
         public int Count;
-        public string[] results;
+        public string[] results; public string FinalOutput;
     }
 
     public class ParticlesData
@@ -294,7 +295,7 @@ namespace UDKtoUE4Tool
         public MatchCollection Collection;
         public List<FogData> ListOfData = new List<FogData>();
         public int Count;
-        public string[] results;
+        public string[] results; public string FinalOutput;
     }
 
     public class FogData
@@ -317,7 +318,7 @@ namespace UDKtoUE4Tool
         public MatchCollection Collection;
         public List<DestructableStaticMeshData> ListOfData = new List<DestructableStaticMeshData>();
         public int Count;
-        public string[] results;
+        public string[] results; public string FinalOutput;
     }
 
     public class DestructableStaticMeshData
@@ -336,7 +337,7 @@ namespace UDKtoUE4Tool
         public MatchCollection Collection;
         public List<ApexMeshData> ListOfData = new List<ApexMeshData>();
         public int Count;
-        public string[] results;
+        public string[] results; public string FinalOutput;
     }
 
     public class ApexMeshData

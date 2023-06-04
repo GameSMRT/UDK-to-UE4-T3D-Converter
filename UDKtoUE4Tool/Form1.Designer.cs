@@ -45,6 +45,7 @@
             this.CB_StaticLights = new System.Windows.Forms.CheckBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.CB_UE4Mode = new System.Windows.Forms.CheckBox();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.CB_VertextColors = new System.Windows.Forms.CheckBox();
             this.label23 = new System.Windows.Forms.Label();
@@ -70,7 +71,6 @@
             this.BTN_CopyToClipboard = new System.Windows.Forms.Button();
             this.BTN_Exit = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.CB_UE4Mode = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -237,6 +237,19 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Actors";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // CB_UE4Mode
+            // 
+            this.CB_UE4Mode.AutoSize = true;
+            this.CB_UE4Mode.Checked = true;
+            this.CB_UE4Mode.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CB_UE4Mode.Enabled = false;
+            this.CB_UE4Mode.Location = new System.Drawing.Point(859, 412);
+            this.CB_UE4Mode.Name = "CB_UE4Mode";
+            this.CB_UE4Mode.Size = new System.Drawing.Size(47, 17);
+            this.CB_UE4Mode.TabIndex = 34;
+            this.CB_UE4Mode.Text = "UE4";
+            this.CB_UE4Mode.UseVisualStyleBackColor = true;
             // 
             // checkedListBox1
             // 
@@ -509,18 +522,6 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1005, 750);
             this.tabControl1.TabIndex = 23;
-            // 
-            // CB_UE4Mode
-            // 
-            this.CB_UE4Mode.AutoSize = true;
-            this.CB_UE4Mode.Checked = true;
-            this.CB_UE4Mode.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CB_UE4Mode.Location = new System.Drawing.Point(859, 412);
-            this.CB_UE4Mode.Name = "CB_UE4Mode";
-            this.CB_UE4Mode.Size = new System.Drawing.Size(47, 17);
-            this.CB_UE4Mode.TabIndex = 34;
-            this.CB_UE4Mode.Text = "UE4";
-            this.CB_UE4Mode.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 

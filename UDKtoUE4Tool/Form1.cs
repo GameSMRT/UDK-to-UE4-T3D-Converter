@@ -16,72 +16,35 @@ namespace UDKtoUE4Tool
     public partial class Form1 : Form
     {
         #region Declarations
-        ConversionHelpers ConversionTools;
+        ConversionHelpers ConversionTools = new ConversionHelpers();
         private string input;
         private string path;
 
-        private StaticMesh StaticMeshes;
+        private StaticMesh StaticMeshes = new StaticMesh();
+        private KStaticMesh KStaticMeshs = new KStaticMesh();
+        private SkeletalMesh SkeletalMeshs = new SkeletalMesh();
+        private InteropStaticMesh InteropStaticMeshs = new InteropStaticMesh();
+        private PointLight PointLights = new PointLight();
+        private SpotLIght SpotLIghts = new SpotLIght();
+        private DirectionalLight DirectionalLights = new DirectionalLight();
+        private PointLight DomPointLights = new PointLight();
+        private SpotLIght DomSpotLIghts = new SpotLIght();
+        private DirectionalLight DomDirectionalLights = new DirectionalLight();
+        private PlayerStart PlayerStarts = new PlayerStart();
+        private Camera Cameras = new Camera();
+        private Sound Sounds = new Sound();
+        private Decal Decals = new Decal();
+        private Particle Particles1 = new Particle();
+        private Fog Fogs = new Fog();
+        private DestructableStaticMesh DestructableStaticMeshs = new DestructableStaticMesh();
+        private ApexMesh ApexMeshs = new ApexMesh();
+        private FoliageActor Foliages = new FoliageActor();
+
 
         private int NumberOfAssets;
-        private int NumberOfKactors;
-        private int NumberofSKMesh;
-        private int NumberOfInterp;
-        private int NumberOfPLights;
-        private int NumberOfSLights;
-        private int NumberOfDLights;
-        private int NumberOfDomPLights;
-        private int NumberOfDomSLights;
-        private int NumberOfDomDLights;
-        private int NumberOfPlayerStarts;
-        private int NumberOfCameras;
-        private int NumberOfSounds;
-        private int NumberOfDecals;
-        private int NumberOfParticles;
-        private int NumberofFog;
-        private int NumberOfFoliage;
-        private int NumberOfDestruct;
-        private int NumberOfApex;
 
         //arrays to store data
-        private MatchCollection StaticMeshmatch;
-        private MatchCollection SkMeshmatch;
-        private MatchCollection Kactormatch;
-        private MatchCollection PointLightsMatch;
-        private MatchCollection SpotLightsMatch;
-        private MatchCollection DirLightsMatch;
-        private MatchCollection DomPlightsMatch;
-        private MatchCollection DomSLightsMatch;
-        private MatchCollection DomDLightsMatch;
-        private MatchCollection PlayerStartMatch;
-        private MatchCollection CameraMatch;
-        private MatchCollection SoundsMatch;
-        private MatchCollection DecalsMatch;
-        private MatchCollection ParticlesMatch;
-        private MatchCollection InterpMatch;
-        private MatchCollection FogMatch;
-        private MatchCollection FoliageMatch;
-        private MatchCollection DestructMatch;
-        private MatchCollection ApexMatch;
 
-        private string[] results;
-        private string[] KactorResults;
-        private string[] SkelMeshResults;
-        private string[] PointLightResults;
-        private string[] SpotLightResults;
-        private string[] DirLightResults;
-        private string[] DomPLightResults;
-        private string[] DomSLightResults;
-        private string[] DomDLightResults;
-        private string[] PlayerStartResults;
-        private string[] CameraResults;
-        private string[] SoundsResults;
-        private string[] DecalsResults;
-        private string[] ParticlesResults;
-        private string[] InterpResults;
-        private string[] FogResults;
-        private string[] FoliageResults;
-        private string[] DestructResults;
-        private string[] ApexResults;
 
         private List<string> StaticMesh = new List<string>();
         private List<string> Name2 = new List<string>();
@@ -220,7 +183,7 @@ namespace UDKtoUE4Tool
         private List<string> SoundsPitchMin = new List<string>();
         private List<string> SoundsPitchMax = new List<string>();
         private List<string> SoundsVolMin = new List<string>();
-        private List<string> SoundsVolMax = new List<string>();        
+        private List<string> SoundsVolMax = new List<string>();
         private List<string> SoundsVolumeMulti = new List<string>();
         private List<string> SoundsPitchMulti = new List<string>();
         private List<string> SoundsHFMulti = new List<string>();
@@ -232,7 +195,7 @@ namespace UDKtoUE4Tool
         private List<string> DecalsMat = new List<string>();
         private List<string> DecalsLocation = new List<string>();
         private List<string> DecalsRotation = new List<string>();
-        private List<string> DecalsWidth= new List<string>();
+        private List<string> DecalsWidth = new List<string>();
         private List<string> DecalsHeight = new List<string>();
 
         private List<string> Particles = new List<string>();
@@ -282,25 +245,6 @@ namespace UDKtoUE4Tool
         private string NoOutterCone = "OuterConeAngle=45.000000";
 
         private string materialsTemp;
-        private string LoopOutput;
-        private string KactorOutput;
-        private string SKmeshOutput;
-        private string PLightOutput;
-        private string SLightOutput;
-        private string DLightOutput;
-        private string DomPLightOutput;
-        private string DomSLightOutput;
-        private string DomDLightOutput;
-        private string PlayerStartOutput;
-        private string CameraOutput;
-        private string SoundOutput;
-        private string DecalsOutput;
-        private string ParticlesOutput;
-        private string InterpOutput;
-        private string FogOutput;
-        private string FoliageOutput;
-        private string DestructOutput;
-        private string ApexOutput;
         private string Finaloutput;
 
         private string temp;
@@ -390,49 +334,49 @@ namespace UDKtoUE4Tool
             input = null;
             path = null;
             temp = null;
-            StaticMeshmatch = null;
-            Kactormatch = null;
-            SkMeshmatch = null;
-            PointLightsMatch = null;
-            SpotLightsMatch = null;
-            DirLightsMatch = null;
-            DomPlightsMatch = null;
-            DomSLightsMatch = null;
-            DomDLightsMatch = null;
-            results = null;
-            PointLightResults = null;
-            SpotLightResults = null;
-            DirLightResults = null;
-            DomPLightResults = null;
-            DomSLightResults = null;
-            DomDLightResults = null;
-            PlayerStartMatch = null;
-            CameraMatch = null;
-            SoundsMatch = null;
-            DecalsMatch = null;
-            ParticlesMatch = null;
-            InterpMatch = null;
-            FogMatch = null;
-           // FoliageMatch = null;
-            DestructMatch = null;
-            ApexMatch = null;
+            StaticMeshes.Collection = null;
+            KStaticMeshs.Collection = null;
+            SkeletalMeshs.Collection = null;
+            PointLights.Collection = null;
+            SpotLIghts.Collection = null;
+            DirectionalLights.Collection = null;
+            DomDirectionalLights.Collection = null;
+            DomSpotLIghts.Collection = null;
+            DomPointLights.Collection = null;
+            StaticMeshes.results = null; 
+            PointLights.results = null;
+            SpotLIghts.results = null;
+            DirectionalLights.results = null;
+            DomPointLights.results = null;
+            DomSpotLIghts.results = null;
+            DomDirectionalLights.results = null;
+            PlayerStarts.Collection = null;
+            Cameras.Collection = null;
+            Sounds.Collection = null;
+            Decals.Collection = null;
+            Particles1.Collection = null;
+            InteropStaticMeshs.Collection = null;
+            Fogs.Collection = null;
+            // Foliages.Collection = null;
+            DestructableStaticMeshs.Collection = null;
+            ApexMeshs.Collection = null;
 
             NumberOfAssets = 0;
-            NumberOfPLights = 0;
-            NumberOfSLights = 0;
-            NumberOfDLights = 0;
-            NumberOfDomPLights = 0;
-            NumberOfDomSLights = 0;
-            NumberOfDomDLights = 0;
-            NumberOfPlayerStarts = 0;
-            NumberOfCameras = 0;
-            NumberOfSounds = 0;
-            NumberOfKactors = 0;
-            NumberofSKMesh = 0;
-            NumberOfParticles = 0;
-            NumberOfInterp = 0;
-            NumberofFog = 0;
-            NumberOfFoliage = 0;
+            PointLights.Count = 0;
+            SpotLIghts.Count = 0;
+            DirectionalLights.Count = 0;
+            DomPointLights.Count = 0;
+            DomSpotLIghts.Count = 0;
+            DomDirectionalLights.Count = 0;
+            PlayerStarts.Count = 0;
+            Cameras.Count = 0;
+            Sounds.Count = 0;
+            KStaticMeshs.Count = 0;
+            SkeletalMeshs.Count = 0;
+            Particles1.Count = 0;
+            InteropStaticMeshs.Count = 0;
+            Fogs.Count = 0;
+            Foliages.Count = 0;
 
             StaticMesh.Clear();
             Name2.Clear();
@@ -617,25 +561,25 @@ namespace UDKtoUE4Tool
             FogOppLightColor.Clear();
             FogLightInScatterColor.Clear();
 
-            LoopOutput = string.Empty;
-            KactorOutput = string.Empty;
-            SKmeshOutput = string.Empty;
-            PLightOutput = string.Empty;
-            SLightOutput = string.Empty;
-            DLightOutput = string.Empty;
-            DomPLightOutput = string.Empty;
-            DomSLightOutput = string.Empty;
-            DomDLightOutput = string.Empty;
-            PlayerStartOutput = string.Empty;
-            CameraOutput = string.Empty;
-            SoundOutput = string.Empty;
-            DecalsOutput = string.Empty;
-            ParticlesOutput = string.Empty;
-            InterpOutput = string.Empty;
-            FogOutput = string.Empty;
-            FoliageOutput = string.Empty;
-            DestructOutput = string.Empty;
-            ApexOutput = string.Empty;
+            StaticMeshes.FinalOutput = string.Empty;
+            KStaticMeshs.FinalOutput = string.Empty;
+            SkeletalMeshs.FinalOutput = string.Empty;
+            PointLights.FinalOutput = string.Empty;
+            SpotLIghts.FinalOutput = string.Empty;
+            DirectionalLights.FinalOutput = string.Empty;
+            DomPointLights.FinalOutput = string.Empty;
+            DomSpotLIghts.FinalOutput = string.Empty;
+            DomDirectionalLights.FinalOutput = string.Empty;
+            PlayerStarts.FinalOutput = string.Empty;
+            Cameras.FinalOutput = string.Empty;
+            Sounds.FinalOutput = string.Empty;
+            Decals.FinalOutput = string.Empty;
+            Particles1.FinalOutput = string.Empty;
+            InteropStaticMeshs.FinalOutput = string.Empty;
+            Fogs.FinalOutput = string.Empty;
+            Foliages.FinalOutput = string.Empty;
+            DestructableStaticMeshs.FinalOutput = string.Empty;
+            ApexMeshs.FinalOutput = string.Empty;
             Finaloutput = string.Empty;
 
             intensity = 0;
@@ -682,7 +626,7 @@ namespace UDKtoUE4Tool
             UE4ProjectPath = string.Empty;
             UE4Directories.Clear();
 
-          //  materialsTemp = null;
+            //  materialsTemp = null;
             //RecombinedMaterials = null;
         }
 
@@ -698,13 +642,13 @@ namespace UDKtoUE4Tool
             input = richTextBox1.Text.ToString();
             path = TB_AssetPath.Text.ToString();
 
-            
+
             if (TB_ContentDir.Text != string.Empty)
             {
                 UE4ProjectPath = TB_ContentDir.Text;
                 split = UE4ProjectPath.Split("\\".ToCharArray());
 
-               
+
                 if (!split.Contains<String>("Content"))
                 {
                     //if no content folder was provided
@@ -734,72 +678,72 @@ namespace UDKtoUE4Tool
 
             //use Regular Expressions to Search through the T3D
             #region SearchThroughInput
-            //get all the text inbetween all sets of "Begin Actor Class=__"  and "End Actor", store the results in the arrays
+            //get all the text inbetween all sets of "Begin Actor Class=__"  and "End Actor", store the StaticMeshes.results in the arrays
             Regex r = new Regex(@"(?s)(Begin Actor Class=StaticMeshActor).+?(End Actor)");
-            StaticMeshmatch = r.Matches(richTextBox1.Text);
+            StaticMeshes.Collection = r.Matches(richTextBox1.Text);
 
             r = new Regex(@"(?s)(Begin Actor Class=PointLight).+?(End Actor)");
-            PointLightsMatch = r.Matches(richTextBox1.Text);
+            PointLights.Collection = r.Matches(richTextBox1.Text);
 
             r = new Regex(@"(?s)(Begin Actor Class=SpotLight).+?(End Actor)");
-            SpotLightsMatch = r.Matches(richTextBox1.Text);
+            SpotLIghts.Collection = r.Matches(richTextBox1.Text);
 
             r = new Regex(@"(?s)(Begin Actor Class=DirectionalLight).+?(End Actor)");
-            DirLightsMatch = r.Matches(richTextBox1.Text);
+            DirectionalLights.Collection = r.Matches(richTextBox1.Text);
 
             r = new Regex(@"(?s)(Begin Actor Class=DominantDirectionalLight).+?(End Actor)");
-            DomDLightsMatch = r.Matches(richTextBox1.Text);
+            DomDirectionalLights.Collection = r.Matches(richTextBox1.Text);
 
             r = new Regex(@"(?s)(Begin Actor Class=DominantSpotLight).+?(End Actor)");
-            DomSLightsMatch = r.Matches(richTextBox1.Text);
+            DomSpotLIghts.Collection = r.Matches(richTextBox1.Text);
 
             r = new Regex(@"(?s)(Begin Actor Class=DominantPointLight).+?(End Actor)");
-            DomPlightsMatch = r.Matches(richTextBox1.Text);
+            DomPointLights.Collection = r.Matches(richTextBox1.Text);
 
             r = new Regex(@"(?s)(Begin Actor Class=PlayerStart).+?(End Actor)");
-            PlayerStartMatch = r.Matches(richTextBox1.Text);
+            PlayerStarts.Collection = r.Matches(richTextBox1.Text);
 
             r = new Regex(@"(?s)(Begin Actor Class=CameraActor).+?(End Actor)");
-            CameraMatch = r.Matches(richTextBox1.Text);
+            Cameras.Collection = r.Matches(richTextBox1.Text);
 
             r = new Regex(@"(?s)(Begin Actor Class=AmbientSound).+?(End Actor)");
-            SoundsMatch = r.Matches(richTextBox1.Text);
+            Sounds.Collection = r.Matches(richTextBox1.Text);
 
             r = new Regex(@"(?s)(Begin Actor Class=DecalActor).+?(End Actor)");
-            DecalsMatch = r.Matches(richTextBox1.Text);
+            Decals.Collection = r.Matches(richTextBox1.Text);
 
             r = new Regex(@"(?s)(Begin Actor Class=KActor).+?(End Actor)");
-            Kactormatch = r.Matches(richTextBox1.Text);
+            KStaticMeshs.Collection = r.Matches(richTextBox1.Text);
 
             r = new Regex(@"(?s)(Begin Actor Class=SkeletalMeshActor).+?(End Actor)");
-            SkMeshmatch = r.Matches(richTextBox1.Text);
+            SkeletalMeshs.Collection = r.Matches(richTextBox1.Text);
 
             r = new Regex(@"(?s)(Begin Actor Class=Emitter).+?(End Actor)");
-            ParticlesMatch = r.Matches(richTextBox1.Text);
+            Particles1.Collection = r.Matches(richTextBox1.Text);
 
             r = new Regex(@"(?s)(Begin Actor Class=InterpActor).+?(End Actor)");
-            InterpMatch = r.Matches(richTextBox1.Text);
+            InteropStaticMeshs.Collection = r.Matches(richTextBox1.Text);
 
             r = new Regex(@"(?s)(Begin Actor Class=ExponentialHeightFog).+?(End Actor)");
-            FogMatch = r.Matches(richTextBox1.Text);
+            Fogs.Collection = r.Matches(richTextBox1.Text);
 
             r = new Regex(@"(?s)(Begin Actor Class=InteractiveFoliageActor).+?(End Actor)");
-            FoliageMatch = r.Matches(richTextBox1.Text);
+            Foliages.Collection = r.Matches(richTextBox1.Text);
 
             r = new Regex(@"(?s)(Begin Actor Class=FracturedStaticMeshActor).+?(End Actor)");
-            DestructMatch = r.Matches(richTextBox1.Text);
+            DestructableStaticMeshs.Collection = r.Matches(richTextBox1.Text);
 
             r = new Regex(@"(?s)(Begin Actor Class=ApexDestructibleActor).+?(End Actor)");
-            ApexMatch = r.Matches(richTextBox1.Text);
+            ApexMeshs.Collection = r.Matches(richTextBox1.Text);
 
-            if (StaticMeshmatch.Count == 0 && PointLightsMatch.Count == 0 && SpotLightsMatch.Count == 0 && DirLightsMatch.Count == 0 && DomDLightsMatch.Count == 0 && DomSLightsMatch.Count == 0 && DomPlightsMatch.Count == 0 && PlayerStartMatch.Count == 0 && CameraMatch.Count == 0 && DecalsMatch.Count == 0 && Kactormatch.Count == 0 && SkMeshmatch.Count == 0 && ParticlesMatch.Count == 0 && InterpMatch.Count == 0 && FogMatch.Count == 0 && FoliageMatch.Count == 0 && DestructMatch.Count == 0 && ApexMatch.Count == 0 && SoundsMatch.Count == 0)
+            if (StaticMeshes.Collection.Count == 0 && PointLights.Collection.Count == 0 && SpotLIghts.Collection.Count == 0 && DirectionalLights.Collection.Count == 0 && DomDirectionalLights.Collection.Count == 0 && DomSpotLIghts.Collection.Count == 0 && DomPointLights.Collection.Count == 0 && PlayerStarts.Collection.Count == 0 && Cameras.Collection.Count == 0 && Decals.Collection.Count == 0 && KStaticMeshs.Collection.Count == 0 && SkeletalMeshs.Collection.Count == 0 && Particles1.Collection.Count == 0 && InteropStaticMeshs.Collection.Count == 0 && Fogs.Collection.Count == 0 && Foliages.Collection.Count == 0 && DestructableStaticMeshs.Collection.Count == 0 && ApexMeshs.Collection.Count == 0 && Sounds.Collection.Count == 0)
             {
                 MessageBox.Show("No Actors found");
                 return;
             }
             #endregion
 
-            //Filter the Regular expressions results and strip away any other text so we are down to the raw values we need and store them.
+            //Filter the Regular expressions StaticMeshes.results and strip away any other text so we are down to the raw values we need and store them.
             #region FilterResults
 
 
@@ -812,64 +756,64 @@ namespace UDKtoUE4Tool
             
              This way all the arrays are horizontally aligned correctly as expected*/
 
-            if (StaticMeshmatch.Count != 0)
+            if (StaticMeshes.Collection.Count != 0)
             {
                 //store the number of assets, update the label
-                NumberOfAssets = StaticMeshmatch.Count;
+                NumberOfAssets = StaticMeshes.Collection.Count;
                 label7.Text = "Static Meshes: " + NumberOfAssets.ToString();
 
-                //fill the results array with the matches
-                results = new string[StaticMeshmatch.Count];
+                //fill the StaticMeshes.results array with the matches
+                StaticMeshes.results = new string[StaticMeshes.Collection.Count];
 
                 materialsTemp = string.Empty;
                 // RecombinedMaterials = string.Empty;
 
                 //loop through all the matched blocks of text for static meshes
-                for (i = 0; i < StaticMeshmatch.Count; i++)
+                for (i = 0; i < StaticMeshes.Collection.Count; i++)
                 {
                     //re-add the text that the Regex removed
-                    results[i] = StaticMeshmatch[i].Groups[0].Value.ToString();
+                    StaticMeshes.results[i] = StaticMeshes.Collection[i].Groups[0].Value.ToString();
 
-                    if (results[i].IndexOf("StaticMesh=") == -1)
+                    if (StaticMeshes.results[i].IndexOf("StaticMesh=") == -1)
                     {
                         StaticMesh.Add(string.Empty);
                     }
 
 
-                    if (results[i].IndexOf("Location=") == -1)
+                    if (StaticMeshes.results[i].IndexOf("Location=") == -1)
                     {
                         location.Add(NoLocation);
                     }
 
                     //check for missing entries, if so push blank values into arrays
-                    if (results[i].IndexOf("DrawScale3D=") == -1)
+                    if (StaticMeshes.results[i].IndexOf("DrawScale3D=") == -1)
                     {
                         scale3D.Add(NoScale3D);
                     }
 
-                    if (results[i].IndexOf("DrawScale=") == -1)
+                    if (StaticMeshes.results[i].IndexOf("DrawScale=") == -1)
                     {
                         scale.Add("1.000000");
                     }
 
-                    if (results[i].IndexOf("Rotation=") == -1)
+                    if (StaticMeshes.results[i].IndexOf("Rotation=") == -1)
                     {
                         rotation.Add(NoRotation);
                     }
 
-                    if (results[i].IndexOf("OverriddenLightMapRes=") == -1)
+                    if (StaticMeshes.results[i].IndexOf("OverriddenLightMapRes=") == -1)
                     {
                         LightMap.Add(string.Empty);
                     }
 
-                    if (results[i].IndexOf("LODData(0)=") == -1)
+                    if (StaticMeshes.results[i].IndexOf("LODData(0)=") == -1)
                     {
                         VertexColors.Add(string.Empty);
                         VertexColorsData.Add(string.Empty);
                     }
 
                     //spilt each line of the text into an array to parse through
-                    digits = Regex.Split(results[i], @"\r?\n|\r");
+                    digits = Regex.Split(StaticMeshes.results[i], @"\r?\n|\r");
 
                     foreach (string value in digits)
                     {
@@ -935,48 +879,48 @@ namespace UDKtoUE4Tool
                 }
             }
 
-            if (Kactormatch.Count != 0)
+            if (KStaticMeshs.Collection.Count != 0)
             {
                 //store the number of assets, update the label
-                NumberOfKactors = Kactormatch.Count;
-                label21.Text = "KActors: " + NumberOfKactors.ToString();
+                KStaticMeshs.Count = KStaticMeshs.Collection.Count;
+                label21.Text = "KActors: " + KStaticMeshs.Count.ToString();
 
-                //fill the results array with the matches
-                KactorResults = new string[Kactormatch.Count];
+                //fill the StaticMeshes.results array with the matches
+                KStaticMeshs.results = new string[KStaticMeshs.Collection.Count];
 
                 //loop through all the matched blocks of text for static meshes
-                for (i = 0; i < Kactormatch.Count; i++)
+                for (i = 0; i < KStaticMeshs.Collection.Count; i++)
                 {
                     //re-add the text that the Regex removed
-                    KactorResults[i] = Kactormatch[i].Groups[0].Value.ToString();
+                    KStaticMeshs.results[i] = KStaticMeshs.Collection[i].Groups[0].Value.ToString();
 
-                    if (KactorResults[i].IndexOf("StaticMesh=") == -1)
+                    if (KStaticMeshs.results[i].IndexOf("StaticMesh=") == -1)
                     {
                         KStaticMesh.Add(string.Empty);
                     }
 
-                    if (KactorResults[i].IndexOf("Location=") == -1)
+                    if (KStaticMeshs.results[i].IndexOf("Location=") == -1)
                     {
                         Klocation.Add(NoLocation);
                     }
 
                     //check for missing entries, if so push blank values into arrays
-                    if (KactorResults[i].IndexOf("DrawScale3D=") == -1)
+                    if (KStaticMeshs.results[i].IndexOf("DrawScale3D=") == -1)
                     {
                         Kscale3D.Add(NoScale3D);
                     }
 
-                    if (KactorResults[i].IndexOf("DrawScale=") == -1)
+                    if (KStaticMeshs.results[i].IndexOf("DrawScale=") == -1)
                     {
                         Kscale.Add("1.000000");
                     }
 
-                    if (KactorResults[i].IndexOf("Rotation=") == -1)
+                    if (KStaticMeshs.results[i].IndexOf("Rotation=") == -1)
                     {
                         Krotation.Add(NoRotation);
                     }
 
-                    if (KactorResults[i].IndexOf("bDamageAppliesImpulse=") == -1)
+                    if (KStaticMeshs.results[i].IndexOf("bDamageAppliesImpulse=") == -1)
                     {
                         Kdamage.Add(true);
                     }
@@ -985,13 +929,13 @@ namespace UDKtoUE4Tool
                         Kdamage.Add(false);
                     }
 
-                    if (KactorResults[i].IndexOf("OverriddenLightMapRes=") == -1)
+                    if (KStaticMeshs.results[i].IndexOf("OverriddenLightMapRes=") == -1)
                     {
                         KLightMap.Add(string.Empty);
                     }
 
                     //spilt each line of the text into an array to parse through
-                    digits = Regex.Split(KactorResults[i], @"\r?\n|\r");
+                    digits = Regex.Split(KStaticMeshs.results[i], @"\r?\n|\r");
 
                     foreach (string value in digits)
                     {
@@ -1048,55 +992,55 @@ namespace UDKtoUE4Tool
                 }
             }
 
-            if (InterpMatch.Count != 0)
+            if (InteropStaticMeshs.Collection.Count != 0)
             {
                 //store the number of assets, update the label
-                NumberOfInterp = InterpMatch.Count;
-                label7.Text = "Static Meshes: " + (NumberOfAssets + NumberOfInterp).ToString();
+                InteropStaticMeshs.Count = InteropStaticMeshs.Collection.Count;
+                label7.Text = "Static Meshes: " + (NumberOfAssets + InteropStaticMeshs.Count).ToString();
 
-                //fill the results array with the matches
-                InterpResults = new string[InterpMatch.Count];
+                //fill the StaticMeshes.results array with the matches
+                InteropStaticMeshs.results = new string[InteropStaticMeshs.Collection.Count];
 
                 //loop through all the matched blocInterps of text for static meshes
-                for (i = 0; i < InterpMatch.Count; i++)
+                for (i = 0; i < InteropStaticMeshs.Collection.Count; i++)
                 {
                     //re-add the text that the Regex removed
-                    InterpResults[i] = InterpMatch[i].Groups[0].Value.ToString();
+                    InteropStaticMeshs.results[i] = InteropStaticMeshs.Collection[i].Groups[0].Value.ToString();
 
-                    if (InterpResults[i].IndexOf("StaticMesh=") == -1)
+                    if (InteropStaticMeshs.results[i].IndexOf("StaticMesh=") == -1)
                     {
                         InterpStaticMesh.Add(string.Empty);
                     }
 
-                    if (InterpResults[i].IndexOf("Location=") == -1)
+                    if (InteropStaticMeshs.results[i].IndexOf("Location=") == -1)
                     {
                         InterpLocation.Add(NoLocation);
                     }
 
                     //checInterp for missing entries, if so push blanInterp values into arrays
-                    if (InterpResults[i].IndexOf("DrawScale3D=") == -1)
+                    if (InteropStaticMeshs.results[i].IndexOf("DrawScale3D=") == -1)
                     {
                         InterpScale3D.Add(NoScale3D);
                     }
 
-                    if (InterpResults[i].IndexOf("DrawScale=") == -1)
+                    if (InteropStaticMeshs.results[i].IndexOf("DrawScale=") == -1)
                     {
                         InterpScale.Add("1.000000");
                     }
 
-                    if (InterpResults[i].IndexOf("Rotation=") == -1)
+                    if (InteropStaticMeshs.results[i].IndexOf("Rotation=") == -1)
                     {
                         InterpRotation.Add(NoRotation);
                     }
 
 
-                    if (InterpResults[i].IndexOf("OverriddenLightMapRes=") == -1)
+                    if (InteropStaticMeshs.results[i].IndexOf("OverriddenLightMapRes=") == -1)
                     {
                         InterpLightMap.Add(string.Empty);
                     }
 
                     //spilt each line of the text into an array to parse through
-                    digits = Regex.Split(InterpResults[i], @"\r?\n|\r");
+                    digits = Regex.Split(InteropStaticMeshs.results[i], @"\r?\n|\r");
 
                     foreach (string value in digits)
                     {
@@ -1155,49 +1099,49 @@ namespace UDKtoUE4Tool
 
             //destructable meshes
 
-            if (DestructMatch.Count != 0)
+            if (DestructableStaticMeshs.Collection.Count != 0)
             {
                 //store the number of assets, update the label
-                NumberOfDestruct = DestructMatch.Count;
-                //label7.Text = "Static Meshes: " + (NumberOfAssets + NumberOfDestruct).ToString();
+                DestructableStaticMeshs.Count = DestructableStaticMeshs.Collection.Count;
+                //label7.Text = "Static Meshes: " + (NumberOfAssets + DestructableStaticMeshs.Count).ToString();
 
-                //fill the results array with the matches
-                DestructResults = new string[DestructMatch.Count];
+                //fill the StaticMeshes.results array with the matches
+                DestructableStaticMeshs.results = new string[DestructableStaticMeshs.Collection.Count];
 
                 //loop through all the matched blocDestructs of text for static meshes
-                for (i = 0; i < DestructMatch.Count; i++)
+                for (i = 0; i < DestructableStaticMeshs.Collection.Count; i++)
                 {
                     //re-add the text that the Regex removed
-                    DestructResults[i] = DestructMatch[i].Groups[0].Value.ToString();
+                    DestructableStaticMeshs.results[i] = DestructableStaticMeshs.Collection[i].Groups[0].Value.ToString();
 
-                    if (DestructResults[i].IndexOf("StaticMesh=") == -1)
+                    if (DestructableStaticMeshs.results[i].IndexOf("StaticMesh=") == -1)
                     {
                         DestructStaticMesh.Add(string.Empty);
                     }
 
-                    if (DestructResults[i].IndexOf("Location=") == -1)
+                    if (DestructableStaticMeshs.results[i].IndexOf("Location=") == -1)
                     {
                         DestructLocation.Add(NoLocation);
                     }
 
                     //checDestruct for missing entries, if so push blanDestruct values into arrays
-                    if (DestructResults[i].IndexOf("DrawScale3D=") == -1)
+                    if (DestructableStaticMeshs.results[i].IndexOf("DrawScale3D=") == -1)
                     {
                         DestructScale3D.Add(NoScale3D);
                     }
 
-                    if (DestructResults[i].IndexOf("DrawScale=") == -1)
+                    if (DestructableStaticMeshs.results[i].IndexOf("DrawScale=") == -1)
                     {
                         DestructScale.Add("1.000000");
                     }
 
-                    if (DestructResults[i].IndexOf("Rotation=") == -1)
+                    if (DestructableStaticMeshs.results[i].IndexOf("Rotation=") == -1)
                     {
                         DestructRotation.Add(NoRotation);
                     }
 
                     //spilt each line of the text into an array to parse through
-                    digits = Regex.Split(DestructResults[i], @"\r?\n|\r");
+                    digits = Regex.Split(DestructableStaticMeshs.results[i], @"\r?\n|\r");
 
                     foreach (string value in digits)
                     {
@@ -1249,49 +1193,49 @@ namespace UDKtoUE4Tool
             }
             //apex actors
 
-            if (ApexMatch.Count != 0)
+            if (ApexMeshs.Collection.Count != 0)
             {
                 //store the number of assets, update the label
-                NumberOfApex = ApexMatch.Count;
-                //label7.Text = "Static Meshes: " + (NumberOfAssets + NumberOfApex).ToString();
+                ApexMeshs.Count = ApexMeshs.Collection.Count;
+                //label7.Text = "Static Meshes: " + (NumberOfAssets + ApexMeshs.Count).ToString();
 
-                //fill the results array with the matches
-                ApexResults = new string[ApexMatch.Count];
+                //fill the StaticMeshes.results array with the matches
+                ApexMeshs.results = new string[ApexMeshs.Collection.Count];
 
                 //loop through all the matched blocApexs of text for static meshes
-                for (i = 0; i < ApexMatch.Count; i++)
+                for (i = 0; i < ApexMeshs.Collection.Count; i++)
                 {
                     //re-add the text that the Regex removed
-                    ApexResults[i] = ApexMatch[i].Groups[0].Value.ToString();
+                    ApexMeshs.results[i] = ApexMeshs.Collection[i].Groups[0].Value.ToString();
 
-                    if (ApexResults[i].IndexOf("Asset=") == -1)
+                    if (ApexMeshs.results[i].IndexOf("Asset=") == -1)
                     {
                         ApexStaticMesh.Add(string.Empty);
                     }
 
-                    if (ApexResults[i].IndexOf("Location=") == -1)
+                    if (ApexMeshs.results[i].IndexOf("Location=") == -1)
                     {
                         ApexLocation.Add(NoLocation);
                     }
 
                     //checApex for missing entries, if so push blanApex values into arrays
-                    if (ApexResults[i].IndexOf("DrawScale3D=") == -1)
+                    if (ApexMeshs.results[i].IndexOf("DrawScale3D=") == -1)
                     {
                         ApexScale3D.Add(NoScale3D);
                     }
 
-                    if (ApexResults[i].IndexOf("DrawScale=") == -1)
+                    if (ApexMeshs.results[i].IndexOf("DrawScale=") == -1)
                     {
                         ApexScale.Add("1.000000");
                     }
 
-                    if (ApexResults[i].IndexOf("Rotation=") == -1)
+                    if (ApexMeshs.results[i].IndexOf("Rotation=") == -1)
                     {
                         ApexRotation.Add(NoRotation);
                     }
 
                     //spilt each line of the text into an array to parse through
-                    digits = Regex.Split(ApexResults[i], @"\r?\n|\r");
+                    digits = Regex.Split(ApexMeshs.results[i], @"\r?\n|\r");
 
                     foreach (string value in digits)
                     {
@@ -1344,53 +1288,53 @@ namespace UDKtoUE4Tool
 
             //foliage actors
 
-            if (FoliageMatch.Count != 0)
+            if (Foliages.Collection.Count != 0)
             {
                 //store the number of assets, update the label
-                NumberOfFoliage = FoliageMatch.Count;
-                label7.Text = "Static Meshes: " + (NumberOfAssets + NumberOfFoliage + NumberOfInterp).ToString();
+                Foliages.Count = Foliages.Collection.Count;
+                label7.Text = "Static Meshes: " + (NumberOfAssets + Foliages.Count + InteropStaticMeshs.Count).ToString();
 
-                //fill the results array with the matches
-                FoliageResults = new string[FoliageMatch.Count];
+                //fill the StaticMeshes.results array with the matches
+                Foliages.results = new string[Foliages.Collection.Count];
 
                 //loop through all the matched blocFoliages of text for static meshes
-                for (i = 0; i < FoliageMatch.Count; i++)
+                for (i = 0; i < Foliages.Collection.Count; i++)
                 {
                     //re-add the text that the Regex removed
-                    FoliageResults[i] = FoliageMatch[i].Groups[0].Value.ToString();
+                    Foliages.results[i] = Foliages.Collection[i].Groups[0].Value.ToString();
 
-                    if (FoliageResults[i].IndexOf("StaticMesh=") == -1)
+                    if (Foliages.results[i].IndexOf("StaticMesh=") == -1)
                     {
                         FoliageStaticMesh.Add(string.Empty);
                     }
 
-                    if (FoliageResults[i].IndexOf("Location=") == -1)
+                    if (Foliages.results[i].IndexOf("Location=") == -1)
                     {
                         FoliageLocation.Add(NoLocation);
                     }
 
-                    if (FoliageResults[i].IndexOf("DrawScale3D=") == -1)
+                    if (Foliages.results[i].IndexOf("DrawScale3D=") == -1)
                     {
                         FoliageScale3D.Add(NoScale3D);
                     }
 
-                    if (FoliageResults[i].IndexOf("DrawScale=") == -1)
+                    if (Foliages.results[i].IndexOf("DrawScale=") == -1)
                     {
                         FoliageScale.Add("1.000000");
                     }
 
-                    if (FoliageResults[i].IndexOf("Rotation=") == -1)
+                    if (Foliages.results[i].IndexOf("Rotation=") == -1)
                     {
                         FoliageRotation.Add(NoRotation);
                     }
 
-                    if (FoliageResults[i].IndexOf("OverriddenLightMapRes=") == -1)
+                    if (Foliages.results[i].IndexOf("OverriddenLightMapRes=") == -1)
                     {
                         FoliageLightMap.Add(string.Empty);
                     }
 
                     //spilt each line of the text into an array to parse through
-                    digits = Regex.Split(FoliageResults[i], @"\r?\n|\r");
+                    digits = Regex.Split(Foliages.results[i], @"\r?\n|\r");
 
                     foreach (string value in digits)
                     {
@@ -1446,49 +1390,49 @@ namespace UDKtoUE4Tool
             }
 
             //skeletal meshes
-            if (SkMeshmatch.Count != 0)
+            if (SkeletalMeshs.Collection.Count != 0)
             {
                 //store the number of assets, update the label
-                NumberofSKMesh = SkMeshmatch.Count;
-                label18.Text = "Skeletal Meshes: " + NumberofSKMesh.ToString();
+                SkeletalMeshs.Count = SkeletalMeshs.Collection.Count;
+                label18.Text = "Skeletal Meshes: " + SkeletalMeshs.Count.ToString();
 
-                //fill the results array with the matches
-                SkelMeshResults = new string[SkMeshmatch.Count];
+                //fill the StaticMeshes.results array with the matches
+                SkeletalMeshs.results = new string[SkeletalMeshs.Collection.Count];
 
                 //loop through all the matched blocks of text for static meshes
-                for (i = 0; i < SkMeshmatch.Count; i++)
+                for (i = 0; i < SkeletalMeshs.Collection.Count; i++)
                 {
                     //re-add the text that the Regex removed
-                    SkelMeshResults[i] = SkMeshmatch[i].Groups[0].Value.ToString();
+                    SkeletalMeshs.results[i] = SkeletalMeshs.Collection[i].Groups[0].Value.ToString();
 
-                    if (SkelMeshResults[i].IndexOf("SkeletalMesh=") == -1)
+                    if (SkeletalMeshs.results[i].IndexOf("SkeletalMesh=") == -1)
                     {
                         SKStaticMesh.Add(string.Empty);
                     }
 
-                    if (SkelMeshResults[i].IndexOf("Location=") == -1)
+                    if (SkeletalMeshs.results[i].IndexOf("Location=") == -1)
                     {
                         SKlocation.Add(NoLocation);
                     }
 
                     //check for missing entries, if so push blank values into arrays
-                    if (SkelMeshResults[i].IndexOf("DrawScale3D=") == -1)
+                    if (SkeletalMeshs.results[i].IndexOf("DrawScale3D=") == -1)
                     {
                         SKscale3D.Add(NoScale3D);
                     }
 
-                    if (SkelMeshResults[i].IndexOf("DrawScale=") == -1)
+                    if (SkeletalMeshs.results[i].IndexOf("DrawScale=") == -1)
                     {
                         SKscale.Add("1.000000");
                     }
 
-                    if (SkelMeshResults[i].IndexOf("Rotation=") == -1)
+                    if (SkeletalMeshs.results[i].IndexOf("Rotation=") == -1)
                     {
                         SKrotation.Add(NoRotation);
                     }
 
                     //spilt each line of the text into an array to parse through
-                    digits = Regex.Split(SkelMeshResults[i], @"\r?\n|\r");
+                    digits = Regex.Split(SkeletalMeshs.results[i], @"\r?\n|\r");
 
                     foreach (string value in digits)
                     {
@@ -1538,65 +1482,67 @@ namespace UDKtoUE4Tool
 
             //find any Point lights, insert default entries if missing, then store the data into arrays for access
 
-            if (PointLightsMatch.Count != 0)
+            if (PointLights.Collection.Count != 0)
             {
-                NumberOfPLights = PointLightsMatch.Count;
-                label6.Text = "Point Lights: " + NumberOfPLights.ToString();
+                PointLights.Count = PointLights.Collection.Count;
+                label6.Text = "Point Lights: " + PointLights.Count.ToString();
 
                 //loop through all the matched blocks of text for Point PLights
-                PointLightResults = new string[PointLightsMatch.Count];
+                PointLights.results = new string[PointLights.Collection.Count];
 
 
-                for (i = 0; i < PointLightsMatch.Count; i++)
+                for (i = 0; i < PointLights.Collection.Count; i++)
                 {
                     //re-add the text that the Regex removed
-                    PointLightResults[i] = PointLightsMatch[i].Groups[0].Value.ToString();
+                    PointLights.results[i] = PointLights.Collection[i].Groups[0].Value.ToString();
 
                     //check for missing entries, if so push blank values into arrays
-                    if (PointLightResults[i].IndexOf("DrawScale3D=") == -1)
+                    if (PointLights.results[i].IndexOf("DrawScale3D=") == -1)
                     {
                         PLightsScale3D.Add(NoScale3D);
                     }
 
-                    if (PointLightResults[i].IndexOf("Location=") == -1)
+                    if (PointLights.results[i].IndexOf("Location=") == -1)
                     {
                         PLightsLocation.Add(NoLocation);
                     }
 
-                    if (PointLightResults[i].IndexOf("DrawScale=") == -1)
+                    if (PointLights.results[i].IndexOf("DrawScale=") == -1)
                     {
                         PLightsScale.Add("1.000000");
                     }
 
-                    if (PointLightResults[i].IndexOf("Rotation=") == -1)
+                    if (PointLights.results[i].IndexOf("Rotation=") == -1)
                     {
                         PLightsRotation.Add(NoRotation);
                     }
 
-                    if (PointLightResults[i].IndexOf(" Radius=") == -1)
+                    if (PointLights.results[i].IndexOf(" Radius=") == -1)
                     {
                         PLightsRadius.Add(NoRaduis);
                     }
 
-                    if (PointLightResults[i].IndexOf("LightColor=") == -1)
+                    if (PointLights.results[i].IndexOf("LightColor=") == -1)
                     {
                         PLightsColor.Add(NoColor);
                     }
 
-                    if (PointLightResults[i].IndexOf("Brightness=") == -1)
+                    if (PointLights.results[i].IndexOf("Brightness=") == -1)
                     {
                         PLightsIntensity.Add(NoIntensity);
                     }
 
-                    if (PointLightResults[i].IndexOf("Class=PointLightMovable") == -1)
+                    if (PointLights.results[i].IndexOf("Class=PointLightMovable") == -1)
                     {
                         PLightsMoveable.Add(false);
-                    } else {
+                    }
+                    else
+                    {
                         PLightsMoveable.Add(true);
                     }
 
                     //spilt each line of the text into an array to parse through
-                    digits = Regex.Split(PointLightResults[i], @"\r?\n|\r");
+                    digits = Regex.Split(PointLights.results[i], @"\r?\n|\r");
 
                     foreach (string value in digits)
                     {
@@ -1643,57 +1589,57 @@ namespace UDKtoUE4Tool
 
             //find any Dominant Point lights, insert default entries if missing, then store the data into arrays for access
 
-            if (DomPlightsMatch.Count != 0)
+            if (DomPointLights.Collection.Count != 0)
             {
-                NumberOfDomPLights = DomPlightsMatch.Count;
-                label6.Text = "Point Lights: " + (NumberOfPLights + NumberOfDomPLights).ToString();
+                DomPointLights.Count = DomPointLights.Collection.Count;
+                label6.Text = "Point Lights: " + (PointLights.Count + DomPointLights.Count).ToString();
 
                 //loop through all the matched blocks of text for Point PLights
-                DomPLightResults = new string[DomPlightsMatch.Count];
+                DomPointLights.results = new string[DomPointLights.Collection.Count];
 
-                for (i = 0; i < DomPlightsMatch.Count; i++)
+                for (i = 0; i < DomPointLights.Collection.Count; i++)
                 {
                     //re-add the text that the Regex removed
-                    DomPLightResults[i] = DomPlightsMatch[i].Groups[0].Value.ToString();
+                    DomPointLights.results[i] = DomPointLights.Collection[i].Groups[0].Value.ToString();
 
                     //check for missing entries, if so push blank values into arrays
-                    if (DomPLightResults[i].IndexOf("DrawScale3D=") == -1)
+                    if (DomPointLights.results[i].IndexOf("DrawScale3D=") == -1)
                     {
                         DomPLightsScale3D.Add(NoScale3D);
                     }
 
-                    if (DomPLightResults[i].IndexOf("Location=") == -1)
+                    if (DomPointLights.results[i].IndexOf("Location=") == -1)
                     {
                         DomPLightsLocation.Add(NoLocation);
                     }
 
-                    if (DomPLightResults[i].IndexOf("DrawScale=") == -1)
+                    if (DomPointLights.results[i].IndexOf("DrawScale=") == -1)
                     {
                         DomPLightsScale.Add("1.000000");
                     }
 
-                    if (DomPLightResults[i].IndexOf("Rotation=") == -1)
+                    if (DomPointLights.results[i].IndexOf("Rotation=") == -1)
                     {
                         DomPLightsRotation.Add(NoRotation);
                     }
 
-                    if (DomPLightResults[i].IndexOf(" Radius=") == -1)
+                    if (DomPointLights.results[i].IndexOf(" Radius=") == -1)
                     {
                         DomPLightsRadius.Add(NoRaduis);
                     }
 
-                    if (DomPLightResults[i].IndexOf("LightColor=") == -1)
+                    if (DomPointLights.results[i].IndexOf("LightColor=") == -1)
                     {
                         DomPLightsColor.Add(NoColor);
                     }
 
-                    if (DomPLightResults[i].IndexOf("Brightness=") == -1)
+                    if (DomPointLights.results[i].IndexOf("Brightness=") == -1)
                     {
                         DomPLightsIntensity.Add(NoIntensity);
                     }
 
                     //spilt each line of the text into an array to parse through
-                    digits = Regex.Split(DomPLightResults[i], @"\r?\n|\r");
+                    digits = Regex.Split(DomPointLights.results[i], @"\r?\n|\r");
 
                     foreach (string value in digits)
                     {
@@ -1740,66 +1686,66 @@ namespace UDKtoUE4Tool
 
             //find any Spot lights, insert default entries if missing, then store the data into arrays for access
 
-            if (SpotLightsMatch.Count != 0)
+            if (SpotLIghts.Collection.Count != 0)
             {
-                NumberOfSLights = SpotLightsMatch.Count;
-                label8.Text = "Spot Lights: " + NumberOfSLights.ToString();
+                SpotLIghts.Count = SpotLIghts.Collection.Count;
+                label8.Text = "Spot Lights: " + SpotLIghts.Count.ToString();
 
                 //loop through all the matched blocks of text for Spot Lights
-                SpotLightResults = new string[SpotLightsMatch.Count];
+                SpotLIghts.results = new string[SpotLIghts.Collection.Count];
 
-                for (i = 0; i < SpotLightsMatch.Count; i++)
+                for (i = 0; i < SpotLIghts.Collection.Count; i++)
                 {
                     //re-add the text that the Regex removed
-                    SpotLightResults[i] = SpotLightsMatch[i].Groups[0].Value.ToString();
+                    SpotLIghts.results[i] = SpotLIghts.Collection[i].Groups[0].Value.ToString();
 
                     //check for missing entries, if so push default values into arrays
-                    if (SpotLightResults[i].IndexOf("DrawScale3D=") == -1)
+                    if (SpotLIghts.results[i].IndexOf("DrawScale3D=") == -1)
                     {
                         SLightsScale3D.Add(NoScale3D);
                     }
 
-                    if (SpotLightResults[i].IndexOf("Location=") == -1)
+                    if (SpotLIghts.results[i].IndexOf("Location=") == -1)
                     {
                         SLightsLocation.Add(NoLocation);
                     }
 
-                    if (SpotLightResults[i].IndexOf("DrawScale=") == -1)
+                    if (SpotLIghts.results[i].IndexOf("DrawScale=") == -1)
                     {
                         SLightsScale.Add("1.000000");
                     }
 
-                    if (SpotLightResults[i].IndexOf("Rotation=") == -1)
+                    if (SpotLIghts.results[i].IndexOf("Rotation=") == -1)
                     {
                         SLightsRotation.Add("Rotation=(Pitch=-16384,Yaw=0,Roll=0)");
                     }
 
-                    if (SpotLightResults[i].IndexOf(" Radius=") == -1)
+                    if (SpotLIghts.results[i].IndexOf(" Radius=") == -1)
                     {
                         SLightsRadius.Add(NoRaduis);
                     }
 
-                    if (SpotLightResults[i].IndexOf("InnerConeAngle=") == -1)
+                    if (SpotLIghts.results[i].IndexOf("InnerConeAngle=") == -1)
                     {
                         SLightsInnerRadius.Add(NoInnerCone);
                     }
 
-                    if (SpotLightResults[i].IndexOf("OuterConeAngle=") == -1)
+                    if (SpotLIghts.results[i].IndexOf("OuterConeAngle=") == -1)
                     {
                         SLightsOutterRadius.Add(NoOutterCone);
                     }
 
-                    if (SpotLightResults[i].IndexOf("LightColor=") == -1)
+                    if (SpotLIghts.results[i].IndexOf("LightColor=") == -1)
                     {
                         SLightsColor.Add(NoColor);
                     }
 
-                    if (SpotLightResults[i].IndexOf("Brightness=") == -1)
+                    if (SpotLIghts.results[i].IndexOf("Brightness=") == -1)
                     {
                         SLightsIntensity.Add(NoIntensity);
                     }
 
-                    if (SpotLightResults[i].IndexOf("Class=SpotLightMovable") == -1)
+                    if (SpotLIghts.results[i].IndexOf("Class=SpotLightMovable") == -1)
                     {
                         SLightsMoveable.Add(false);
                     }
@@ -1809,7 +1755,7 @@ namespace UDKtoUE4Tool
                     }
 
                     //spilt each line of the text into an array to parse through
-                    digits = Regex.Split(SpotLightResults[i], @"\r?\n|\r");
+                    digits = Regex.Split(SpotLIghts.results[i], @"\r?\n|\r");
 
                     foreach (string value in digits)
                     {
@@ -1866,69 +1812,69 @@ namespace UDKtoUE4Tool
 
             //find any Dominant Spot lights, insert default entries if missing, then store the data into arrays for access
 
-            if (DomSLightsMatch.Count != 0)
+            if (DomSpotLIghts.Collection.Count != 0)
             {
 
-                NumberOfDomSLights = DomSLightsMatch.Count;
-                label8.Text = "Spot Lights: " + (NumberOfSLights + NumberOfDomSLights).ToString();
+                DomSpotLIghts.Count = DomSpotLIghts.Collection.Count;
+                label8.Text = "Spot Lights: " + (SpotLIghts.Count + DomSpotLIghts.Count).ToString();
 
                 //loop through all the matched blocks of text for Spot Lights
-                DomSLightResults = new string[DomSLightsMatch.Count];
+                DomSpotLIghts.results = new string[DomSpotLIghts.Collection.Count];
 
-                for (i = 0; i < DomSLightsMatch.Count; i++)
+                for (i = 0; i < DomSpotLIghts.Collection.Count; i++)
                 {
                     //re-add the text that the Regex removed
-                    DomSLightResults[i] = DomSLightsMatch[i].Groups[0].Value.ToString();
+                    DomSpotLIghts.results[i] = DomSpotLIghts.Collection[i].Groups[0].Value.ToString();
 
 
                     //check for missing entries, if so push default values into arrays
-                    if (DomSLightResults[i].IndexOf("DrawScale3D=") == -1)
+                    if (DomSpotLIghts.results[i].IndexOf("DrawScale3D=") == -1)
                     {
                         DomSLightsScale3D.Add(NoScale3D);
                     }
 
-                    if (DomSLightResults[i].IndexOf("Location=") == -1)
+                    if (DomSpotLIghts.results[i].IndexOf("Location=") == -1)
                     {
                         DomSLightsLocation.Add(NoLocation);
                     }
 
-                    if (DomSLightResults[i].IndexOf("DrawScale=") == -1)
+                    if (DomSpotLIghts.results[i].IndexOf("DrawScale=") == -1)
                     {
                         DomSLightsScale.Add("1.000000");
                     }
 
-                    if (DomSLightResults[i].IndexOf("Rotation=") == -1)
+                    if (DomSpotLIghts.results[i].IndexOf("Rotation=") == -1)
                     {
                         DomSLightsRotation.Add("Rotation=(Pitch=-16384,Yaw=0,Roll=0)");
                     }
 
-                    if (DomSLightResults[i].IndexOf(" Radius=") == -1)
+                    if (DomSpotLIghts.results[i].IndexOf(" Radius=") == -1)
                     {
                         DomSLightsRadius.Add(NoRaduis);
                     }
 
-                    if (DomSLightResults[i].IndexOf("InnerConeAngle=") == -1)
+                    if (DomSpotLIghts.results[i].IndexOf("InnerConeAngle=") == -1)
                     {
                         DomSLightsInnerRadius.Add(NoInnerCone);
                     }
 
-                    if (DomSLightResults[i].IndexOf("OuterConeAngle=") == -1)
+                    if (DomSpotLIghts.results[i].IndexOf("OuterConeAngle=") == -1)
                     {
                         DomSLightsOutterRadius.Add(NoOutterCone);
                     }
 
-                    if (DomSLightResults[i].IndexOf("LightColor=") == -1)
+                    if (DomSpotLIghts.results[i].IndexOf("LightColor=") == -1)
                     {
                         DomSLightsColor.Add(NoColor);
                     }
 
-                    if (DomSLightResults[i].IndexOf("Brightness=") == -1)
+                    if (DomSpotLIghts.results[i].IndexOf("Brightness=") == -1)
                     {
                         DomSLightsIntensity.Add(NoIntensity);
                     }
 
                     //spilt each line of the text into an array to parse through
-                    digits = Regex.Split(DomSLightResults[i], @"\r?\n|\r");
+                    digits = Regex.Split(DomSpotLIghts.results[i], @"\r?\n|\r");
 
                     foreach (string value in digits)
                     {
@@ -1985,52 +1931,52 @@ namespace UDKtoUE4Tool
 
             //find any Directional lights, insert default entries if missing, then store the data into arrays for access
 
-            if (DirLightsMatch.Count != 0)
+            if (DirectionalLights.Collection.Count != 0)
             {
-                NumberOfDLights = DirLightsMatch.Count;
-                label9.Text = "Directional Lights: " + NumberOfDLights.ToString();
+                DirectionalLights.Count = DirectionalLights.Collection.Count;
+                label9.Text = "Directional Lights: " + DirectionalLights.Count.ToString();
 
                 //loop through all the matched blocks of text for Directional Lights
-                DirLightResults = new string[DirLightsMatch.Count];
+                DirectionalLights.results = new string[DirectionalLights.Collection.Count];
 
-                for (i = 0; i < DirLightsMatch.Count; i++)
+                for (i = 0; i < DirectionalLights.Collection.Count; i++)
                 {
                     //re-add the text that the Regex removed
-                    DirLightResults[i] = DirLightsMatch[i].Groups[0].Value.ToString();
+                    DirectionalLights.results[i] = DirectionalLights.Collection[i].Groups[0].Value.ToString();
 
                     //check for missing entries, if so push default values into arrays
-                    if (DirLightResults[i].IndexOf("DrawScale3D=") == -1)
+                    if (DirectionalLights.results[i].IndexOf("DrawScale3D=") == -1)
                     {
                         DLightsScale3D.Add(NoScale3D);
                     }
 
-                    if (DirLightResults[i].IndexOf("Location=") == -1)
+                    if (DirectionalLights.results[i].IndexOf("Location=") == -1)
                     {
                         DLightsLocation.Add(NoLocation);
                     }
 
-                    if (DirLightResults[i].IndexOf("DrawScale=") == -1)
+                    if (DirectionalLights.results[i].IndexOf("DrawScale=") == -1)
                     {
                         DLightsScale.Add("1.000000");
                     }
 
-                    if (DirLightResults[i].IndexOf("Rotation=") == -1)
+                    if (DirectionalLights.results[i].IndexOf("Rotation=") == -1)
                     {
                         DLightsRotation.Add("Rotation=(Pitch=-16384,Yaw=0,Roll=0)");
                     }
 
-                    if (DirLightResults[i].IndexOf("LightColor=") == -1)
+                    if (DirectionalLights.results[i].IndexOf("LightColor=") == -1)
                     {
                         DLightsColor.Add(NoColor);
                     }
 
-                    if (DirLightResults[i].IndexOf("Brightness=") == -1)
+                    if (DirectionalLights.results[i].IndexOf("Brightness=") == -1)
                     {
                         DLightsIntensity.Add(NoIntensity);
                     }
 
                     //spilt each line of the text into an array to parse through
-                    digits = Regex.Split(DirLightResults[i], @"\r?\n|\r");
+                    digits = Regex.Split(DirectionalLights.results[i], @"\r?\n|\r");
 
                     foreach (string value in digits)
                     {
@@ -2072,52 +2018,52 @@ namespace UDKtoUE4Tool
 
             //find any Dominant Directional lights, insert default entries if missing, then store the data into arrays for access
 
-            if (DomDLightsMatch.Count != 0)
+            if (DomDirectionalLights.Collection.Count != 0)
             {
 
-                NumberOfDomDLights = DomDLightsMatch.Count;
-                label9.Text = "Directional Lights: " + (NumberOfDomDLights + NumberOfDLights).ToString();
+                DomDirectionalLights.Count = DomDirectionalLights.Collection.Count;
+                label9.Text = "Directional Lights: " + (DomDirectionalLights.Count + DirectionalLights.Count).ToString();
 
                 //loop through all the matched blocks of text for Directional Lights
-                DomDLightResults = new string[DomDLightsMatch.Count];
+                DomDirectionalLights.results = new string[DomDirectionalLights.Collection.Count];
 
-                for (i = 0; i < DomDLightsMatch.Count; i++)
+                for (i = 0; i < DomDirectionalLights.Collection.Count; i++)
                 {
                     //re-add the text that the Regex removed
-                    DomDLightResults[i] = DomDLightsMatch[i].Groups[0].Value.ToString();
+                    DomDirectionalLights.results[i] = DomDirectionalLights.Collection[i].Groups[0].Value.ToString();
 
                     //check for missing entries, if so push default values into arrays
-                    if (DomDLightResults[i].IndexOf("DrawScale3D=") == -1)
+                    if (DomDirectionalLights.results[i].IndexOf("DrawScale3D=") == -1)
                     {
                         DomDLightsScale3D.Add(NoScale3D);
                     }
 
-                    if (DomDLightResults[i].IndexOf("Location=") == -1)
+                    if (DomDirectionalLights.results[i].IndexOf("Location=") == -1)
                     {
                         DomDLightsLocation.Add(NoLocation);
                     }
 
-                    if (DomDLightResults[i].IndexOf("DrawScale=") == -1)
+                    if (DomDirectionalLights.results[i].IndexOf("DrawScale=") == -1)
                     {
                         DomDLightsScale.Add("1.000000");
                     }
 
-                    if (DomDLightResults[i].IndexOf("Rotation=") == -1)
+                    if (DomDirectionalLights.results[i].IndexOf("Rotation=") == -1)
                     {
                         DomDLightsRotation.Add("Rotation=(Pitch=-16384,Yaw=0,Roll=0)");
                     }
 
-                    if (DomDLightResults[i].IndexOf("LightColor=") == -1)
+                    if (DomDirectionalLights.results[i].IndexOf("LightColor=") == -1)
                     {
                         DomDLightsColor.Add(NoColor);
                     }
 
-                    if (DomDLightResults[i].IndexOf("Brightness=") == -1)
+                    if (DomDirectionalLights.results[i].IndexOf("Brightness=") == -1)
                     {
                         DomDLightsIntensity.Add(NoIntensity);
                     }
 
-                    if (DomDLightResults[i].IndexOf("Class=DirLightMovable") == -1)
+                    if (DomDirectionalLights.results[i].IndexOf("Class=DirLightMovable") == -1)
                     {
                         DomDLightsMoveable.Add(false);
                     }
@@ -2127,7 +2073,7 @@ namespace UDKtoUE4Tool
                     }
 
                     //spilt each line of the text into an array to parse through
-                    digits = Regex.Split(DomDLightResults[i], @"\r?\n|\r");
+                    digits = Regex.Split(DomDirectionalLights.results[i], @"\r?\n|\r");
 
                     foreach (string value in digits)
                     {
@@ -2169,43 +2115,43 @@ namespace UDKtoUE4Tool
 
             //find any PlayerStarts, insert default entries if missing, then store the data into arrays for access
 
-            if (PlayerStartMatch.Count != 0)
+            if (PlayerStarts.Collection.Count != 0)
             {
-                NumberOfPlayerStarts = PlayerStartMatch.Count;
-                label19.Text = "PlayerStarts: " + NumberOfPlayerStarts.ToString();
+                PlayerStarts.Count = PlayerStarts.Collection.Count;
+                label19.Text = "PlayerStarts: " + PlayerStarts.Count.ToString();
 
-                //fill the results array with the matches
-                PlayerStartResults = new string[PlayerStartMatch.Count];
+                //fill the StaticMeshes.results array with the matches
+                PlayerStarts.results = new string[PlayerStarts.Collection.Count];
 
                 //loop through all the matched blocks of text for static meshes
-                for (i = 0; i < PlayerStartMatch.Count; i++)
+                for (i = 0; i < PlayerStarts.Collection.Count; i++)
                 {
                     //re-add the text that the Regex removed
-                    PlayerStartResults[i] = PlayerStartMatch[i].Groups[0].Value.ToString();
+                    PlayerStarts.results[i] = PlayerStarts.Collection[i].Groups[0].Value.ToString();
 
-                    if (PlayerStartResults[i].IndexOf("Location=") == -1)
+                    if (PlayerStarts.results[i].IndexOf("Location=") == -1)
                     {
                         PlayerStartsLocation.Add(NoLocation);
                     }
 
                     //check for missing entries, if so push blank values into arrays
-                    if (PlayerStartResults[i].IndexOf("DrawScale3D=") == -1)
+                    if (PlayerStarts.results[i].IndexOf("DrawScale3D=") == -1)
                     {
                         PlayerStartsScale3D.Add(NoScale3D);
                     }
 
-                    if (PlayerStartResults[i].IndexOf("DrawScale=") == -1)
+                    if (PlayerStarts.results[i].IndexOf("DrawScale=") == -1)
                     {
                         PlayerStartsScale.Add("1.000000");
                     }
 
-                    if (PlayerStartResults[i].IndexOf("Rotation=") == -1)
+                    if (PlayerStarts.results[i].IndexOf("Rotation=") == -1)
                     {
                         PlayerStartsRotation.Add(NoRotation);
                     }
 
                     //spilt each line of the text into an array to parse through
-                    digits = Regex.Split(PlayerStartResults[i], @"\r?\n|\r");
+                    digits = Regex.Split(PlayerStarts.results[i], @"\r?\n|\r");
 
                     foreach (string value in digits)
                     {
@@ -2237,53 +2183,53 @@ namespace UDKtoUE4Tool
 
             //find any Cameras, insert default entries if missing, then store the data into arrays for access
 
-            if (CameraMatch.Count != 0)
+            if (Cameras.Collection.Count != 0)
             {
-                NumberOfCameras = CameraMatch.Count;
-                label12.Text = "Cameras: " + NumberOfCameras.ToString();
+                Cameras.Count = Cameras.Collection.Count;
+                label12.Text = "Cameras: " + Cameras.Count.ToString();
 
-                //fill the results array with the matches
-                CameraResults = new string[CameraMatch.Count];
+                //fill the StaticMeshes.results array with the matches
+                Cameras.results = new string[Cameras.Collection.Count];
 
                 //loop through all the matched blocks of text for static meshes
-                for (i = 0; i < CameraMatch.Count; i++)
+                for (i = 0; i < Cameras.Collection.Count; i++)
                 {
                     //re-add the text that the Regex removed
-                    CameraResults[i] = CameraMatch[i].Groups[0].Value.ToString();
+                    Cameras.results[i] = Cameras.Collection[i].Groups[0].Value.ToString();
 
-                    if (CameraResults[i].IndexOf("Location=") == -1)
+                    if (Cameras.results[i].IndexOf("Location=") == -1)
                     {
 
                         CamerasLocation.Add(NoLocation);
                     }
 
                     //check for missing entries, if so push blank values into arrays
-                    if (CameraResults[i].IndexOf("DrawScale3D=") == -1)
+                    if (Cameras.results[i].IndexOf("DrawScale3D=") == -1)
                     {
                         CamerasScale3D.Add(NoScale3D);
                     }
 
-                    if (CameraResults[i].IndexOf("DrawScale=") == -1)
+                    if (Cameras.results[i].IndexOf("DrawScale=") == -1)
                     {
                         CamerasScale.Add("1.000000");
                     }
 
-                    if (CameraResults[i].IndexOf("Rotation=") == -1)
+                    if (Cameras.results[i].IndexOf("Rotation=") == -1)
                     {
                         CamerasRotation.Add(NoRotation);
                     }
 
-                    if (CameraResults[i].IndexOf("FOVAngle=") == -1)
+                    if (Cameras.results[i].IndexOf("FOVAngle=") == -1)
                     {
                         CamerasFOV.Add("FOVAngle=90.000000");
                     }
 
-                    if (CameraResults[i].IndexOf(" AspectRatio=") == -1)
+                    if (Cameras.results[i].IndexOf(" AspectRatio=") == -1)
                     {
                         CamerasAS.Add(" AspectRatio=1.777778");
                     }
 
-                    if (CameraResults[i].IndexOf("bConstrainAspectRatio=") == -1)
+                    if (Cameras.results[i].IndexOf("bConstrainAspectRatio=") == -1)
                     {
                         CamerasConstrainAS.Add(false);
                     }
@@ -2293,7 +2239,7 @@ namespace UDKtoUE4Tool
                     }
 
                     //spilt each line of the text into an array to parse through
-                    digits = Regex.Split(CameraResults[i], @"\r?\n|\r");
+                    digits = Regex.Split(Cameras.results[i], @"\r?\n|\r");
 
                     foreach (string value in digits)
                     {
@@ -2333,25 +2279,25 @@ namespace UDKtoUE4Tool
 
             //find any sounds
 
-            if (SoundsMatch.Count != 0)
+            if (Sounds.Collection.Count != 0)
             {
-                NumberOfSounds = SoundsMatch.Count;
-                //label23.text = "Sounds: " + NumberOfSounds.ToString();
-                //fill the results array with the matches
-                SoundsResults = new string[SoundsMatch.Count];
+                Sounds.Count = Sounds.Collection.Count;
+                //label23.text = "Sounds: " + Sounds.Count.ToString();
+                //fill the StaticMeshes.results array with the matches
+                Sounds.results = new string[Sounds.Collection.Count];
 
                 //loop through all the matched blocks of text for static meshes
-                for (i = 0; i < SoundsMatch.Count; i++)
+                for (i = 0; i < Sounds.Collection.Count; i++)
                 {
                     //re-add the text that the Regex removed
-                    SoundsResults[i] = SoundsMatch[i].Groups[0].Value.ToString();
+                    Sounds.results[i] = Sounds.Collection[i].Groups[0].Value.ToString();
 
-                    if (SoundsResults[i].IndexOf("Location=") == -1)
+                    if (Sounds.results[i].IndexOf("Location=") == -1)
                     {
                         SoundsLocation.Add(NoLocation);
                     }
 
-                    if (SoundsResults[i].IndexOf("=AmbientSoundSimple") == -1)
+                    if (Sounds.results[i].IndexOf("=AmbientSoundSimple") == -1)
                     {
                         SoundsSimple.Add(false);
                     }
@@ -2360,33 +2306,33 @@ namespace UDKtoUE4Tool
                         SoundsSimple.Add(true);
                     }
 
-                    if (SoundsResults[i].IndexOf(" SoundCue=") == -1)
+                    if (Sounds.results[i].IndexOf(" SoundCue=") == -1)
                     {
                         SoundCue.Add(string.Empty);
                     }
 
-                    if (SoundsResults[i].IndexOf("SoundSlots(0)=") == -1)
+                    if (Sounds.results[i].IndexOf("SoundSlots(0)=") == -1)
                     {
                         SoundsSlots.Add(string.Empty);
                     }
 
                     //check for mising entries, if so push blank values into arrays
-                    if (SoundsResults[i].IndexOf("DrawScale3D=") == -1)
+                    if (Sounds.results[i].IndexOf("DrawScale3D=") == -1)
                     {
                         SoundsScale3D.Add(NoScale3D);
                     }
 
-                    if (SoundsResults[i].IndexOf("DrawScale=") == -1)
+                    if (Sounds.results[i].IndexOf("DrawScale=") == -1)
                     {
                         SoundsScale.Add("1.000000");
                     }
 
-                    if (SoundsResults[i].IndexOf("Rotation=") == -1)
+                    if (Sounds.results[i].IndexOf("Rotation=") == -1)
                     {
                         SoundsRotation.Add(NoRotation);
                     }
 
-                    if (SoundsResults[i].IndexOf(" bAttenuate=") == -1)
+                    if (Sounds.results[i].IndexOf(" bAttenuate=") == -1)
                     {
                         SoundsAttenuate.Add(false);
                     }
@@ -2395,7 +2341,7 @@ namespace UDKtoUE4Tool
                         SoundsAttenuate.Add(true);
                     }
 
-                    if (SoundsResults[i].IndexOf(" bAttenuateWithLPF=") == -1)
+                    if (Sounds.results[i].IndexOf(" bAttenuateWithLPF=") == -1)
                     {
                         SoundsAttenuateLPF.Add(false);
                     }
@@ -2405,7 +2351,7 @@ namespace UDKtoUE4Tool
                     }
 
 
-                    if (SoundsResults[i].IndexOf(" bSpatialize=") == -1)
+                    if (Sounds.results[i].IndexOf(" bSpatialize=") == -1)
                     {
                         SoundsSpatialize.Add(false);
                     }
@@ -2414,67 +2360,68 @@ namespace UDKtoUE4Tool
                         SoundsSpatialize.Add(true);
                     }
 
-                    if (SoundsResults[i].IndexOf(" LPFRadiusMin=") == -1)
+                    if (Sounds.results[i].IndexOf(" LPFRadiusMin=") == -1)
                     {
                         SoundsLPFMin.Add("LPFRadiusMin=3500.0");
                     }
 
-                    if (SoundsResults[i].IndexOf(" LPFRadiusMax=") == -1)
+                    if (Sounds.results[i].IndexOf(" LPFRadiusMax=") == -1)
                     {
                         SoundsLPFMax.Add("LPFRadiusMax=7000.0");
                     }
 
-                    if (SoundsResults[i].IndexOf(" DistanceModel=") == -1)
+                    if (Sounds.results[i].IndexOf(" DistanceModel=") == -1)
                     {
                         SoundsDM.Add(string.Empty);
                     }
 
-                    if (SoundsResults[i].IndexOf(" RadiusMin=") == -1)
+                    if (Sounds.results[i].IndexOf(" RadiusMin=") == -1)
                     {
                         SoundsRadiusMin.Add("RadiusMin=2000.000000");
                     }
 
-                    if (SoundsResults[i].IndexOf(" RadiusMax=") == -1)
+                    if (Sounds.results[i].IndexOf(" RadiusMax=") == -1)
                     {
                         SoundsRadiusMax.Add("RadiusMax=5000.000000");
                     }
 
-                    if (SoundsResults[i].IndexOf(" PitchMin=") == -1)
+                    if (Sounds.results[i].IndexOf(" PitchMin=") == -1)
                     {
                         SoundsPitchMin.Add("PitchMin=1.000000");
                     }
 
-                    if (SoundsResults[i].IndexOf(" PitchMax=") == -1)
+                    if (Sounds.results[i].IndexOf(" PitchMax=") == -1)
                     {
                         SoundsPitchMax.Add("PitchMax=1.000000");
                     }
 
-                    if (SoundsResults[i].IndexOf(" VolumeMin=") == -1)
+                    if (Sounds.results[i].IndexOf(" VolumeMin=") == -1)
                     {
                         SoundsVolMin.Add("VolumeMin=0.700000");
                     }
 
-                    if (SoundsResults[i].IndexOf(" VolumeMax=") == -1)
+                    if (Sounds.results[i].IndexOf(" VolumeMax=") == -1)
                     {
                         SoundsVolMax.Add("VolumeMax=0.700000");
                     }
 
-                    if (SoundsResults[i].IndexOf(" HighFrequencyGainMultiplier=") == -1) {
+                    if (Sounds.results[i].IndexOf(" HighFrequencyGainMultiplier=") == -1)
+                    {
                         SoundsHFMulti.Add("HighFrequencyGainMultiplier=1.000000");
                     }
 
-                    if (SoundsResults[i].IndexOf(" VolumeMultiplier=") == -1)
+                    if (Sounds.results[i].IndexOf(" VolumeMultiplier=") == -1)
                     {
                         SoundsVolumeMulti.Add("VolumeMultiplier=1.000000");
                     }
 
-                    if (SoundsResults[i].IndexOf(" PitchMultiplier=") == -1)
+                    if (Sounds.results[i].IndexOf(" PitchMultiplier=") == -1)
                     {
                         SoundsPitchMulti.Add("PitchMultiplier=1.000000");
                     }
 
                     //spilt each line of the text into an array to parse through
-                    digits = Regex.Split(SoundsResults[i], @"\r?\n|\r");
+                    digits = Regex.Split(Sounds.results[i], @"\r?\n|\r");
 
                     foreach (string value in digits)
                     {
@@ -2573,47 +2520,47 @@ namespace UDKtoUE4Tool
 
             //find any decals
 
-            if (DecalsMatch.Count != 0)
+            if (Decals.Collection.Count != 0)
             {
-                NumberOfDecals = DecalsMatch.Count;
-                label20.Text = "Decals: " + NumberOfDecals.ToString();
+                Decals.Count = Decals.Collection.Count;
+                label20.Text = "Decals: " + Decals.Count.ToString();
 
-                //fill the results array with the matches
-                DecalsResults = new string[DecalsMatch.Count];
+                //fill the StaticMeshes.results array with the matches
+                Decals.results = new string[Decals.Collection.Count];
 
                 //loop through all the matched blocks of text for static meshes
-                for (i = 0; i < DecalsMatch.Count; i++)
+                for (i = 0; i < Decals.Collection.Count; i++)
                 {
                     //re-add the text that the Regex removed
-                    DecalsResults[i] = DecalsMatch[i].Groups[0].Value.ToString();
+                    Decals.results[i] = Decals.Collection[i].Groups[0].Value.ToString();
 
-                    if (DecalsResults[i].IndexOf(" Location=") == -1)
+                    if (Decals.results[i].IndexOf(" Location=") == -1)
                     {
                         DecalsLocation.Add(NoLocation);
                     }
 
-                    if (DecalsResults[i].IndexOf(" Rotation=") == -1)
+                    if (Decals.results[i].IndexOf(" Rotation=") == -1)
                     {
                         DecalsRotation.Add(NoRotation);
                     }
 
-                    if (DecalsResults[i].IndexOf("DecalMaterial=") == -1)
+                    if (Decals.results[i].IndexOf("DecalMaterial=") == -1)
                     {
                         DecalsMat.Add("");
                     }
 
-                    if (DecalsResults[i].IndexOf(" Width=") == -1)
+                    if (Decals.results[i].IndexOf(" Width=") == -1)
                     {
                         DecalsWidth.Add("Width=200.000000");
                     }
 
-                    if (DecalsResults[i].IndexOf(" Height") == -1)
+                    if (Decals.results[i].IndexOf(" Height") == -1)
                     {
                         DecalsHeight.Add("Height=200.000000");
                     }
 
                     //spilt each line of the text into an array to parse through
-                    digits = Regex.Split(DecalsResults[i], @"\r?\n|\r");
+                    digits = Regex.Split(Decals.results[i], @"\r?\n|\r");
 
                     foreach (string value in digits)
                     {
@@ -2651,49 +2598,49 @@ namespace UDKtoUE4Tool
 
             //particles
 
-            if (ParticlesMatch.Count != 0)
+            if (Particles1.Collection.Count != 0)
             {
                 //store the number of assets, update the label
-                NumberOfParticles = ParticlesMatch.Count;
-                // label21.Text = "Particles: " + NumberOfParticles.ToString();
+                Particles1.Count = Particles1.Collection.Count;
+                // label21.Text = "Particles: " + Particles1.Count.ToString();
 
-                //fill the results array with the matches
-                ParticlesResults = new string[ParticlesMatch.Count];
+                //fill the StaticMeshes.results array with the matches
+                Particles1.results = new string[Particles1.Collection.Count];
 
                 //loop through all the matched blocParticless of text for static meshes
-                for (i = 0; i < ParticlesMatch.Count; i++)
+                for (i = 0; i < Particles1.Collection.Count; i++)
                 {
                     //re-add the text that the Regex removed
-                    ParticlesResults[i] = ParticlesMatch[i].Groups[0].Value.ToString();
+                    Particles1.results[i] = Particles1.Collection[i].Groups[0].Value.ToString();
 
-                    if (ParticlesResults[i].IndexOf("Template=") == -1)
+                    if (Particles1.results[i].IndexOf("Template=") == -1)
                     {
                         Particles.Add(string.Empty);
                     }
 
-                    if (ParticlesResults[i].IndexOf("Location=") == -1)
+                    if (Particles1.results[i].IndexOf("Location=") == -1)
                     {
                         ParticlesLocation.Add(NoLocation);
                     }
 
                     //checParticles for missing entries, if so push blanParticles values into arrays
-                    if (ParticlesResults[i].IndexOf("DrawScale3D=") == -1)
+                    if (Particles1.results[i].IndexOf("DrawScale3D=") == -1)
                     {
                         ParticlesScale3D.Add(NoScale3D);
                     }
 
-                    if (ParticlesResults[i].IndexOf("DrawScale=") == -1)
+                    if (Particles1.results[i].IndexOf("DrawScale=") == -1)
                     {
                         ParticlesScale.Add("1.000000");
                     }
 
-                    if (ParticlesResults[i].IndexOf("Rotation=") == -1)
+                    if (Particles1.results[i].IndexOf("Rotation=") == -1)
                     {
                         ParticlesRotation.Add(NoRotation);
                     }
 
                     //spilt each line of the text into an array to parse through
-                    digits = Regex.Split(ParticlesResults[i], @"\r?\n|\r");
+                    digits = Regex.Split(Particles1.results[i], @"\r?\n|\r");
 
                     foreach (string value in digits)
                     {
@@ -2731,7 +2678,8 @@ namespace UDKtoUE4Tool
                         }
 
                     }
-                    if (materialsTemp != string.Empty) {
+                    if (materialsTemp != string.Empty)
+                    {
                         ParticlesMaterials.Add(materialsTemp);
                     }
                     else
@@ -2742,84 +2690,84 @@ namespace UDKtoUE4Tool
                 }
             }
 
-            if (FogMatch.Count != 0)
+            if (Fogs.Collection.Count != 0)
             {
                 //store the number of assets, update the label
-                NumberofFog = FogMatch.Count;
-                label22.Text = "Fog: " + NumberofFog.ToString();
+                Fogs.Count = Fogs.Collection.Count;
+                label22.Text = "Fog: " + Fogs.Count.ToString();
 
-                //fill the results array with the matches
-                FogResults = new string[FogMatch.Count];
+                //fill the StaticMeshes.results array with the matches
+                Fogs.results = new string[Fogs.Collection.Count];
 
                 //loop through all the matched blocFog of text for static meshes
-                for (i = 0; i < FogMatch.Count; i++)
+                for (i = 0; i < Fogs.Collection.Count; i++)
                 {
                     //re-add the text that the Regex removed
-                    FogResults[i] = FogMatch[i].Groups[0].Value.ToString();
+                    Fogs.results[i] = Fogs.Collection[i].Groups[0].Value.ToString();
 
-                    if (FogResults[i].IndexOf("Begin Actor Class=ExponentialHeightFog") == -1)
+                    if (Fogs.results[i].IndexOf("Begin Actor Class=ExponentialHeightFog") == -1)
                     {
                         FogName.Add(string.Empty);
                     }
 
-                    if (FogResults[i].IndexOf("Location=") == -1)
+                    if (Fogs.results[i].IndexOf("Location=") == -1)
                     {
                         FogLocation.Add(NoLocation);
                     }
 
                     //checFog for missing entries, if so push blanFog values into arrays
-                    if (FogResults[i].IndexOf("DrawScale3D=") == -1)
+                    if (Fogs.results[i].IndexOf("DrawScale3D=") == -1)
                     {
                         FogScale3D.Add(NoScale3D);
                     }
 
-                    if (FogResults[i].IndexOf("DrawScale=") == -1)
+                    if (Fogs.results[i].IndexOf("DrawScale=") == -1)
                     {
                         FogScale.Add("1.000000");
                     }
 
-                    if (FogResults[i].IndexOf("Rotation=") == -1)
+                    if (Fogs.results[i].IndexOf("Rotation=") == -1)
                     {
                         FogRotation.Add(NoRotation);
                     }
 
-                    if (FogResults[i].IndexOf("Rotation=") == -1)
+                    if (Fogs.results[i].IndexOf("Rotation=") == -1)
                     {
                         FogRotation.Add(NoRotation);
                     }
 
-                    if (FogResults[i].IndexOf("FogDensity=") == -1)
+                    if (Fogs.results[i].IndexOf("FogDensity=") == -1)
                     {
                         FogDensity.Add("FogDensity=0.020000");
                     }
 
-                    if (FogResults[i].IndexOf("FogHeightFalloff=") == -1)
+                    if (Fogs.results[i].IndexOf("FogHeightFalloff=") == -1)
                     {
                         FogHeightFalloff.Add("FogHeightFalloff=0.200000");
                     }
 
-                    if (FogResults[i].IndexOf("FogMaxOpacity=") == -1)
+                    if (Fogs.results[i].IndexOf("FogMaxOpacity=") == -1)
                     {
                         FogMaxOpacity.Add("FogMaxOpacity=1.000000");
                     }
 
-                    if (FogResults[i].IndexOf("StartDistance=") == -1)
+                    if (Fogs.results[i].IndexOf("StartDistance=") == -1)
                     {
                         FogStartDistance.Add("StartDistance=0");
                     }
 
-                    if (FogResults[i].IndexOf("OppositeLightColor=") == -1)
+                    if (Fogs.results[i].IndexOf("OppositeLightColor=") == -1)
                     {
                         FogOppLightColor.Add("OppositeLightColor=(B=243,G=208,R=177,A=0)");
                     }
 
-                    if (FogResults[i].IndexOf("LightInscatteringColor=") == -1)
+                    if (Fogs.results[i].IndexOf("LightInscatteringColor=") == -1)
                     {
                         FogLightInScatterColor.Add("LightInscatteringColor=(B=31,G=212,R=245,A=0)");
                     }
 
                     //spilt each line of the text into an array to parse through
-                    digits = Regex.Split(FogResults[i], @"\r?\n|\r");
+                    digits = Regex.Split(Fogs.results[i], @"\r?\n|\r");
 
                     foreach (string value in digits)
                     {
@@ -2879,7 +2827,7 @@ namespace UDKtoUE4Tool
 
             if (checkedListBox1.GetItemCheckState(0) == CheckState.Checked)
             {
-                if (StaticMeshmatch.Count != 0)
+                if (StaticMeshes.Collection.Count != 0)
                 {
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
                     for (i = 0; i <= NumberOfAssets - 1; i++)
@@ -2890,7 +2838,7 @@ namespace UDKtoUE4Tool
                         rotation[i] = ConversionTools.ConvertRotation(rotation, i);
                         scale[i] = ConversionTools.ConvertScale(scale, i);
                         scale3D[i] = ConversionTools.ConvertScale3D(scale3D, i, scale, richTextBox1, CB_MultiplyScale);
-                        
+
                         //Console.Write(Materials[i] + Environment.NewLine);
                         if (Materials[i] != string.Empty && Materials[i] != null)
                         {
@@ -2915,24 +2863,24 @@ namespace UDKtoUE4Tool
                         //create a new static mesh entry using UE4 syntax for every static mesh found
                         for (i = 0; i <= NumberOfAssets - 1; i++)
                         {
-                            LoopOutput = LoopOutput + Environment.NewLine + "      Begin Actor Class=StaticMeshActor Name=" + Name2[i] + " Archetype=StaticMeshActor'/Script/Engine.Default__StaticMeshActor'" + Environment.NewLine + "         Begin Object Class=StaticMeshComponent Name=StaticMeshComponent0 ObjName=StaticMeshComponent0 Archetype=StaticMeshComponent'/Script/Engine.Default__StaticMeshActor:StaticMeshComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Name=StaticMeshComponent0" + Environment.NewLine;
-                            LoopOutput = LoopOutput + "        " + StaticMesh[i] + Environment.NewLine;
+                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + Environment.NewLine + "      Begin Actor Class=StaticMeshActor Name=" + Name2[i] + " Archetype=StaticMeshActor'/Script/Engine.Default__StaticMeshActor'" + Environment.NewLine + "         Begin Object Class=StaticMeshComponent Name=StaticMeshComponent0 ObjName=StaticMeshComponent0 Archetype=StaticMeshComponent'/Script/Engine.Default__StaticMeshActor:StaticMeshComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Name=StaticMeshComponent0" + Environment.NewLine;
+                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "        " + StaticMesh[i] + Environment.NewLine;
                             if (Materials[i] != string.Empty)
                             {
-                                LoopOutput = LoopOutput + Materials[i];
+                                StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + Materials[i];
                             }
                             if (LightMap[i] != string.Empty)
                             {
-                                LoopOutput = LoopOutput + "                    bOverrideLightMapRes=True" + Environment.NewLine + "        " + LightMap[i] + Environment.NewLine;
+                                StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "                    bOverrideLightMapRes=True" + Environment.NewLine + "        " + LightMap[i] + Environment.NewLine;
                             }
-                            LoopOutput = LoopOutput + "                    BodyInstance=(Scale3D=(" + scale3D[i] + "))" + Environment.NewLine;
-                            LoopOutput = LoopOutput + "           " + location[i] + Environment.NewLine + "            " + rotation[i] + Environment.NewLine + "                    RelativeScale3D=" + scale3D[i] + Environment.NewLine;
+                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "                    BodyInstance=(Scale3D=(" + scale3D[i] + "))" + Environment.NewLine;
+                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "           " + location[i] + Environment.NewLine + "            " + rotation[i] + Environment.NewLine + "                    RelativeScale3D=" + scale3D[i] + Environment.NewLine;
 
                             if (VertexColors[i] != string.Empty)
                             {
-                                LoopOutput = LoopOutput + VertexColors[i] + Environment.NewLine;
+                                StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + VertexColors[i] + Environment.NewLine;
                             }
-                            LoopOutput = LoopOutput + "         End Object" + Environment.NewLine + "        StaticMeshComponent=StaticMeshComponent0" + Environment.NewLine + "        RootComponent=StaticMeshComponent0" + Environment.NewLine + "        ActorLabel=\"" + Name2[i] + "\"\n      End Actor";
+                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "         End Object" + Environment.NewLine + "        StaticMeshComponent=StaticMeshComponent0" + Environment.NewLine + "        RootComponent=StaticMeshComponent0" + Environment.NewLine + "        ActorLabel=\"" + Name2[i] + "\"\n      End Actor";
 
                         }
                     }
@@ -2941,24 +2889,24 @@ namespace UDKtoUE4Tool
                         //UE5
                         for (i = 0; i <= NumberOfAssets - 1; i++)
                         {
-                            LoopOutput = LoopOutput + Environment.NewLine + "      Begin Actor Class=StaticMeshActor Name=" + Name2[i] + " Archetype=StaticMeshActor'/Script/Engine.Default__StaticMeshActor'" + Environment.NewLine + "         Begin Object Class=StaticMeshComponent Name=StaticMeshComponent0 ObjName=StaticMeshComponent0 Archetype=StaticMeshComponent'/Script/Engine.Default__StaticMeshActor:StaticMeshComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Name=StaticMeshComponent0" + Environment.NewLine;
-                            LoopOutput = LoopOutput + "        " + StaticMesh[i] + Environment.NewLine;
+                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + Environment.NewLine + "      Begin Actor Class=StaticMeshActor Name=" + Name2[i] + " Archetype=StaticMeshActor'/Script/Engine.Default__StaticMeshActor'" + Environment.NewLine + "         Begin Object Class=StaticMeshComponent Name=StaticMeshComponent0 ObjName=StaticMeshComponent0 Archetype=StaticMeshComponent'/Script/Engine.Default__StaticMeshActor:StaticMeshComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Name=StaticMeshComponent0" + Environment.NewLine;
+                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "        " + StaticMesh[i] + Environment.NewLine;
                             if (Materials[i] != string.Empty)
                             {
-                                LoopOutput = LoopOutput + Materials[i];
+                                StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + Materials[i];
                             }
                             if (LightMap[i] != string.Empty)
                             {
-                                LoopOutput = LoopOutput + "                    bOverrideLightMapRes=True" + Environment.NewLine + "        " + LightMap[i] + Environment.NewLine;
+                                StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "                    bOverrideLightMapRes=True" + Environment.NewLine + "        " + LightMap[i] + Environment.NewLine;
                             }
-                            LoopOutput = LoopOutput + "                    BodyInstance=(Scale3D=(" + scale3D[i] + "))" + Environment.NewLine;
-                            LoopOutput = LoopOutput + "           " + location[i] + Environment.NewLine + "            " + rotation[i] + Environment.NewLine + "                    RelativeScale3D=" + scale3D[i] + Environment.NewLine;
+                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "                    BodyInstance=(Scale3D=(" + scale3D[i] + "))" + Environment.NewLine;
+                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "           " + location[i] + Environment.NewLine + "            " + rotation[i] + Environment.NewLine + "                    RelativeScale3D=" + scale3D[i] + Environment.NewLine;
 
                             if (VertexColors[i] != string.Empty)
                             {
-                                LoopOutput = LoopOutput + VertexColors[i] + Environment.NewLine;
+                                StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + VertexColors[i] + Environment.NewLine;
                             }
-                            LoopOutput = LoopOutput + "         End Object" + Environment.NewLine + "        StaticMeshComponent=StaticMeshComponent0" + Environment.NewLine + "        RootComponent=StaticMeshComponent0" + Environment.NewLine + "        ActorLabel=\"" + Name2[i] + "\"\n      End Actor";
+                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "         End Object" + Environment.NewLine + "        StaticMeshComponent=StaticMeshComponent0" + Environment.NewLine + "        RootComponent=StaticMeshComponent0" + Environment.NewLine + "        ActorLabel=\"" + Name2[i] + "\"\n      End Actor";
 
                         }
                     }
@@ -2969,10 +2917,10 @@ namespace UDKtoUE4Tool
             //KActor Output
             if (checkedListBox1.GetItemCheckState(2) == CheckState.Checked)
             {
-                if (Kactormatch.Count != 0)
+                if (KStaticMeshs.Collection.Count != 0)
                 {
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
-                    for (i = 0; i <= NumberOfKactors - 1; i++)
+                    for (i = 0; i <= KStaticMeshs.Count - 1; i++)
                     {
                         KName2[i] = ConversionTools.ConvertName(KName2, i);
                         KStaticMesh[i] = ConversionTools.ConvertStaticMeshPath(KStaticMesh, i, 0, TB_AssetPath);
@@ -2988,25 +2936,25 @@ namespace UDKtoUE4Tool
                     }
 
                     //create a new static mesh entry using UE4 syntax for every static mesh found
-                    for (i = 0; i <= NumberOfKactors - 1; i++)
+                    for (i = 0; i <= KStaticMeshs.Count - 1; i++)
                     {
-                        KactorOutput = KactorOutput + Environment.NewLine + "      Begin Actor Class=StaticMeshActor Name=" + KName2[i] + " Archetype=StaticMeshActor'/Script/Engine.Default__StaticMeshActor'" + Environment.NewLine + "         Begin Object Class=StaticMeshComponent Name=StaticMeshComponent0 ObjName=StaticMeshComponent0 Archetype=StaticMeshComponent'/Script/Engine.Default__StaticMeshActor:StaticMeshComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Name=StaticMeshComponent0" + Environment.NewLine;
-                        KactorOutput = KactorOutput + "        " + KStaticMesh[i] + Environment.NewLine;
+                        KStaticMeshs.FinalOutput = KStaticMeshs.FinalOutput + Environment.NewLine + "      Begin Actor Class=StaticMeshActor Name=" + KName2[i] + " Archetype=StaticMeshActor'/Script/Engine.Default__StaticMeshActor'" + Environment.NewLine + "         Begin Object Class=StaticMeshComponent Name=StaticMeshComponent0 ObjName=StaticMeshComponent0 Archetype=StaticMeshComponent'/Script/Engine.Default__StaticMeshActor:StaticMeshComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Name=StaticMeshComponent0" + Environment.NewLine;
+                        KStaticMeshs.FinalOutput = KStaticMeshs.FinalOutput + "        " + KStaticMesh[i] + Environment.NewLine;
                         if (KMaterials[i] != string.Empty)
                         {
-                            KactorOutput = KactorOutput + KMaterials[i];
+                            KStaticMeshs.FinalOutput = KStaticMeshs.FinalOutput + KMaterials[i];
                         }
                         if (KLightMap[i] != string.Empty)
                         {
-                            LoopOutput = LoopOutput + "                    bOverrideLightMapRes=True" + Environment.NewLine + "     " + KLightMap[i] + Environment.NewLine;
+                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "                    bOverrideLightMapRes=True" + Environment.NewLine + "     " + KLightMap[i] + Environment.NewLine;
                         }
-                        KactorOutput = KactorOutput + "                    BodyInstance=(Scale3D=" + Kscale3D[i] + ",CollisionProfileName=\"PhysicsActor\",ObjectType=ECC_PhysicsBody,bSimulatePhysics=True)" + Environment.NewLine + "            Mobility=Movable" + Environment.NewLine;
-                        KactorOutput = KactorOutput + "           " + Klocation[i] + Environment.NewLine + "            " + Krotation[i] + Environment.NewLine + "                    RelativeScale3D=" + Kscale3D[i] + Environment.NewLine + "         End Object" + Environment.NewLine + "        StaticMeshComponent=StaticMeshComponent0" + Environment.NewLine;
+                        KStaticMeshs.FinalOutput = KStaticMeshs.FinalOutput + "                    BodyInstance=(Scale3D=" + Kscale3D[i] + ",CollisionProfileName=\"PhysicsActor\",ObjectType=ECC_PhysicsBody,bSimulatePhysics=True)" + Environment.NewLine + "            Mobility=Movable" + Environment.NewLine;
+                        KStaticMeshs.FinalOutput = KStaticMeshs.FinalOutput + "           " + Klocation[i] + Environment.NewLine + "            " + Krotation[i] + Environment.NewLine + "                    RelativeScale3D=" + Kscale3D[i] + Environment.NewLine + "         End Object" + Environment.NewLine + "        StaticMeshComponent=StaticMeshComponent0" + Environment.NewLine;
                         if (Kdamage[i])
                         {
-                            KactorOutput = KactorOutput + "bCanBeDamaged=True" + Environment.NewLine;
+                            KStaticMeshs.FinalOutput = KStaticMeshs.FinalOutput + "bCanBeDamaged=True" + Environment.NewLine;
                         }
-                        KactorOutput = KactorOutput + "       RootComponent=StaticMeshComponent0" + Environment.NewLine + "        ActorLabel=\"" + KName2[i] + "\"\n      End Actor";
+                        KStaticMeshs.FinalOutput = KStaticMeshs.FinalOutput + "       RootComponent=StaticMeshComponent0" + Environment.NewLine + "        ActorLabel=\"" + KName2[i] + "\"\n      End Actor";
                     }
                 }
             }
@@ -3015,10 +2963,10 @@ namespace UDKtoUE4Tool
             //interop actors
             if (checkedListBox1.GetItemCheckState(3) == CheckState.Checked)
             {
-                if (InterpMatch.Count != 0)
+                if (InteropStaticMeshs.Collection.Count != 0)
                 {
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
-                    for (i = 0; i <= NumberOfInterp - 1; i++)
+                    for (i = 0; i <= InteropStaticMeshs.Count - 1; i++)
                     {
                         InterpName[i] = ConversionTools.ConvertName(InterpName, i);
                         InterpStaticMesh[i] = ConversionTools.ConvertStaticMeshPath(InterpStaticMesh, i, 0, TB_AssetPath);
@@ -3034,21 +2982,21 @@ namespace UDKtoUE4Tool
                     }
 
                     //create a new static mesh entry using UE4 syntax for every static mesh found
-                    for (i = 0; i <= NumberOfInterp - 1; i++)
+                    for (i = 0; i <= InteropStaticMeshs.Count - 1; i++)
                     {
-                        InterpOutput = InterpOutput + Environment.NewLine + "      Begin Actor Class=StaticMeshActor Name=" + InterpName[i] + " Archetype=StaticMeshActor'/Script/Engine.Default__StaticMeshActor'" + Environment.NewLine + "         Begin Object Class=StaticMeshComponent Name=StaticMeshComponent0 ObjName=StaticMeshComponent0 Archetype=StaticMeshComponent'/Script/Engine.Default__StaticMeshActor:StaticMeshComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Name=StaticMeshComponent0" + Environment.NewLine;
-                        InterpOutput = InterpOutput + "        " + InterpStaticMesh[i] + Environment.NewLine;
+                        InteropStaticMeshs.FinalOutput = InteropStaticMeshs.FinalOutput + Environment.NewLine + "      Begin Actor Class=StaticMeshActor Name=" + InterpName[i] + " Archetype=StaticMeshActor'/Script/Engine.Default__StaticMeshActor'" + Environment.NewLine + "         Begin Object Class=StaticMeshComponent Name=StaticMeshComponent0 ObjName=StaticMeshComponent0 Archetype=StaticMeshComponent'/Script/Engine.Default__StaticMeshActor:StaticMeshComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Name=StaticMeshComponent0" + Environment.NewLine;
+                        InteropStaticMeshs.FinalOutput = InteropStaticMeshs.FinalOutput + "        " + InterpStaticMesh[i] + Environment.NewLine;
                         if (InterpMaterials[i] != string.Empty)
                         {
-                            InterpOutput = InterpOutput + InterpMaterials[i];
+                            InteropStaticMeshs.FinalOutput = InteropStaticMeshs.FinalOutput + InterpMaterials[i];
                         }
                         if (InterpLightMap[i] != string.Empty)
                         {
-                            LoopOutput = LoopOutput + "                    bOverrideLightMapRes=True" + Environment.NewLine + "     " + InterpLightMap[i] + Environment.NewLine;
+                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "                    bOverrideLightMapRes=True" + Environment.NewLine + "     " + InterpLightMap[i] + Environment.NewLine;
                         }
-                        InterpOutput = InterpOutput + "                    BodyInstance=(Scale3D=(" + InterpScale3D[i] + "))" + Environment.NewLine + "            Mobility=Movable" + Environment.NewLine;
-                        InterpOutput = InterpOutput + "           " + InterpLocation[i] + Environment.NewLine + "            " + InterpRotation[i] + Environment.NewLine + "                    RelativeScale3D=" + InterpScale3D[i] + Environment.NewLine + "         End Object" + Environment.NewLine + "        StaticMeshComponent=StaticMeshComponent0" + Environment.NewLine;
-                        InterpOutput = InterpOutput + "       RootComponent=StaticMeshComponent0" + Environment.NewLine + "        ActorLabel=\"" + InterpName[i] + "\"\n      End Actor";
+                        InteropStaticMeshs.FinalOutput = InteropStaticMeshs.FinalOutput + "                    BodyInstance=(Scale3D=(" + InterpScale3D[i] + "))" + Environment.NewLine + "            Mobility=Movable" + Environment.NewLine;
+                        InteropStaticMeshs.FinalOutput = InteropStaticMeshs.FinalOutput + "           " + InterpLocation[i] + Environment.NewLine + "            " + InterpRotation[i] + Environment.NewLine + "                    RelativeScale3D=" + InterpScale3D[i] + Environment.NewLine + "         End Object" + Environment.NewLine + "        StaticMeshComponent=StaticMeshComponent0" + Environment.NewLine;
+                        InteropStaticMeshs.FinalOutput = InteropStaticMeshs.FinalOutput + "       RootComponent=StaticMeshComponent0" + Environment.NewLine + "        ActorLabel=\"" + InterpName[i] + "\"\n      End Actor";
                     }
                 }
             }
@@ -3058,10 +3006,10 @@ namespace UDKtoUE4Tool
 
             if (checkedListBox1.GetItemCheckState(4) == CheckState.Checked)
             {
-                if (DestructMatch.Count != 0)
+                if (DestructableStaticMeshs.Collection.Count != 0)
                 {
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
-                    for (i = 0; i <= NumberOfDestruct - 1; i++)
+                    for (i = 0; i <= DestructableStaticMeshs.Count - 1; i++)
                     {
                         DestructName[i] = ConversionTools.ConvertName(DestructName, i);
                         DestructStaticMesh[i] = ConversionTools.ConvertStaticMeshPath(DestructStaticMesh, i, 3, TB_AssetPath);
@@ -3077,24 +3025,24 @@ namespace UDKtoUE4Tool
                     }
 
                     //create a new static mesh entry using UE4 syntax for every static mesh found
-                    for (i = 0; i <= NumberOfDestruct - 1; i++)
+                    for (i = 0; i <= DestructableStaticMeshs.Count - 1; i++)
                     {
-                        DestructOutput = DestructOutput + "@      Begin Actor Class=DestructibleActor Name=" + DestructName[i] + " Archetype=DestructibleActor'/Script/Engine.Default__DestructibleActor'@         Begin Object Class=DestructibleComponent Name=\"DestructibleComponent0\" Archetype=DestructibleComponent'/Script/Engine.Default__DestructibleActor:DestructibleComponent0'@         End Object@         Begin Object Name=\"DestructibleComponent0\"";
-                        DestructOutput = DestructOutput + "@        " + DestructStaticMesh[i] + Environment.NewLine + "@BodyInstance=(bNotifyRigidBodyCollision=True,bSimulatePhysics=True)";
+                        DestructableStaticMeshs.FinalOutput = DestructableStaticMeshs.FinalOutput + "@      Begin Actor Class=DestructibleActor Name=" + DestructName[i] + " Archetype=DestructibleActor'/Script/Engine.Default__DestructibleActor'@         Begin Object Class=DestructibleComponent Name=\"DestructibleComponent0\" Archetype=DestructibleComponent'/Script/Engine.Default__DestructibleActor:DestructibleComponent0'@         End Object@         Begin Object Name=\"DestructibleComponent0\"";
+                        DestructableStaticMeshs.FinalOutput = DestructableStaticMeshs.FinalOutput + "@        " + DestructStaticMesh[i] + Environment.NewLine + "@BodyInstance=(bNotifyRigidBodyCollision=True,bSimulatePhysics=True)";
                         if (DestructMaterials[i] != string.Empty)
                         {
-                            DestructOutput = DestructOutput + DestructMaterials[i];
+                            DestructableStaticMeshs.FinalOutput = DestructableStaticMeshs.FinalOutput + DestructMaterials[i];
                         }
-                        DestructOutput = DestructOutput + "           " + DestructLocation[i] + Environment.NewLine + "            " + DestructRotation[i] + Environment.NewLine + "                    RelativeScale3D=" + DestructScale3D[i] + "@         End Object@         DestructibleComponent=DestructibleComponent0@         RootComponent=DestructibleComponent0";
-                        DestructOutput = DestructOutput + "@        ActorLabel=\"" + DestructName[i] + "\"\n      End Actor";
-                        DestructOutput = DestructOutput.Replace("@", Environment.NewLine);
+                        DestructableStaticMeshs.FinalOutput = DestructableStaticMeshs.FinalOutput + "           " + DestructLocation[i] + Environment.NewLine + "            " + DestructRotation[i] + Environment.NewLine + "                    RelativeScale3D=" + DestructScale3D[i] + "@         End Object@         DestructibleComponent=DestructibleComponent0@         RootComponent=DestructibleComponent0";
+                        DestructableStaticMeshs.FinalOutput = DestructableStaticMeshs.FinalOutput + "@        ActorLabel=\"" + DestructName[i] + "\"\n      End Actor";
+                        DestructableStaticMeshs.FinalOutput = DestructableStaticMeshs.FinalOutput.Replace("@", Environment.NewLine);
                     }
                 }
 
-                if (ApexMatch.Count != 0)
+                if (ApexMeshs.Collection.Count != 0)
                 {
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
-                    for (i = 0; i <= NumberOfApex - 1; i++)
+                    for (i = 0; i <= ApexMeshs.Count - 1; i++)
                     {
                         ApexName[i] = ConversionTools.ConvertName(ApexName, i);
                         ApexStaticMesh[i] = ConversionTools.ConvertStaticMeshPath(ApexStaticMesh, i, 3, TB_AssetPath);
@@ -3110,17 +3058,17 @@ namespace UDKtoUE4Tool
                     }
 
                     //create a new static mesh entry using UE4 syntax for every static mesh found
-                    for (i = 0; i <= NumberOfApex - 1; i++)
+                    for (i = 0; i <= ApexMeshs.Count - 1; i++)
                     {
-                        ApexOutput = ApexOutput + "@      Begin Actor Class=DestructibleActor Name=" + ApexName[i] + " Archetype=DestructibleActor'/Script/Engine.Default__DestructibleActor'@         Begin Object Class=DestructibleComponent Name=\"DestructibleComponent0\" Archetype=DestructibleComponent'/Script/Engine.Default__DestructibleActor:DestructibleComponent0'@         End Object@         Begin Object Name=\"DestructibleComponent0\"";
-                        ApexOutput = ApexOutput + "@        " + ApexStaticMesh[i] + Environment.NewLine + "@BodyInstance=(bNotifyRigidBodyCollision=True,bSimulatePhysics=True)";
+                        ApexMeshs.FinalOutput = ApexMeshs.FinalOutput + "@      Begin Actor Class=DestructibleActor Name=" + ApexName[i] + " Archetype=DestructibleActor'/Script/Engine.Default__DestructibleActor'@         Begin Object Class=DestructibleComponent Name=\"DestructibleComponent0\" Archetype=DestructibleComponent'/Script/Engine.Default__DestructibleActor:DestructibleComponent0'@         End Object@         Begin Object Name=\"DestructibleComponent0\"";
+                        ApexMeshs.FinalOutput = ApexMeshs.FinalOutput + "@        " + ApexStaticMesh[i] + Environment.NewLine + "@BodyInstance=(bNotifyRigidBodyCollision=True,bSimulatePhysics=True)";
                         if (ApexMaterials[i] != string.Empty)
                         {
-                            ApexOutput = ApexOutput + ApexMaterials[i];
+                            ApexMeshs.FinalOutput = ApexMeshs.FinalOutput + ApexMaterials[i];
                         }
-                        ApexOutput = ApexOutput + "           " + ApexLocation[i] + Environment.NewLine + "            " + ApexRotation[i] + Environment.NewLine + "                    RelativeScale3D=" + ApexScale3D[i] + "@         End Object@         DestructibleComponent=DestructibleComponent0@         RootComponent=DestructibleComponent0";
-                        ApexOutput = ApexOutput + "@        ActorLabel=\"" + ApexName[i] + "\"\n      End Actor";
-                        ApexOutput = ApexOutput.Replace("@", Environment.NewLine);
+                        ApexMeshs.FinalOutput = ApexMeshs.FinalOutput + "           " + ApexLocation[i] + Environment.NewLine + "            " + ApexRotation[i] + Environment.NewLine + "                    RelativeScale3D=" + ApexScale3D[i] + "@         End Object@         DestructibleComponent=DestructibleComponent0@         RootComponent=DestructibleComponent0";
+                        ApexMeshs.FinalOutput = ApexMeshs.FinalOutput + "@        ActorLabel=\"" + ApexName[i] + "\"\n      End Actor";
+                        ApexMeshs.FinalOutput = ApexMeshs.FinalOutput.Replace("@", Environment.NewLine);
                     }
                 }
             }
@@ -3130,10 +3078,10 @@ namespace UDKtoUE4Tool
 
             if (checkedListBox1.GetItemCheckState(5) == CheckState.Checked)
             {
-                if (NumberOfFoliage != 0)
+                if (Foliages.Count != 0)
                 {
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
-                    for (i = 0; i <= NumberOfFoliage - 1; i++)
+                    for (i = 0; i <= Foliages.Count - 1; i++)
                     {
                         FoliageName[i] = ConversionTools.ConvertName(FoliageName, i);
                         FoliageStaticMesh[i] = ConversionTools.ConvertStaticMeshPath(FoliageStaticMesh, i, 0, TB_AssetPath);
@@ -3149,21 +3097,21 @@ namespace UDKtoUE4Tool
                     }
 
                     //create a new static mesh entry using UE4 syntax for every static mesh found
-                    for (i = 0; i <= NumberOfFoliage - 1; i++)
+                    for (i = 0; i <= Foliages.Count - 1; i++)
                     {
-                        FoliageOutput = FoliageOutput + Environment.NewLine + "      Begin Actor Class=StaticMeshActor Name=" + FoliageName[i] + " Archetype=StaticMeshActor'/Script/Engine.Default__StaticMeshActor'" + Environment.NewLine + "         Begin Object Class=StaticMeshComponent Name=StaticMeshComponent0 ObjName=StaticMeshComponent0 Archetype=StaticMeshComponent'/Script/Engine.Default__StaticMeshActor:StaticMeshComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Name=StaticMeshComponent0" + Environment.NewLine;
-                        FoliageOutput = FoliageOutput + "        " + FoliageStaticMesh[i] + Environment.NewLine;
+                        Foliages.FinalOutput = Foliages.FinalOutput + Environment.NewLine + "      Begin Actor Class=StaticMeshActor Name=" + FoliageName[i] + " Archetype=StaticMeshActor'/Script/Engine.Default__StaticMeshActor'" + Environment.NewLine + "         Begin Object Class=StaticMeshComponent Name=StaticMeshComponent0 ObjName=StaticMeshComponent0 Archetype=StaticMeshComponent'/Script/Engine.Default__StaticMeshActor:StaticMeshComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Name=StaticMeshComponent0" + Environment.NewLine;
+                        Foliages.FinalOutput = Foliages.FinalOutput + "        " + FoliageStaticMesh[i] + Environment.NewLine;
                         if (FoliageMaterials[i] != string.Empty)
                         {
-                            FoliageOutput = FoliageOutput + FoliageMaterials[i];
+                            Foliages.FinalOutput = Foliages.FinalOutput + FoliageMaterials[i];
                         }
                         if (FoliageLightMap[i] != string.Empty)
                         {
-                            LoopOutput = LoopOutput + "                    bOverrideLightMapRes=True" + Environment.NewLine + "     " + FoliageLightMap[i] + Environment.NewLine;
+                            StaticMeshes.FinalOutput = StaticMeshes.FinalOutput + "                    bOverrideLightMapRes=True" + Environment.NewLine + "     " + FoliageLightMap[i] + Environment.NewLine;
                         }
-                        FoliageOutput = FoliageOutput + "                    BodyInstance=(Scale3D=(" + FoliageScale3D[i] + "))" + Environment.NewLine;
-                        FoliageOutput = FoliageOutput + "           " + FoliageLocation[i] + Environment.NewLine + "            " + FoliageRotation[i] + Environment.NewLine + "                    RelativeScale3D=" + FoliageScale3D[i] + Environment.NewLine + "         End Object" + Environment.NewLine + "        StaticMeshComponent=StaticMeshComponent0" + Environment.NewLine;
-                        FoliageOutput = FoliageOutput + "       RootComponent=StaticMeshComponent0" + Environment.NewLine + "        ActorLabel=\"" + FoliageName[i] + "\"\n      End Actor";
+                        Foliages.FinalOutput = Foliages.FinalOutput + "                    BodyInstance=(Scale3D=(" + FoliageScale3D[i] + "))" + Environment.NewLine;
+                        Foliages.FinalOutput = Foliages.FinalOutput + "           " + FoliageLocation[i] + Environment.NewLine + "            " + FoliageRotation[i] + Environment.NewLine + "                    RelativeScale3D=" + FoliageScale3D[i] + Environment.NewLine + "         End Object" + Environment.NewLine + "        StaticMeshComponent=StaticMeshComponent0" + Environment.NewLine;
+                        Foliages.FinalOutput = Foliages.FinalOutput + "       RootComponent=StaticMeshComponent0" + Environment.NewLine + "        ActorLabel=\"" + FoliageName[i] + "\"\n      End Actor";
                     }
                 }
             }
@@ -3173,11 +3121,11 @@ namespace UDKtoUE4Tool
 
             if (checkedListBox1.GetItemCheckState(1) == CheckState.Checked)
             {
-                if (SkMeshmatch.Count != 0)
+                if (SkeletalMeshs.Collection.Count != 0)
                 {
-                    //SKmeshOutput = SKStaticMesh.Count + "," + SKName.Count + "," + SKlocation.Count + "," + SKrotation.Count + "," + SKscale.Count + "," + SKscale3D.Count + "," + SKMaterials.Count;
+                    //SkeletalMeshs.FinalOutput = SKStaticMesh.Count + "," + SKName.Count + "," + SKlocation.Count + "," + SKrotation.Count + "," + SKscale.Count + "," + SKscale3D.Count + "," + SKMaterials.Count;
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
-                    for (i = 0; i <= NumberofSKMesh - 1; i++)
+                    for (i = 0; i <= SkeletalMeshs.Count - 1; i++)
                     {
                         SKName[i] = ConversionTools.ConvertName(SKName, i);
                         SKStaticMesh[i] = ConversionTools.ConvertStaticMeshPath(SKStaticMesh, i, 1, TB_AssetPath);
@@ -3194,28 +3142,28 @@ namespace UDKtoUE4Tool
                     }
 
                     //create a new static mesh entry using UE4 syntax for every static mesh found
-                    for (i = 0; i <= NumberofSKMesh - 1; i++)
+                    for (i = 0; i <= SkeletalMeshs.Count - 1; i++)
                     {
 
-                        SKmeshOutput = SKmeshOutput + Environment.NewLine + "      Begin Actor Class=SkeletalMeshActor Name=" + SKName[i] + " Archetype=SkeletalMeshActor'/Script/Engine.Default__SkeletalMeshActor'" + Environment.NewLine + "         Begin Object Class=SkeletalMeshComponent Name=\"SkeletalMeshComponent0\" Archetype=SkeletalMeshComponent'/Script/Engine.Default__SkeletalMeshActor:SkeletalMeshComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Name=\"SkeletalMeshComponent0\"" + Environment.NewLine;
-                        SKmeshOutput = SKmeshOutput + "        " + SKStaticMesh[i] + Environment.NewLine;
+                        SkeletalMeshs.FinalOutput = SkeletalMeshs.FinalOutput + Environment.NewLine + "      Begin Actor Class=SkeletalMeshActor Name=" + SKName[i] + " Archetype=SkeletalMeshActor'/Script/Engine.Default__SkeletalMeshActor'" + Environment.NewLine + "         Begin Object Class=SkeletalMeshComponent Name=\"SkeletalMeshComponent0\" Archetype=SkeletalMeshComponent'/Script/Engine.Default__SkeletalMeshActor:SkeletalMeshComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Name=\"SkeletalMeshComponent0\"" + Environment.NewLine;
+                        SkeletalMeshs.FinalOutput = SkeletalMeshs.FinalOutput + "        " + SKStaticMesh[i] + Environment.NewLine;
                         if (SKMaterials[i] != string.Empty)
                         {
-                            SKmeshOutput = SKmeshOutput + SKMaterials[i];
+                            SkeletalMeshs.FinalOutput = SkeletalMeshs.FinalOutput + SKMaterials[i];
                         }
-                        SKmeshOutput = SKmeshOutput + "           " + SKlocation[i] + Environment.NewLine + "            " + SKrotation[i] + Environment.NewLine + "                    RelativeScale3D=" + SKscale3D[i] + Environment.NewLine + "         End Object" + Environment.NewLine + "        SkeletalMeshComponent=SkeletalMeshComponent0" + Environment.NewLine + "        RootComponent=SkeletalMeshComponent0" + Environment.NewLine + "        ActorLabel=\"" + SKName[i] + "\"\n      End Actor";
+                        SkeletalMeshs.FinalOutput = SkeletalMeshs.FinalOutput + "           " + SKlocation[i] + Environment.NewLine + "            " + SKrotation[i] + Environment.NewLine + "                    RelativeScale3D=" + SKscale3D[i] + Environment.NewLine + "         End Object" + Environment.NewLine + "        SkeletalMeshComponent=SkeletalMeshComponent0" + Environment.NewLine + "        RootComponent=SkeletalMeshComponent0" + Environment.NewLine + "        ActorLabel=\"" + SKName[i] + "\"\n      End Actor";
 
                     }
                 }
             }
             #endregion
-            #region ConvertPointLights
+            #region ConvertPointLights.Collection
 
             if (checkedListBox1.GetItemCheckState(6) == CheckState.Checked)
             {
-                if (PointLightsMatch.Count != 0)
+                if (PointLights.Collection.Count != 0)
                 {
-                    for (i = 0; i <= NumberOfPLights - 1; i++)
+                    for (i = 0; i <= PointLights.Count - 1; i++)
                     {
                         PLightsName[i] = ConversionTools.ConvertName(PLightsName, i);
                         PLightsLocation[i] = ConversionTools.ConvertLocation(PLightsLocation, i, CB_MultiplyPosition);
@@ -3226,30 +3174,30 @@ namespace UDKtoUE4Tool
                         PLightsRadius[i] = ConversionTools.ConvertRadius(PLightsRadius, i);
                     }
 
-                    for (i = 0; i <= NumberOfPLights - 1; i++)
+                    for (i = 0; i <= PointLights.Count - 1; i++)
                     {
-                        PLightOutput = PLightOutput + "      Begin Actor Class=PointLight  Name=" + PLightsName[i] + " Archetype=PointLight'/Script/Engine.Default__PointLight'" + Environment.NewLine + "         Begin Object Class=PointLightComponent Name=\"LightComponent0\" Archetype=PointLightComponent'/Script/Engine.Default__PointLight:LightComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Name=\"LightComponent0\"" + Environment.NewLine;
+                        PointLights.FinalOutput = PointLights.FinalOutput + "      Begin Actor Class=PointLight  Name=" + PLightsName[i] + " Archetype=PointLight'/Script/Engine.Default__PointLight'" + Environment.NewLine + "         Begin Object Class=PointLightComponent Name=\"LightComponent0\" Archetype=PointLightComponent'/Script/Engine.Default__PointLight:LightComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Name=\"LightComponent0\"" + Environment.NewLine;
                         if (PLightsMoveable[i] == true)
                         {
-                            PLightOutput = PLightOutput + "                    Mobility=Movable" + Environment.NewLine;
+                            PointLights.FinalOutput = PointLights.FinalOutput + "                    Mobility=Movable" + Environment.NewLine;
                         }
                         else
                         {
                             if (CB_StaticLights.Checked)
                             {
-                                PLightOutput = PLightOutput + "                    Mobility=Static" + Environment.NewLine;
+                                PointLights.FinalOutput = PointLights.FinalOutput + "                    Mobility=Static" + Environment.NewLine;
                             }
                         }
-                        PLightOutput = PLightOutput + "                    " + PLightsRadius[i] + Environment.NewLine + "        " + PLightsColor[i] + Environment.NewLine + "                    " + PLightsIntensity[i] + Environment.NewLine + "           " + PLightsLocation[i] + Environment.NewLine + "            " + PLightsRotation[i] + Environment.NewLine + "                    RelativeScale3D=" + PLightsScale3D[i] + Environment.NewLine + "         End Object" + Environment.NewLine + "        PointLightComponent=LightComponent0" + Environment.NewLine + "        LightComponent=LightComponent0" + Environment.NewLine + "        RootComponent=LightComponent0" + Environment.NewLine + "        ActorLabel=\"" + PLightsName[i] + "\"\n      End Actor" + Environment.NewLine;
+                        PointLights.FinalOutput = PointLights.FinalOutput + "                    " + PLightsRadius[i] + Environment.NewLine + "        " + PLightsColor[i] + Environment.NewLine + "                    " + PLightsIntensity[i] + Environment.NewLine + "           " + PLightsLocation[i] + Environment.NewLine + "            " + PLightsRotation[i] + Environment.NewLine + "                    RelativeScale3D=" + PLightsScale3D[i] + Environment.NewLine + "         End Object" + Environment.NewLine + "        PointLightComponent=LightComponent0" + Environment.NewLine + "        LightComponent=LightComponent0" + Environment.NewLine + "        RootComponent=LightComponent0" + Environment.NewLine + "        ActorLabel=\"" + PLightsName[i] + "\"\n      End Actor" + Environment.NewLine;
                     }
 
-                    // PLightOutput = PLightsName.Count.ToString() + ", " + PLightsLocation.Count.ToString() + ", " + PLightsRotation.Count.ToString() + ", " + PLightsScale.Count.ToString() + ", " + PLightsScale3D.Count.ToString() + ", " + PLightsIntensity.Count.ToString() + ", " + PLightsRadius.Count.ToString() + ", " + PLightsColor.Count.ToString();
+                    // PointLights.FinalOutput = PLightsName.Count.ToString() + ", " + PLightsLocation.Count.ToString() + ", " + PLightsRotation.Count.ToString() + ", " + PLightsScale.Count.ToString() + ", " + PLightsScale3D.Count.ToString() + ", " + PLightsIntensity.Count.ToString() + ", " + PLightsRadius.Count.ToString() + ", " + PLightsColor.Count.ToString();
                 }
 
 
-                if (DomPlightsMatch.Count != 0)
+                if (DomPointLights.Collection.Count != 0)
                 {
-                    for (i = 0; i <= NumberOfDomPLights - 1; i++)
+                    for (i = 0; i <= DomPointLights.Count - 1; i++)
                     {
                         DomPLightsName[i] = ConversionTools.ConvertName(DomPLightsName, i);
                         DomPLightsLocation[i] = ConversionTools.ConvertLocation(DomPLightsLocation, i, CB_MultiplyPosition);
@@ -3260,13 +3208,13 @@ namespace UDKtoUE4Tool
                         DomPLightsRadius[i] = ConversionTools.ConvertRadius(DomPLightsRadius, i);
                     }
 
-                    for (i = 0; i <= NumberOfDomPLights - 1; i++)
+                    for (i = 0; i <= DomPointLights.Count - 1; i++)
                     {
-                        DomPLightOutput = DomPLightOutput + "      Begin Actor Class=PointLight  Name=" + DomPLightsName[i] + " Archetype=PointLight'/Script/Engine.Default__PointLight'" + Environment.NewLine + "         Begin Object Class=PointLightComponent Name=\"LightComponent0\" Archetype=PointLightComponent'/Script/Engine.Default__PointLight:LightComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Name=\"LightComponent0\"" + Environment.NewLine;
-                        DomPLightOutput = DomPLightOutput + "                    " + DomPLightsRadius[i] + Environment.NewLine + "        " + DomPLightsColor[i] + Environment.NewLine + "                    " + DomPLightsIntensity[i] + Environment.NewLine + "           " + DomPLightsLocation[i] + Environment.NewLine + "            " + DomPLightsRotation[i] + Environment.NewLine + "                    RelativeScale3D=" + DomPLightsScale3D[i] + Environment.NewLine + "         End Object" + Environment.NewLine + "        PointLightComponent=LightComponent0" + Environment.NewLine + "        LightComponent=LightComponent0" + Environment.NewLine + "        RootComponent=LightComponent0" + Environment.NewLine + "        ActorLabel=\"" + DomPLightsName[i] + "\"\n      End Actor" + Environment.NewLine;
+                        DomPointLights.FinalOutput = DomPointLights.FinalOutput + "      Begin Actor Class=PointLight  Name=" + DomPLightsName[i] + " Archetype=PointLight'/Script/Engine.Default__PointLight'" + Environment.NewLine + "         Begin Object Class=PointLightComponent Name=\"LightComponent0\" Archetype=PointLightComponent'/Script/Engine.Default__PointLight:LightComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Name=\"LightComponent0\"" + Environment.NewLine;
+                        DomPointLights.FinalOutput = DomPointLights.FinalOutput + "                    " + DomPLightsRadius[i] + Environment.NewLine + "        " + DomPLightsColor[i] + Environment.NewLine + "                    " + DomPLightsIntensity[i] + Environment.NewLine + "           " + DomPLightsLocation[i] + Environment.NewLine + "            " + DomPLightsRotation[i] + Environment.NewLine + "                    RelativeScale3D=" + DomPLightsScale3D[i] + Environment.NewLine + "         End Object" + Environment.NewLine + "        PointLightComponent=LightComponent0" + Environment.NewLine + "        LightComponent=LightComponent0" + Environment.NewLine + "        RootComponent=LightComponent0" + Environment.NewLine + "        ActorLabel=\"" + DomPLightsName[i] + "\"\n      End Actor" + Environment.NewLine;
                     }
 
-                    //DomPLightOutput = DomPLightsName.Count.ToString() + ", " + DomPLightsLocation.Count.ToString() + ", " + DomPLightsRotation.Count.ToString() + ", " + DomPLightsScale.Count.ToString() + ", " + DomPLightsScale3D.Count.ToString() + ", " + DomPLightsIntensity.Count.ToString() + ", " + DomPLightsRadius.Count.ToString() + ", " + DomPLightsColor.Count.ToString();
+                    //DomPointLights.FinalOutput = DomPLightsName.Count.ToString() + ", " + DomPLightsLocation.Count.ToString() + ", " + DomPLightsRotation.Count.ToString() + ", " + DomPLightsScale.Count.ToString() + ", " + DomPLightsScale3D.Count.ToString() + ", " + DomPLightsIntensity.Count.ToString() + ", " + DomPLightsRadius.Count.ToString() + ", " + DomPLightsColor.Count.ToString();
                 }
             }
             #endregion
@@ -3274,9 +3222,9 @@ namespace UDKtoUE4Tool
 
             if (checkedListBox1.GetItemCheckState(6) == CheckState.Checked)
             {
-                if (SpotLightsMatch.Count != 0)
+                if (SpotLIghts.Collection.Count != 0)
                 {
-                    for (i = 0; i <= NumberOfSLights - 1; i++)
+                    for (i = 0; i <= SpotLIghts.Count - 1; i++)
                     {
                         SLightsName[i] = ConversionTools.ConvertName(SLightsName, i);
                         SLightsLocation[i] = ConversionTools.ConvertLocation(SLightsLocation, i, CB_MultiplyPosition);
@@ -3287,29 +3235,29 @@ namespace UDKtoUE4Tool
                         SLightsRadius[i] = ConversionTools.ConvertRadius(SLightsRadius, i);
                     }
 
-                    for (i = 0; i <= NumberOfSLights - 1; i++)
+                    for (i = 0; i <= SpotLIghts.Count - 1; i++)
                     {
-                        SLightOutput = SLightOutput + "      Begin Actor Class=SpotLight   Name=" + SLightsName[i] + " Archetype=SpotLight'/Script/Engine.Default__SpotLight'" + Environment.NewLine + "         Begin Object Class=ArrowComponent Name=\"ArrowComponent0\"  Archetype=ArrowComponent'/Script/Engine.Default__SpotLight:ArrowComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Class=SpotLightComponent Name=\"LightComponent0\" Archetype=SpotLightComponent'/Script/Engine.Default__SpotLight:LightComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "            Begin Object Name=\"ArrowComponent0\"" + Environment.NewLine + "            AttachParent=LightComponent0" + Environment.NewLine + "         End Object" + Environment.NewLine + "Begin Object Name=\"LightComponent0\"";
+                        SpotLIghts.FinalOutput = SpotLIghts.FinalOutput + "      Begin Actor Class=SpotLight   Name=" + SLightsName[i] + " Archetype=SpotLight'/Script/Engine.Default__SpotLight'" + Environment.NewLine + "         Begin Object Class=ArrowComponent Name=\"ArrowComponent0\"  Archetype=ArrowComponent'/Script/Engine.Default__SpotLight:ArrowComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Class=SpotLightComponent Name=\"LightComponent0\" Archetype=SpotLightComponent'/Script/Engine.Default__SpotLight:LightComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "            Begin Object Name=\"ArrowComponent0\"" + Environment.NewLine + "            AttachParent=LightComponent0" + Environment.NewLine + "         End Object" + Environment.NewLine + "Begin Object Name=\"LightComponent0\"";
                         if (SLightsMoveable[i] == true)
                         {
-                            SLightOutput = SLightOutput + Environment.NewLine + "                    Mobility=Movable";
+                            SpotLIghts.FinalOutput = SpotLIghts.FinalOutput + Environment.NewLine + "                    Mobility=Movable";
                         }
                         else
                         {
                             if (CB_StaticLights.Checked)
                             {
-                                SLightOutput = SLightOutput + Environment.NewLine + "                    Mobility=Static";
+                                SpotLIghts.FinalOutput = SpotLIghts.FinalOutput + Environment.NewLine + "                    Mobility=Static";
                             }
                         }
-                        SLightOutput = SLightOutput + Environment.NewLine + "                    " + SLightsRadius[i] + Environment.NewLine + "                    " + SLightsInnerRadius[i] + Environment.NewLine + "                    " + SLightsOutterRadius[i] + Environment.NewLine + "                    " + SLightsColor[i] + Environment.NewLine + "                    " + SLightsIntensity[i] + Environment.NewLine + "           " + SLightsLocation[i] + Environment.NewLine + "            " + SLightsRotation[i] + Environment.NewLine + "                    RelativeScale3D=" + SLightsScale3D[i] + Environment.NewLine + "         End Object" + Environment.NewLine + "        SpotLightComponent=LightComponent0" + Environment.NewLine + "        ArrowComponent=ArrowComponent0" + Environment.NewLine + "        LightComponent=LightComponent0" + Environment.NewLine + "        RootComponent=LightComponent0" + Environment.NewLine + "        ActorLabel=\"" + SLightsName[i] + "\"\n      End Actor" + Environment.NewLine;
+                        SpotLIghts.FinalOutput = SpotLIghts.FinalOutput + Environment.NewLine + "                    " + SLightsRadius[i] + Environment.NewLine + "                    " + SLightsInnerRadius[i] + Environment.NewLine + "                    " + SLightsOutterRadius[i] + Environment.NewLine + "                    " + SLightsColor[i] + Environment.NewLine + "                    " + SLightsIntensity[i] + Environment.NewLine + "           " + SLightsLocation[i] + Environment.NewLine + "            " + SLightsRotation[i] + Environment.NewLine + "                    RelativeScale3D=" + SLightsScale3D[i] + Environment.NewLine + "         End Object" + Environment.NewLine + "        SpotLightComponent=LightComponent0" + Environment.NewLine + "        ArrowComponent=ArrowComponent0" + Environment.NewLine + "        LightComponent=LightComponent0" + Environment.NewLine + "        RootComponent=LightComponent0" + Environment.NewLine + "        ActorLabel=\"" + SLightsName[i] + "\"\n      End Actor" + Environment.NewLine;
                     }
 
-                    //SLightOutput = SLightsName.Count.ToString() + ", " + SLightsLocation.Count.ToString() + ", " + SLightsRotation.Count.ToString() + ", " + SLightsScale.Count.ToString() + ", " + SLightsScale3D.Count.ToString() + ", " + SLightsIntensity.Count.ToString() + ", " + SLightsInnerRadius.Count.ToString() + ", " + SLightsOutterRadius.Count.ToString() + ", " + SLightsColor.Count.ToString();
+                    //SpotLIghts.FinalOutput = SLightsName.Count.ToString() + ", " + SLightsLocation.Count.ToString() + ", " + SLightsRotation.Count.ToString() + ", " + SLightsScale.Count.ToString() + ", " + SLightsScale3D.Count.ToString() + ", " + SLightsIntensity.Count.ToString() + ", " + SLightsInnerRadius.Count.ToString() + ", " + SLightsOutterRadius.Count.ToString() + ", " + SLightsColor.Count.ToString();
                 }
 
-                if (DomSLightsMatch.Count != 0)
+                if (DomSpotLIghts.Collection.Count != 0)
                 {
-                    for (i = 0; i <= NumberOfDomSLights - 1; i++)
+                    for (i = 0; i <= DomSpotLIghts.Count - 1; i++)
                     {
                         DomSLightsName[i] = ConversionTools.ConvertName(DomSLightsName, i);
                         DomSLightsLocation[i] = ConversionTools.ConvertLocation(DomSLightsLocation, i, CB_MultiplyPosition);
@@ -3320,13 +3268,13 @@ namespace UDKtoUE4Tool
                         DomSLightsRadius[i] = ConversionTools.ConvertRadius(DomSLightsRadius, i);
                     }
 
-                    for (i = 0; i <= NumberOfDomSLights - 1; i++)
+                    for (i = 0; i <= DomSpotLIghts.Count - 1; i++)
                     {
-                        DomSLightOutput = DomSLightOutput + "      Begin Actor Class=SpotLight   Name=" + DomSLightsName[i] + " Archetype=SpotLight'/Script/Engine.Default__SpotLight'" + Environment.NewLine + "         Begin Object Class=ArrowComponent Name=\"ArrowComponent0\"  Archetype=ArrowComponent'/Script/Engine.Default__SpotLight:ArrowComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Class=SpotLightComponent Name=\"LightComponent0\" Archetype=SpotLightComponent'/Script/Engine.Default__SpotLight:LightComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "            Begin Object Name=\"ArrowComponent0\"" + Environment.NewLine + "            AttachParent=LightComponent0" + Environment.NewLine + "         End Object" + Environment.NewLine + "Begin Object Name=\"LightComponent0\"";
-                        DomSLightOutput = DomSLightOutput + Environment.NewLine + "                    " + DomSLightsRadius[i] + Environment.NewLine + "                    " + DomSLightsInnerRadius[i] + Environment.NewLine + "                    " + DomSLightsOutterRadius[i] + Environment.NewLine + "                    " + DomSLightsColor[i] + Environment.NewLine + "                    " + DomSLightsIntensity[i] + Environment.NewLine + "           " + DomSLightsLocation[i] + Environment.NewLine + "            " + DomSLightsRotation[i] + Environment.NewLine + "                    RelativeScale3D=" + DomSLightsScale3D[i] + Environment.NewLine + "         End Object" + Environment.NewLine + "        SpotLightComponent=LightComponent0" + Environment.NewLine + "        ArrowComponent=ArrowComponent0" + Environment.NewLine + "        LightComponent=LightComponent0" + Environment.NewLine + "        RootComponent=LightComponent0" + Environment.NewLine + "        ActorLabel=\"" + DomSLightsName[i] + "\"\n      End Actor" + Environment.NewLine;
+                        DomSpotLIghts.FinalOutput = DomSpotLIghts.FinalOutput + "      Begin Actor Class=SpotLight   Name=" + DomSLightsName[i] + " Archetype=SpotLight'/Script/Engine.Default__SpotLight'" + Environment.NewLine + "         Begin Object Class=ArrowComponent Name=\"ArrowComponent0\"  Archetype=ArrowComponent'/Script/Engine.Default__SpotLight:ArrowComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Class=SpotLightComponent Name=\"LightComponent0\" Archetype=SpotLightComponent'/Script/Engine.Default__SpotLight:LightComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "            Begin Object Name=\"ArrowComponent0\"" + Environment.NewLine + "            AttachParent=LightComponent0" + Environment.NewLine + "         End Object" + Environment.NewLine + "Begin Object Name=\"LightComponent0\"";
+                        DomSpotLIghts.FinalOutput = DomSpotLIghts.FinalOutput + Environment.NewLine + "                    " + DomSLightsRadius[i] + Environment.NewLine + "                    " + DomSLightsInnerRadius[i] + Environment.NewLine + "                    " + DomSLightsOutterRadius[i] + Environment.NewLine + "                    " + DomSLightsColor[i] + Environment.NewLine + "                    " + DomSLightsIntensity[i] + Environment.NewLine + "           " + DomSLightsLocation[i] + Environment.NewLine + "            " + DomSLightsRotation[i] + Environment.NewLine + "                    RelativeScale3D=" + DomSLightsScale3D[i] + Environment.NewLine + "         End Object" + Environment.NewLine + "        SpotLightComponent=LightComponent0" + Environment.NewLine + "        ArrowComponent=ArrowComponent0" + Environment.NewLine + "        LightComponent=LightComponent0" + Environment.NewLine + "        RootComponent=LightComponent0" + Environment.NewLine + "        ActorLabel=\"" + DomSLightsName[i] + "\"\n      End Actor" + Environment.NewLine;
                     }
 
-                    //SLightOutput = DomSLightsName.Count.ToString() + ", " + DomSLightsLocation.Count.ToString() + ", " + DomSLightsRotation.Count.ToString() + ", " + DomSLightsScale.Count.ToString() + ", " + DomSLightsScale3D.Count.ToString() + ", " + DomSLightsIntensity.Count.ToString() + ", " + DomSLightsInnerRadius.Count.ToString() + ", " + DomSLightsOutterRadius.Count.ToString() + ", " + DomSLightsColor.Count.ToString();
+                    //SpotLIghts.FinalOutput = DomSLightsName.Count.ToString() + ", " + DomSLightsLocation.Count.ToString() + ", " + DomSLightsRotation.Count.ToString() + ", " + DomSLightsScale.Count.ToString() + ", " + DomSLightsScale3D.Count.ToString() + ", " + DomSLightsIntensity.Count.ToString() + ", " + DomSLightsInnerRadius.Count.ToString() + ", " + DomSLightsOutterRadius.Count.ToString() + ", " + DomSLightsColor.Count.ToString();
                 }
             }
             #endregion
@@ -3334,9 +3282,9 @@ namespace UDKtoUE4Tool
 
             if (checkedListBox1.GetItemCheckState(8) == CheckState.Checked)
             {
-                if (DirLightsMatch.Count != 0)
+                if (DirectionalLights.Collection.Count != 0)
                 {
-                    for (i = 0; i <= NumberOfDLights - 1; i++)
+                    for (i = 0; i <= DirectionalLights.Count - 1; i++)
                     {
                         DLightsName[i] = ConversionTools.ConvertName(DLightsName, i);
                         DLightsLocation[i] = ConversionTools.ConvertLocation(DLightsLocation, i, CB_MultiplyPosition);
@@ -3346,17 +3294,17 @@ namespace UDKtoUE4Tool
                         DLightsIntensity[i] = ConversionTools.ConvertIntensity(DLightsIntensity, i, true);
                     }
 
-                    for (i = 0; i <= NumberOfDLights - 1; i++)
+                    for (i = 0; i <= DirectionalLights.Count - 1; i++)
                     {
-                        DLightOutput = DLightOutput + "      Begin Actor Class=DirectionalLight Name=" + DLightsName[i] + " Archetype=DirectionalLight'/Script/Engine.Default__DirectionalLight'" + Environment.NewLine + "         Begin Object Class=ArrowComponent Name=\"ArrowComponent0\" Archetype=ArrowComponent'/Script/Engine.Default__DirectionalLight:ArrowComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Class=DirectionalLightComponent Name=\"LightComponent0\" Archetype=DirectionalLightComponent'/Script/Engine.Default__DirectionalLight:LightComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "            Begin Object Name=\"ArrowComponent0\"" + Environment.NewLine + "            ArrowColor=(B=33,G=0,R=255,A=255)" + Environment.NewLine + "            AttachParent=LightComponent0" + Environment.NewLine + "         End Object" + Environment.NewLine + "Begin Object Name=\"LightComponent0\"";
-                        DLightOutput = DLightOutput + Environment.NewLine + "                    " + DLightsColor[i] + Environment.NewLine + "                    " + DLightsIntensity[i] + Environment.NewLine + "           " + DLightsLocation[i] + Environment.NewLine + "            " + DLightsRotation[i] + Environment.NewLine + "                    RelativeScale3D=" + DLightsScale3D[i] + Environment.NewLine + "         End Object" + Environment.NewLine + "        SpotLightComponent=LightComponent0" + Environment.NewLine + "        ArrowComponent=ArrowComponent0" + Environment.NewLine + "        LightComponent=LightComponent0" + Environment.NewLine + "        RootComponent=LightComponent0" + Environment.NewLine + "        ActorLabel=\"" + DLightsName[i] + "\"\n      End Actor" + Environment.NewLine;
+                        DirectionalLights.FinalOutput = DirectionalLights.FinalOutput + "      Begin Actor Class=DirectionalLight Name=" + DLightsName[i] + " Archetype=DirectionalLight'/Script/Engine.Default__DirectionalLight'" + Environment.NewLine + "         Begin Object Class=ArrowComponent Name=\"ArrowComponent0\" Archetype=ArrowComponent'/Script/Engine.Default__DirectionalLight:ArrowComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Class=DirectionalLightComponent Name=\"LightComponent0\" Archetype=DirectionalLightComponent'/Script/Engine.Default__DirectionalLight:LightComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "            Begin Object Name=\"ArrowComponent0\"" + Environment.NewLine + "            ArrowColor=(B=33,G=0,R=255,A=255)" + Environment.NewLine + "            AttachParent=LightComponent0" + Environment.NewLine + "         End Object" + Environment.NewLine + "Begin Object Name=\"LightComponent0\"";
+                        DirectionalLights.FinalOutput = DirectionalLights.FinalOutput + Environment.NewLine + "                    " + DLightsColor[i] + Environment.NewLine + "                    " + DLightsIntensity[i] + Environment.NewLine + "           " + DLightsLocation[i] + Environment.NewLine + "            " + DLightsRotation[i] + Environment.NewLine + "                    RelativeScale3D=" + DLightsScale3D[i] + Environment.NewLine + "         End Object" + Environment.NewLine + "        SpotLightComponent=LightComponent0" + Environment.NewLine + "        ArrowComponent=ArrowComponent0" + Environment.NewLine + "        LightComponent=LightComponent0" + Environment.NewLine + "        RootComponent=LightComponent0" + Environment.NewLine + "        ActorLabel=\"" + DLightsName[i] + "\"\n      End Actor" + Environment.NewLine;
                     }
-                    //DLightOutput = DLightsName.Count.ToString() + ", " + DLightsLocation.Count.ToString() + ", " + DLightsRotation.Count.ToString() + ", " + DLightsScale.Count.ToString() + ", " + DLightsScale3D.Count.ToString() + ", " + DLightsIntensity.Count.ToString() + ", " + DLightsColor.Count.ToString();
+                    //DirectionalLights.FinalOutput = DLightsName.Count.ToString() + ", " + DLightsLocation.Count.ToString() + ", " + DLightsRotation.Count.ToString() + ", " + DLightsScale.Count.ToString() + ", " + DLightsScale3D.Count.ToString() + ", " + DLightsIntensity.Count.ToString() + ", " + DLightsColor.Count.ToString();
                 }
 
-                if (DomDLightsMatch.Count != 0)
+                if (DomDirectionalLights.Collection.Count != 0)
                 {
-                    for (i = 0; i <= NumberOfDomDLights - 1; i++)
+                    for (i = 0; i <= DomDirectionalLights.Count - 1; i++)
                     {
                         DomDLightsName[i] = ConversionTools.ConvertName(DomDLightsName, i);
                         DomDLightsLocation[i] = ConversionTools.ConvertLocation(DomDLightsLocation, i, CB_MultiplyPosition);
@@ -3366,23 +3314,23 @@ namespace UDKtoUE4Tool
                         DomDLightsIntensity[i] = ConversionTools.ConvertIntensity(DomDLightsIntensity, i, true);
                     }
 
-                    for (i = 0; i <= NumberOfDomDLights - 1; i++)
+                    for (i = 0; i <= DomDirectionalLights.Count - 1; i++)
                     {
-                        DomDLightOutput = DomDLightOutput + "      Begin Actor Class=DirectionalLight Name=" + DomDLightsName[i] + " Archetype=DirectionalLight'/Script/Engine.Default__DirectionalLight'" + Environment.NewLine + "         Begin Object Class=ArrowComponent Name=\"ArrowComponent0\" Archetype=ArrowComponent'/Script/Engine.Default__DirectionalLight:ArrowComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Class=DirectionalLightComponent Name=\"LightComponent0\" Archetype=DirectionalLightComponent'/Script/Engine.Default__DirectionalLight:LightComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "            Begin Object Name=\"ArrowComponent0\"" + Environment.NewLine + "            ArrowColor=(B=33,G=0,R=255,A=255)" + Environment.NewLine + "            AttachParent=LightComponent0" + Environment.NewLine + "         End Object" + Environment.NewLine + "Begin Object Name=\"LightComponent0\"";
+                        DomDirectionalLights.FinalOutput = DomDirectionalLights.FinalOutput + "      Begin Actor Class=DirectionalLight Name=" + DomDLightsName[i] + " Archetype=DirectionalLight'/Script/Engine.Default__DirectionalLight'" + Environment.NewLine + "         Begin Object Class=ArrowComponent Name=\"ArrowComponent0\" Archetype=ArrowComponent'/Script/Engine.Default__DirectionalLight:ArrowComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "         Begin Object Class=DirectionalLightComponent Name=\"LightComponent0\" Archetype=DirectionalLightComponent'/Script/Engine.Default__DirectionalLight:LightComponent0'" + Environment.NewLine + "         End Object" + Environment.NewLine + "            Begin Object Name=\"ArrowComponent0\"" + Environment.NewLine + "            ArrowColor=(B=33,G=0,R=255,A=255)" + Environment.NewLine + "            AttachParent=LightComponent0" + Environment.NewLine + "         End Object" + Environment.NewLine + "Begin Object Name=\"LightComponent0\"";
                         if (DomDLightsMoveable[i] == true)
                         {
-                            DomDLightOutput = DomDLightOutput + Environment.NewLine + "                    Mobility=Movable";
+                            DomDirectionalLights.FinalOutput = DomDirectionalLights.FinalOutput + Environment.NewLine + "                    Mobility=Movable";
                         }
                         else
                         {
                             if (CB_StaticLights.Checked)
                             {
-                                DomDLightOutput = DomDLightOutput + Environment.NewLine + "                    Mobility=Static";
+                                DomDirectionalLights.FinalOutput = DomDirectionalLights.FinalOutput + Environment.NewLine + "                    Mobility=Static";
                             }
                         }
-                        DomDLightOutput = DomDLightOutput + Environment.NewLine + "                    " + DomDLightsColor[i] + Environment.NewLine + "                    " + DomDLightsIntensity[i] + Environment.NewLine + "           " + DomDLightsLocation[i] + Environment.NewLine + "            " + DomDLightsRotation[i] + Environment.NewLine + "                    RelativeScale3D=" + DomDLightsScale3D[i] + Environment.NewLine + "         End Object" + Environment.NewLine + "        SpotLightComponent=LightComponent0" + Environment.NewLine + "        ArrowComponent=ArrowComponent0" + Environment.NewLine + "        LightComponent=LightComponent0" + Environment.NewLine + "        RootComponent=LightComponent0" + Environment.NewLine + "        ActorLabel=\"" + DomDLightsName[i] + "\"\n      End Actor" + Environment.NewLine;
+                        DomDirectionalLights.FinalOutput = DomDirectionalLights.FinalOutput + Environment.NewLine + "                    " + DomDLightsColor[i] + Environment.NewLine + "                    " + DomDLightsIntensity[i] + Environment.NewLine + "           " + DomDLightsLocation[i] + Environment.NewLine + "            " + DomDLightsRotation[i] + Environment.NewLine + "                    RelativeScale3D=" + DomDLightsScale3D[i] + Environment.NewLine + "         End Object" + Environment.NewLine + "        SpotLightComponent=LightComponent0" + Environment.NewLine + "        ArrowComponent=ArrowComponent0" + Environment.NewLine + "        LightComponent=LightComponent0" + Environment.NewLine + "        RootComponent=LightComponent0" + Environment.NewLine + "        ActorLabel=\"" + DomDLightsName[i] + "\"\n      End Actor" + Environment.NewLine;
                     }
-                    // DomDLightOutput = DomDLightsName.Count.ToString() + ", " + DomDLightsLocation.Count.ToString() + ", " + DomDLightsRotation.Count.ToString() + ", " + DomDLightsScale.Count.ToString() + ", " + DomDLightsScale3D.Count.ToString() + ", " + DomDLightsIntensity.Count.ToString() + ", " + DomDLightsColor.Count.ToString();
+                    // DomDirectionalLights.FinalOutput = DomDLightsName.Count.ToString() + ", " + DomDLightsLocation.Count.ToString() + ", " + DomDLightsRotation.Count.ToString() + ", " + DomDLightsScale.Count.ToString() + ", " + DomDLightsScale3D.Count.ToString() + ", " + DomDLightsIntensity.Count.ToString() + ", " + DomDLightsColor.Count.ToString();
                 }
             }
             #endregion
@@ -3390,10 +3338,10 @@ namespace UDKtoUE4Tool
 
             if (checkedListBox1.GetItemCheckState(9) == CheckState.Checked)
             {
-                if (PlayerStartMatch.Count != 0)
+                if (PlayerStarts.Collection.Count != 0)
                 {
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
-                    for (i = 0; i <= NumberOfPlayerStarts - 1; i++)
+                    for (i = 0; i <= PlayerStarts.Count - 1; i++)
                     {
                         PlayerStartsName[i] = ConversionTools.ConvertName(PlayerStartsName, i);
                         PlayerStartsLocation[i] = ConversionTools.ConvertLocation(PlayerStartsLocation, i, CB_MultiplyPosition);
@@ -3403,21 +3351,21 @@ namespace UDKtoUE4Tool
                     }
 
                     //create a new static mesh entry using UE4 syntax for every static mesh found
-                    for (i = 0; i <= NumberOfPlayerStarts - 1; i++)
+                    for (i = 0; i <= PlayerStarts.Count - 1; i++)
                     {
-                        PlayerStartOutput = PlayerStartOutput + "@      Begin Actor Class=PlayerStart Name=" + PlayerStartsName[i] + " Archetype=PlayerStart'/Script/Engine.Default__PlayerStart'@         Begin Object Class=CapsuleComponent Name=\"CollisionCapsule\" Archetype=CapsuleComponent'/Script/Engine.Default__PlayerStart:CollisionCapsule'@            Begin Object Class=BodySetup Name=\"BodySetup_0\"@            End Object@         End Object@         Begin Object Class=BillboardComponent Name=\"Sprite\" Archetype=BillboardComponent'/Script/Engine.Default__PlayerStart:Sprite'@         End Object@         Begin Object Class=BillboardComponent Name=\"Sprite2\" Archetype=BillboardComponent'/Script/Engine.Default__PlayerStart:Sprite2'@         End Object@         Begin Object Class=ArrowComponent Name=\"Arrow\" Archetype=ArrowComponent'/Script/Engine.Default__PlayerStart:Arrow'@         End Object@         Begin Object Name=\"CollisionCapsule\"@            Begin Object Name=\"BodySetup_0\"@               AggGeom=(SphylElems=((TM=(XPlane=(W=0.000000,X=1.000000,Y=0.000000,Z=0.000000),YPlane=(W=0.000000,X=0.000000,Y=-0.000000,Z=1.000000),ZPlane=(W=1.000000,X=-290.000000,Y=11220.000000,Z=260.000000),WPlane=(W=0.000000,X=0.000000,Y=0.000000,Z=-47291914961027072.000000)),Radius=40.000000,Length=104.000000)))@               CollisionTraceFlag=CTF_UseSimpleAsComplex@            End Object";
-                        PlayerStartOutput = PlayerStartOutput + "@           " + PlayerStartsLocation[i] + "@            " + PlayerStartsRotation[i] + "@                    RelativeScale3D=" + PlayerStartsScale3D[i] + "@End Object@         Begin Object Name=\"Sprite\"@            AttachParent=CollisionCapsule@         End Object@         Begin Object Name=\"Sprite2\"@            AttachParent=CollisionCapsule@         End Object@         Begin Object Name=\"Arrow\"@            AttachParent=CollisionCapsule@         End Object@         ArrowComponent=Arrow@         CapsuleComponent=CollisionCapsule@         GoodSprite=Sprite@         BadSprite=Sprite2@         RootComponent=CollisionCapsule@         ActorLabel=\"" + PlayerStartsName[i] + "\"@      End Actor";
-                        PlayerStartOutput = PlayerStartOutput.Replace("@", Environment.NewLine);
+                        PlayerStarts.FinalOutput = PlayerStarts.FinalOutput + "@      Begin Actor Class=PlayerStart Name=" + PlayerStartsName[i] + " Archetype=PlayerStart'/Script/Engine.Default__PlayerStart'@         Begin Object Class=CapsuleComponent Name=\"CollisionCapsule\" Archetype=CapsuleComponent'/Script/Engine.Default__PlayerStart:CollisionCapsule'@            Begin Object Class=BodySetup Name=\"BodySetup_0\"@            End Object@         End Object@         Begin Object Class=BillboardComponent Name=\"Sprite\" Archetype=BillboardComponent'/Script/Engine.Default__PlayerStart:Sprite'@         End Object@         Begin Object Class=BillboardComponent Name=\"Sprite2\" Archetype=BillboardComponent'/Script/Engine.Default__PlayerStart:Sprite2'@         End Object@         Begin Object Class=ArrowComponent Name=\"Arrow\" Archetype=ArrowComponent'/Script/Engine.Default__PlayerStart:Arrow'@         End Object@         Begin Object Name=\"CollisionCapsule\"@            Begin Object Name=\"BodySetup_0\"@               AggGeom=(SphylElems=((TM=(XPlane=(W=0.000000,X=1.000000,Y=0.000000,Z=0.000000),YPlane=(W=0.000000,X=0.000000,Y=-0.000000,Z=1.000000),ZPlane=(W=1.000000,X=-290.000000,Y=11220.000000,Z=260.000000),WPlane=(W=0.000000,X=0.000000,Y=0.000000,Z=-47291914961027072.000000)),Radius=40.000000,Length=104.000000)))@               CollisionTraceFlag=CTF_UseSimpleAsComplex@            End Object";
+                        PlayerStarts.FinalOutput = PlayerStarts.FinalOutput + "@           " + PlayerStartsLocation[i] + "@            " + PlayerStartsRotation[i] + "@                    RelativeScale3D=" + PlayerStartsScale3D[i] + "@End Object@         Begin Object Name=\"Sprite\"@            AttachParent=CollisionCapsule@         End Object@         Begin Object Name=\"Sprite2\"@            AttachParent=CollisionCapsule@         End Object@         Begin Object Name=\"Arrow\"@            AttachParent=CollisionCapsule@         End Object@         ArrowComponent=Arrow@         CapsuleComponent=CollisionCapsule@         GoodSprite=Sprite@         BadSprite=Sprite2@         RootComponent=CollisionCapsule@         ActorLabel=\"" + PlayerStartsName[i] + "\"@      End Actor";
+                        PlayerStarts.FinalOutput = PlayerStarts.FinalOutput.Replace("@", Environment.NewLine);
                     }
                 }
             }
 
             if (checkedListBox1.GetItemCheckState(10) == CheckState.Checked)
             {
-                if (CameraMatch.Count != 0)
+                if (Cameras.Collection.Count != 0)
                 {
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
-                    for (i = 0; i <= NumberOfCameras - 1; i++)
+                    for (i = 0; i <= Cameras.Count - 1; i++)
                     {
                         CamerasName[i] = ConversionTools.ConvertName(CamerasName, i);
                         CamerasLocation[i] = ConversionTools.ConvertLocation(CamerasLocation, i, CB_MultiplyPosition);
@@ -3429,19 +3377,19 @@ namespace UDKtoUE4Tool
                     }
 
                     //create a new Camera entry using UE4 syntax for every Camera found
-                    for (i = 0; i <= NumberOfCameras - 1; i++)
+                    for (i = 0; i <= Cameras.Count - 1; i++)
                     {
-                        CameraOutput = CameraOutput + "@      Begin Actor Class=CameraActor Name=" + CamerasName[i] + " Archetype=CameraActor'/Script/Engine.Default__CameraActor'@         Begin Object Class=DrawFrustumComponent Name=\"DrawFrustumComponent_17\"@         End Object@         Begin Object Class=StaticMeshComponent Name=\"StaticMeshComponent_22\"@         End Object@         Begin Object Class=CameraComponent Name=\"CameraComponent\" Archetype=CameraComponent'/Script/Engine.Default__CameraActor:CameraComponent'@         End Object@         Begin Object Name=\"DrawFrustumComponent_17\"@            FrustumAngle=";
-                        CameraOutput = CameraOutput + CamerasFOV[i] + "@";
-                        CameraOutput = CameraOutput + "            FrustumAspectRatio=" + CamerasAS[i] + "@";
-                        CameraOutput = CameraOutput + "            FrustumStartDist=10.000000@            AlwaysLoadOnClient=False@            AlwaysLoadOnServer=False@            AttachParent=CameraComponent@         End Object@         Begin Object Name=\"StaticMeshComponent_22\"@            StaticMesh=StaticMesh'/Engine/EditorMeshes/MatineeCam_SM.MatineeCam_SM'@            CastShadow=False@            BodyInstance=(ResponseToChannels=(Visibility=ECR_Ignore,Camera=ECR_Ignore),CollisionProfileName=\"NoCollision\",CollisionEnabled=NoCollision,ObjectType=ECC_WorldStatic,CollisionResponses=(ResponseArray=((Channel=\"Visibility\",Response=ECR_Ignore),(Channel=\"Camera\",Response=ECR_Ignore))))@            bHiddenInGame=True@            AttachParent=CameraComponent@         End Object@         Begin Object Name=\"CameraComponent\"@";
-                        CameraOutput = CameraOutput + "            FieldOfView=" + CamerasFOV[i] + "@            AspectRatio=" + CamerasAS[i] + "@";
+                        Cameras.FinalOutput = Cameras.FinalOutput + "@      Begin Actor Class=CameraActor Name=" + CamerasName[i] + " Archetype=CameraActor'/Script/Engine.Default__CameraActor'@         Begin Object Class=DrawFrustumComponent Name=\"DrawFrustumComponent_17\"@         End Object@         Begin Object Class=StaticMeshComponent Name=\"StaticMeshComponent_22\"@         End Object@         Begin Object Class=CameraComponent Name=\"CameraComponent\" Archetype=CameraComponent'/Script/Engine.Default__CameraActor:CameraComponent'@         End Object@         Begin Object Name=\"DrawFrustumComponent_17\"@            FrustumAngle=";
+                        Cameras.FinalOutput = Cameras.FinalOutput + CamerasFOV[i] + "@";
+                        Cameras.FinalOutput = Cameras.FinalOutput + "            FrustumAspectRatio=" + CamerasAS[i] + "@";
+                        Cameras.FinalOutput = Cameras.FinalOutput + "            FrustumStartDist=10.000000@            AlwaysLoadOnClient=False@            AlwaysLoadOnServer=False@            AttachParent=CameraComponent@         End Object@         Begin Object Name=\"StaticMeshComponent_22\"@            StaticMesh=StaticMesh'/Engine/EditorMeshes/MatineeCam_SM.MatineeCam_SM'@            CastShadow=False@            BodyInstance=(ResponseToChannels=(Visibility=ECR_Ignore,Camera=ECR_Ignore),CollisionProfileName=\"NoCollision\",CollisionEnabled=NoCollision,ObjectType=ECC_WorldStatic,CollisionResponses=(ResponseArray=((Channel=\"Visibility\",Response=ECR_Ignore),(Channel=\"Camera\",Response=ECR_Ignore))))@            bHiddenInGame=True@            AttachParent=CameraComponent@         End Object@         Begin Object Name=\"CameraComponent\"@";
+                        Cameras.FinalOutput = Cameras.FinalOutput + "            FieldOfView=" + CamerasFOV[i] + "@            AspectRatio=" + CamerasAS[i] + "@";
                         if (CamerasConstrainAS[i])
                         {
-                            CameraOutput = CameraOutput + "            bConstrainAspectRatio = False@";
+                            Cameras.FinalOutput = Cameras.FinalOutput + "            bConstrainAspectRatio = False@";
                         }
-                        CameraOutput = CameraOutput + "   " + CamerasLocation[i] + "@            RelativeScale3D=" + CamerasScale3D[i] + "@   " + CamerasRotation[i] + "@         End Object@         CameraComponent=CameraComponent@         RootComponent=CameraComponent@         ActorLabel=\"" + CamerasName[i] + "\"@      End Actor";
-                        CameraOutput = CameraOutput.Replace("@", Environment.NewLine);
+                        Cameras.FinalOutput = Cameras.FinalOutput + "   " + CamerasLocation[i] + "@            RelativeScale3D=" + CamerasScale3D[i] + "@   " + CamerasRotation[i] + "@         End Object@         CameraComponent=CameraComponent@         RootComponent=CameraComponent@         ActorLabel=\"" + CamerasName[i] + "\"@      End Actor";
+                        Cameras.FinalOutput = Cameras.FinalOutput.Replace("@", Environment.NewLine);
                     }
                 }
             }
@@ -3450,33 +3398,33 @@ namespace UDKtoUE4Tool
 
             if (checkedListBox1.GetItemCheckState(11) == CheckState.Checked)
             {
-                if (DecalsMatch.Count != 0)
+                if (Decals.Collection.Count != 0)
                 {
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
-                    for (i = 0; i <= NumberOfDecals - 1; i++)
+                    for (i = 0; i <= Decals.Count - 1; i++)
                     {
                         DecalsName[i] = ConversionTools.ConvertName(DecalsName, i);
                         DecalsLocation[i] = ConversionTools.ConvertLocation(DecalsLocation, i, CB_MultiplyPosition);
                         DecalsRotation[i] = ConversionTools.ConvertRotation(DecalsRotation, i);
-                        DecalsMat[i] = ConversionTools.ConvertDecalMat(DecalsMat, i,TB_AssetPath);
+                        DecalsMat[i] = ConversionTools.ConvertDecalMat(DecalsMat, i, TB_AssetPath);
                         temp2 = ConversionTools.GetDecalScale(DecalsWidth, DecalsHeight, i, CB_MultiplyScale);
                     }
 
                     //create a new Decal entry using UE4 syntax for every Decal found
-                    for (i = 0; i <= NumberOfDecals - 1; i++)
+                    for (i = 0; i <= Decals.Count - 1; i++)
                     {
-                        DecalsOutput = DecalsOutput + "@      Begin Actor Class=DecalActor " + DecalsName[i] + " Archetype=DecalActor'Engine.Default__DecalActor'";
-                        DecalsOutput = DecalsOutput + "@         Begin Object Class=DecalComponent Name=\"NewDecalComponent\" Archetype=DecalComponent'/Script/Engine.Default__DecalActor:NewDecalComponent'@         End Object@         Begin Object Class=BoxComponent Name=\"DrawBox0\" Archetype=BoxComponent'/Script/Engine.Default__DecalActor:DrawBox0'@            Begin Object Class=BodySetup Name=\"BodySetup_5\"@            End Object@         End Object@         Begin Object Class=ArrowComponent Name=\"ArrowComponent0\" Archetype=ArrowComponent'/Script/Engine.Default__DecalActor:ArrowComponent0'@         End Object@         Begin Object Class=BillboardComponent Name=\"Sprite\" Archetype=BillboardComponent'/Script/Engine.Default__DecalActor:Sprite'@         End Object@         Begin Object Name=\"NewDecalComponent\"";
-                        DecalsOutput = DecalsOutput + "@" + DecalsMat[i];
-                        DecalsOutput = DecalsOutput + "@" + DecalsLocation[i];
-                        DecalsOutput = DecalsOutput + "@" + DecalsRotation[i];
-                        DecalsOutput = DecalsOutput + "@            RelativeScale3D=" + temp2 + "@         End Object";
-                        DecalsOutput = DecalsOutput + "@         Begin Object Name=\"ArrowComponent0\"@            AttachParent=NewDecalComponent@         End Object@         Begin Object Name=\"Sprite\"@            AttachParent=NewDecalComponent@         End Object@         Decal=NewDecalComponent@         ArrowComponent=ArrowComponent0@         SpriteComponent=Sprite@         BoxComponent=DrawBox0@         RootComponent=NewDecalComponent@         ActorLabel=\"" + DecalsName[i] + "\"@      End Actor";
-                        DecalsOutput = DecalsOutput.Replace("@", Environment.NewLine);
+                        Decals.FinalOutput = Decals.FinalOutput + "@      Begin Actor Class=DecalActor " + DecalsName[i] + " Archetype=DecalActor'Engine.Default__DecalActor'";
+                        Decals.FinalOutput = Decals.FinalOutput + "@         Begin Object Class=DecalComponent Name=\"NewDecalComponent\" Archetype=DecalComponent'/Script/Engine.Default__DecalActor:NewDecalComponent'@         End Object@         Begin Object Class=BoxComponent Name=\"DrawBox0\" Archetype=BoxComponent'/Script/Engine.Default__DecalActor:DrawBox0'@            Begin Object Class=BodySetup Name=\"BodySetup_5\"@            End Object@         End Object@         Begin Object Class=ArrowComponent Name=\"ArrowComponent0\" Archetype=ArrowComponent'/Script/Engine.Default__DecalActor:ArrowComponent0'@         End Object@         Begin Object Class=BillboardComponent Name=\"Sprite\" Archetype=BillboardComponent'/Script/Engine.Default__DecalActor:Sprite'@         End Object@         Begin Object Name=\"NewDecalComponent\"";
+                        Decals.FinalOutput = Decals.FinalOutput + "@" + DecalsMat[i];
+                        Decals.FinalOutput = Decals.FinalOutput + "@" + DecalsLocation[i];
+                        Decals.FinalOutput = Decals.FinalOutput + "@" + DecalsRotation[i];
+                        Decals.FinalOutput = Decals.FinalOutput + "@            RelativeScale3D=" + temp2 + "@         End Object";
+                        Decals.FinalOutput = Decals.FinalOutput + "@         Begin Object Name=\"ArrowComponent0\"@            AttachParent=NewDecalComponent@         End Object@         Begin Object Name=\"Sprite\"@            AttachParent=NewDecalComponent@         End Object@         Decal=NewDecalComponent@         ArrowComponent=ArrowComponent0@         SpriteComponent=Sprite@         BoxComponent=DrawBox0@         RootComponent=NewDecalComponent@         ActorLabel=\"" + DecalsName[i] + "\"@      End Actor";
+                        Decals.FinalOutput = Decals.FinalOutput.Replace("@", Environment.NewLine);
 
 
                     }
-                    //DecalsOutput = DecalsName.Count.ToString() + ", " + DecalsLocation.Count.ToString() + ", " + DecalsRotation.Count.ToString() + ", " + DecalsWidth.Count.ToString() + ", " + DecalsHeight.Count.ToString() + ", " + DecalsMat.Count.ToString();
+                    //Decals.FinalOutput = DecalsName.Count.ToString() + ", " + DecalsLocation.Count.ToString() + ", " + DecalsRotation.Count.ToString() + ", " + DecalsWidth.Count.ToString() + ", " + DecalsHeight.Count.ToString() + ", " + DecalsMat.Count.ToString();
 
                 }
             }
@@ -3485,10 +3433,10 @@ namespace UDKtoUE4Tool
             //particles
             if (checkedListBox1.GetItemCheckState(12) == CheckState.Checked)
             {
-                if (ParticlesMatch.Count != 0)
+                if (Particles1.Collection.Count != 0)
                 {
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
-                    for (i = 0; i <= NumberOfParticles - 1; i++)
+                    for (i = 0; i <= Particles1.Count - 1; i++)
                     {
                         ParticlesName[i] = ConversionTools.ConvertName(ParticlesName, i);
                         Particles[i] = ConversionTools.ConvertStaticMeshPath(Particles, i, 2, TB_AssetPath);
@@ -3504,17 +3452,17 @@ namespace UDKtoUE4Tool
                     }
 
                     //create a new static mesh entry using UE4 syntax for every static mesh found
-                    for (i = 0; i <= NumberOfParticles - 1; i++)
+                    for (i = 0; i <= Particles1.Count - 1; i++)
                     {
-                        ParticlesOutput = ParticlesOutput + "@      Begin Actor Class=Emitter Name=" + ParticlesName[i] + "  Archetype=Emitter'/Script/Engine.Default__Emitter'Begin Object Class=ParticleSystemComponent Name=\"ParticleSystemComponent0\" Archetype=ParticleSystemComponent'/Script/Engine.Default__Emitter:ParticleSystemComponent0'@         End Object@         Begin Object Class=BillboardComponent Name=\"Sprite\" Archetype=BillboardComponent'/Script/Engine.Default__Emitter:Sprite'@         End Object@         Begin Object Class=ArrowComponent Name=\"ArrowComponent0\" Archetype=ArrowComponent'/Script/Engine.Default__Emitter:ArrowComponent0'@         End Object@         Begin Object Name=\"ParticleSystemComponent0\"@";
-                        ParticlesOutput = ParticlesOutput + "        " + Particles[i] + Environment.NewLine;
+                        Particles1.FinalOutput = Particles1.FinalOutput + "@      Begin Actor Class=Emitter Name=" + ParticlesName[i] + "  Archetype=Emitter'/Script/Engine.Default__Emitter'Begin Object Class=ParticleSystemComponent Name=\"ParticleSystemComponent0\" Archetype=ParticleSystemComponent'/Script/Engine.Default__Emitter:ParticleSystemComponent0'@         End Object@         Begin Object Class=BillboardComponent Name=\"Sprite\" Archetype=BillboardComponent'/Script/Engine.Default__Emitter:Sprite'@         End Object@         Begin Object Class=ArrowComponent Name=\"ArrowComponent0\" Archetype=ArrowComponent'/Script/Engine.Default__Emitter:ArrowComponent0'@         End Object@         Begin Object Name=\"ParticleSystemComponent0\"@";
+                        Particles1.FinalOutput = Particles1.FinalOutput + "        " + Particles[i] + Environment.NewLine;
                         if (ParticlesMaterials[i] != string.Empty)
                         {
-                            ParticlesOutput = ParticlesOutput + ParticlesMaterials[i];
+                            Particles1.FinalOutput = Particles1.FinalOutput + ParticlesMaterials[i];
                         }
-                        ParticlesOutput = ParticlesOutput + "           " + ParticlesLocation[i] + "@            " + ParticlesRotation[i] + "@                    RelativeScale3D=" + ParticlesScale3D[i] + "@         End Object@         Begin Object Name=\"Sprite\"@            AttachParent=ParticleSystemComponent0@         End Object@         Begin Object Name=\"ArrowComponent0\"@            AttachParent=ParticleSystemComponent0@         End Object@         ParticleSystemComponent=ParticleSystemComponent0@         SpriteComponent=Sprite@         ArrowComponent=ArrowComponent0@         RootComponent=ParticleSystemComponent0@";
-                        ParticlesOutput = ParticlesOutput + "         ActorLabel=\"" + ParticlesName[i] + "\"@      End Actor";
-                        ParticlesOutput = ParticlesOutput.Replace("@", Environment.NewLine);
+                        Particles1.FinalOutput = Particles1.FinalOutput + "           " + ParticlesLocation[i] + "@            " + ParticlesRotation[i] + "@                    RelativeScale3D=" + ParticlesScale3D[i] + "@         End Object@         Begin Object Name=\"Sprite\"@            AttachParent=ParticleSystemComponent0@         End Object@         Begin Object Name=\"ArrowComponent0\"@            AttachParent=ParticleSystemComponent0@         End Object@         ParticleSystemComponent=ParticleSystemComponent0@         SpriteComponent=Sprite@         ArrowComponent=ArrowComponent0@         RootComponent=ParticleSystemComponent0@";
+                        Particles1.FinalOutput = Particles1.FinalOutput + "         ActorLabel=\"" + ParticlesName[i] + "\"@      End Actor";
+                        Particles1.FinalOutput = Particles1.FinalOutput.Replace("@", Environment.NewLine);
                     }
                 }
             }
@@ -3524,10 +3472,10 @@ namespace UDKtoUE4Tool
             //Fog Actors
             if (checkedListBox1.GetItemCheckState(13) == CheckState.Checked)
             {
-                if (FogMatch.Count != 0)
+                if (Fogs.Collection.Count != 0)
                 {
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
-                    for (i = 0; i <= NumberofFog - 1; i++)
+                    for (i = 0; i <= Fogs.Count - 1; i++)
                     {
                         FogName[i] = ConversionTools.ConvertName(FogName, i);
                         FogLocation[i] = ConversionTools.ConvertLocation(FogLocation, i, CB_MultiplyPosition);
@@ -3540,16 +3488,16 @@ namespace UDKtoUE4Tool
                     }
 
                     //create a new static mesh entry using UE4 syntax for every static mesh found
-                    for (i = 0; i <= NumberofFog - 1; i++)
+                    for (i = 0; i <= Fogs.Count - 1; i++)
                     {
-                        FogOutput = FogOutput + "@      Begin Actor Class=ExponentialHeightFog " + FogName[i] + " Archetype=ExponentialHeightFog'/Script/Engine.Default__ExponentialHeightFog'@         Begin Object Class=ExponentialHeightFogComponent Name=\"HeightFogComponent0\" Archetype=ExponentialHeightFogComponent'/Script/Engine.Default__ExponentialHeightFog:HeightFogComponent0'@         End Object@        Begin Object Class=BillboardComponent Name=\"Sprite\" Archetype=BillboardComponent'/Script/Engine.Default__ExponentialHeightFog:Sprite'@         End Object@        Begin Object Name=\"HeightFogComponent0\"@";
-                        FogOutput = FogOutput + "           " + FogLightInScatterColor[i] + "@           " + FogOppLightColor[i] + "@           " + FogStartDistance[i] + "@           " + FogHeightFalloff[i] + "@           " + FogMaxOpacity[i] + "@           " + FogDensity[i] + "@           " + FogLocation[i] + "@            " + FogRotation[i] + "@                    RelativeScale3D=" + FogScale3D[i];
-                        FogOutput = FogOutput + "@         End Object@         Begin Object Name=\"Sprite\"@            AttachParent=HeightFogComponent0@         End Object@         Component=HeightFogComponent0@         SpriteComponent=Sprite@         RootComponent=HeightFogComponent0";
-                        FogOutput = FogOutput + "@ ActorLabel=\"" + FogName[i] + "\"@      End Actor";
-                        FogOutput = FogOutput.Replace("@", Environment.NewLine);
+                        Fogs.FinalOutput = Fogs.FinalOutput + "@      Begin Actor Class=ExponentialHeightFog " + FogName[i] + " Archetype=ExponentialHeightFog'/Script/Engine.Default__ExponentialHeightFog'@         Begin Object Class=ExponentialHeightFogComponent Name=\"HeightFogComponent0\" Archetype=ExponentialHeightFogComponent'/Script/Engine.Default__ExponentialHeightFog:HeightFogComponent0'@         End Object@        Begin Object Class=BillboardComponent Name=\"Sprite\" Archetype=BillboardComponent'/Script/Engine.Default__ExponentialHeightFog:Sprite'@         End Object@        Begin Object Name=\"HeightFogComponent0\"@";
+                        Fogs.FinalOutput = Fogs.FinalOutput + "           " + FogLightInScatterColor[i] + "@           " + FogOppLightColor[i] + "@           " + FogStartDistance[i] + "@           " + FogHeightFalloff[i] + "@           " + FogMaxOpacity[i] + "@           " + FogDensity[i] + "@           " + FogLocation[i] + "@            " + FogRotation[i] + "@                    RelativeScale3D=" + FogScale3D[i];
+                        Fogs.FinalOutput = Fogs.FinalOutput + "@         End Object@         Begin Object Name=\"Sprite\"@            AttachParent=HeightFogComponent0@         End Object@         Component=HeightFogComponent0@         SpriteComponent=Sprite@         RootComponent=HeightFogComponent0";
+                        Fogs.FinalOutput = Fogs.FinalOutput + "@ ActorLabel=\"" + FogName[i] + "\"@      End Actor";
+                        Fogs.FinalOutput = Fogs.FinalOutput.Replace("@", Environment.NewLine);
                     }
 
-                    // FogOutput = FogName.Count + "," + FogLocation.Count + "," + FogRotation.Count + "," + FogScale.Count + "," + FogScale3D.Count + "," + FogDensity.Count + "," + FogMaxOpacity.Count + "," + FogStartDistance.Count + "," + FogOppLightColor.Count + "," + FogLightInScatterColor.Count;
+                    // Fogs.FinalOutput = FogName.Count + "," + FogLocation.Count + "," + FogRotation.Count + "," + FogScale.Count + "," + FogScale3D.Count + "," + FogDensity.Count + "," + FogMaxOpacity.Count + "," + FogStartDistance.Count + "," + FogOppLightColor.Count + "," + FogLightInScatterColor.Count;
                 }
             }
 
@@ -3559,10 +3507,10 @@ namespace UDKtoUE4Tool
 
             if (checkedListBox1.GetItemCheckState(14) == CheckState.Checked)
             {
-                if (SoundsMatch.Count != 0)
+                if (Sounds.Collection.Count != 0)
                 {
                     //loop through every stored line, Strip unesssary text, replace as needed, and convert values
-                    for (i = 0; i <= NumberOfSounds - 1; i++)
+                    for (i = 0; i <= Sounds.Count - 1; i++)
                     {
                         SoundsName[i] = ConversionTools.ConvertName(SoundsName, i);
                         if (!SoundsSimple[i])
@@ -3617,25 +3565,25 @@ namespace UDKtoUE4Tool
                     }
 
                     //create a new Sound entry using UE4 syntax for every sound found
-                    for (i = 0; i <= NumberOfSounds - 1; i++)
+                    for (i = 0; i <= Sounds.Count - 1; i++)
                     {
-                        SoundOutput = SoundOutput + "@      Begin Actor Class=AmbientSound " + SoundsName[i] + " Archetype=AmbientSound'/Script/Engine.Default__AmbientSound'@         Begin Object Class=AudioComponent Name=\"AudioComponent0\" Archetype=AudioComponent'/Script/Engine.Default__AmbientSound:AudioComponent0'@         End Object@         Begin Object Name=\"AudioComponent0\"@";
+                        Sounds.FinalOutput = Sounds.FinalOutput + "@      Begin Actor Class=AmbientSound " + SoundsName[i] + " Archetype=AmbientSound'/Script/Engine.Default__AmbientSound'@         Begin Object Class=AudioComponent Name=\"AudioComponent0\" Archetype=AudioComponent'/Script/Engine.Default__AmbientSound:AudioComponent0'@         End Object@         Begin Object Name=\"AudioComponent0\"@";
 
                         if (!SoundsSimple[i])
                         {
-                            SoundOutput = SoundOutput + "        " + SoundCue[i] + Environment.NewLine;
+                            Sounds.FinalOutput = Sounds.FinalOutput + "        " + SoundCue[i] + Environment.NewLine;
                         }
                         else
                         {
-                            SoundOutput = SoundOutput + "        " + SoundsSlots[i] + Environment.NewLine;
+                            Sounds.FinalOutput = Sounds.FinalOutput + "        " + SoundsSlots[i] + Environment.NewLine;
                         }
                         if (temp4 != string.Empty)
                         {
-                            SoundOutput = SoundOutput + "                    bOverrideAttenuation=True@                    AttenuationOverrides=(" + temp4 + ")" + Environment.NewLine;
+                            Sounds.FinalOutput = Sounds.FinalOutput + "                    bOverrideAttenuation=True@                    AttenuationOverrides=(" + temp4 + ")" + Environment.NewLine;
                         }
-                        SoundOutput = SoundOutput + "                    " + SoundsVolumeMulti[i] + "@                    " + SoundsPitchMulti[i] + "@                    " + SoundsVolMin[i] + "@                    " + SoundsVolMax[i] + "@                    " + SoundsPitchMin[i] + "@                    " + SoundsPitchMax[i] + "@                    " + SoundsHFMulti[i] + "@           " + SoundsLocation[i] + "@            " + SoundsRotation[i] + "@                    RelativeScale3D=" + SoundsScale3D[i] + "@         End Object@         AudioComponent=AudioComponent0@         RootComponent=AudioComponent0@";
-                        SoundOutput = SoundOutput + "         ActorLabel=\"" + SoundsName[i] + "\"@      End Actor";
-                        SoundOutput = SoundOutput.Replace("@", Environment.NewLine);
+                        Sounds.FinalOutput = Sounds.FinalOutput + "                    " + SoundsVolumeMulti[i] + "@                    " + SoundsPitchMulti[i] + "@                    " + SoundsVolMin[i] + "@                    " + SoundsVolMax[i] + "@                    " + SoundsPitchMin[i] + "@                    " + SoundsPitchMax[i] + "@                    " + SoundsHFMulti[i] + "@           " + SoundsLocation[i] + "@            " + SoundsRotation[i] + "@                    RelativeScale3D=" + SoundsScale3D[i] + "@         End Object@         AudioComponent=AudioComponent0@         RootComponent=AudioComponent0@";
+                        Sounds.FinalOutput = Sounds.FinalOutput + "         ActorLabel=\"" + SoundsName[i] + "\"@      End Actor";
+                        Sounds.FinalOutput = Sounds.FinalOutput.Replace("@", Environment.NewLine);
                     }
                 }
             }
@@ -3646,84 +3594,84 @@ namespace UDKtoUE4Tool
             //wrap the New generated T3D actors in the level code.
             Finaloutput = "Begin Map" + Environment.NewLine + "   Begin Level" + Environment.NewLine;
 
-            if (LoopOutput != string.Empty)
+            if (StaticMeshes.FinalOutput != string.Empty)
             {
-                Finaloutput = Finaloutput + LoopOutput + Environment.NewLine;
+                Finaloutput = Finaloutput + StaticMeshes.FinalOutput + Environment.NewLine;
             }
-            if (KactorOutput != string.Empty)
+            if (KStaticMeshs.FinalOutput != string.Empty)
             {
-                Finaloutput = Finaloutput + KactorOutput + Environment.NewLine;
+                Finaloutput = Finaloutput + KStaticMeshs.FinalOutput + Environment.NewLine;
             }
-            if (InterpOutput != string.Empty)
+            if (InteropStaticMeshs.FinalOutput != string.Empty)
             {
-                Finaloutput = Finaloutput + InterpOutput + Environment.NewLine;
+                Finaloutput = Finaloutput + InteropStaticMeshs.FinalOutput + Environment.NewLine;
             }
-            if (SKmeshOutput != string.Empty)
+            if (SkeletalMeshs.FinalOutput != string.Empty)
             {
-                Finaloutput = Finaloutput + SKmeshOutput + Environment.NewLine;
+                Finaloutput = Finaloutput + SkeletalMeshs.FinalOutput + Environment.NewLine;
             }
-            if (PLightOutput != string.Empty)
+            if (PointLights.FinalOutput != string.Empty)
             {
-                Finaloutput = Finaloutput + PLightOutput + Environment.NewLine;
+                Finaloutput = Finaloutput + PointLights.FinalOutput + Environment.NewLine;
             }
-            if (SLightOutput != string.Empty)
+            if (SpotLIghts.FinalOutput != string.Empty)
             {
-                Finaloutput = Finaloutput + SLightOutput + Environment.NewLine;
+                Finaloutput = Finaloutput + SpotLIghts.FinalOutput + Environment.NewLine;
             }
-            if (DLightOutput != string.Empty)
+            if (DirectionalLights.FinalOutput != string.Empty)
             {
-                Finaloutput = Finaloutput + DLightOutput + Environment.NewLine;
+                Finaloutput = Finaloutput + DirectionalLights.FinalOutput + Environment.NewLine;
             }
-            if (DomPLightOutput != string.Empty)
+            if (DomPointLights.FinalOutput != string.Empty)
             {
-                Finaloutput = Finaloutput + DomPLightOutput + Environment.NewLine;
+                Finaloutput = Finaloutput + DomPointLights.FinalOutput + Environment.NewLine;
             }
-            if (DomDLightOutput != string.Empty)
+            if (DomDirectionalLights.FinalOutput != string.Empty)
             {
-                Finaloutput = Finaloutput + DomDLightOutput + Environment.NewLine;
+                Finaloutput = Finaloutput + DomDirectionalLights.FinalOutput + Environment.NewLine;
             }
-            if (DomSLightOutput != string.Empty)
+            if (DomSpotLIghts.FinalOutput != string.Empty)
             {
-                Finaloutput = Finaloutput + DomSLightOutput + Environment.NewLine;
+                Finaloutput = Finaloutput + DomSpotLIghts.FinalOutput + Environment.NewLine;
             }
-            if (PlayerStartOutput != string.Empty)
+            if (PlayerStarts.FinalOutput != string.Empty)
             {
-                Finaloutput = Finaloutput + PlayerStartOutput + Environment.NewLine;
+                Finaloutput = Finaloutput + PlayerStarts.FinalOutput + Environment.NewLine;
             }
-            if (CameraOutput != string.Empty)
+            if (Cameras.FinalOutput != string.Empty)
             {
-                Finaloutput = Finaloutput + CameraOutput + Environment.NewLine;
+                Finaloutput = Finaloutput + Cameras.FinalOutput + Environment.NewLine;
             }
-            if (DecalsOutput != string.Empty)
+            if (Decals.FinalOutput != string.Empty)
             {
-                Finaloutput = Finaloutput + DecalsOutput + Environment.NewLine;
+                Finaloutput = Finaloutput + Decals.FinalOutput + Environment.NewLine;
             }
-            if (ParticlesOutput != string.Empty)
+            if (Particles1.FinalOutput != string.Empty)
             {
-                Finaloutput = Finaloutput + ParticlesOutput + Environment.NewLine;
+                Finaloutput = Finaloutput + Particles1.FinalOutput + Environment.NewLine;
             }
-            if (FoliageOutput != string.Empty)
+            if (Foliages.FinalOutput != string.Empty)
             {
-                Finaloutput = Finaloutput + FoliageOutput + Environment.NewLine;
+                Finaloutput = Finaloutput + Foliages.FinalOutput + Environment.NewLine;
             }
-            if(DestructOutput != string.Empty)
+            if (DestructableStaticMeshs.FinalOutput != string.Empty)
             {
-                Finaloutput = Finaloutput + DestructOutput + Environment.NewLine;
+                Finaloutput = Finaloutput + DestructableStaticMeshs.FinalOutput + Environment.NewLine;
             }
-            if (ApexOutput != string.Empty)
+            if (ApexMeshs.FinalOutput != string.Empty)
             {
-                Finaloutput = Finaloutput + ApexOutput + Environment.NewLine;
+                Finaloutput = Finaloutput + ApexMeshs.FinalOutput + Environment.NewLine;
             }
-            if (SoundOutput != string.Empty)
+            if (Sounds.FinalOutput != string.Empty)
             {
-                Finaloutput = Finaloutput + SoundOutput + Environment.NewLine;
+                Finaloutput = Finaloutput + Sounds.FinalOutput + Environment.NewLine;
             }
-            if (FogOutput != string.Empty)
+            if (Fogs.FinalOutput != string.Empty)
             {
-                Finaloutput = Finaloutput + FogOutput + Environment.NewLine;
+                Finaloutput = Finaloutput + Fogs.FinalOutput + Environment.NewLine;
             }
 
-            Finaloutput = Finaloutput +  "   End Level" + Environment.NewLine + "Begin Surface" + Environment.NewLine + "End Surface" + Environment.NewLine + "End Map";
+            Finaloutput = Finaloutput + "   End Level" + Environment.NewLine + "Begin Surface" + Environment.NewLine + "End Surface" + Environment.NewLine + "End Map";
 
             richTextBox1.Text = Finaloutput;
             #endregion
@@ -3754,7 +3702,7 @@ namespace UDKtoUE4Tool
                 UE3Material = UE3Material.Replace("SpecularPower=", "Roughness=");
 
                 split = UE3MaterialPath.Split("\\".ToCharArray());
-                
+
                 UE3MaterialPath = UE3MaterialPath.Replace(split[split.Length - 1], "");
 
                 //Console.WriteLine(UE3MaterialPath + "UE4_" + split[split.Length - 1]);
@@ -3771,7 +3719,7 @@ namespace UDKtoUE4Tool
         }
 
 
-        
+
         /******************** Code for Material Converter ************************ */
 
         private void contactToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3790,7 +3738,7 @@ namespace UDKtoUE4Tool
                     while ((s = sr.ReadLine()) != null)
                     {
                         TB_ContentDir.Text = s;
-                       // textBox5.Text = s;
+                        // textBox5.Text = s;
                     }
                 }
             }
@@ -3800,7 +3748,7 @@ namespace UDKtoUE4Tool
         {
             if (richTextBox1.Text == "Paste UDK T3D here")
             {
-            richTextBox1.Text = null;
+                richTextBox1.Text = null;
             }
         }
 
@@ -3814,7 +3762,7 @@ namespace UDKtoUE4Tool
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 TB_ContentDir.Text = folderBrowserDialog1.SelectedPath;
-               // textBox5.Text = folderBrowserDialog1.SelectedPath;
+                // textBox5.Text = folderBrowserDialog1.SelectedPath;
                 WriteToSaveFile(folderBrowserDialog1.SelectedPath);
             }
         }
@@ -3851,7 +3799,7 @@ namespace UDKtoUE4Tool
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 TB_ContentDir.Text = folderBrowserDialog1.SelectedPath;
-               // textBox5.Text = folderBrowserDialog1.SelectedPath;
+                // textBox5.Text = folderBrowserDialog1.SelectedPath;
                 WriteToSaveFile(folderBrowserDialog1.SelectedPath);
             }
 
@@ -3880,5 +3828,5 @@ namespace UDKtoUE4Tool
         }
     }
     // PaintedVertices(26)=((Position=(X=0.000000,Y=-191.999969,Z=0.000014),(Normal=(X=127,Y=127,Z=0,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-191.999969,Z=0.000014),(Normal=(X=127,Y=127,Z=0,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-0.000008,Z=0.000000),(Normal=(X=127,Y=127,Z=0,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-0.000008,Z=0.000000),(Normal=(X=127,Y=127,Z=0,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-0.000008,Z=0.000000),(Normal=(X=127,Y=127,Z=0,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-191.999969,Z=0.000014),(Normal=(X=127,Y=127,Z=0,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-191.999939,Z=32.000015),(Normal=(X=127,Y=0,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-191.999939,Z=32.000015),(Normal=(X=127,Y=0,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-191.999969,Z=0.000014),(Normal=(X=127,Y=0,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-191.999969,Z=0.000014),(Normal=(X=127,Y=0,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-0.000008,Z=0.000000),(Normal=(X=127,Y=254,Z=127,W=255),(Color=(B=0,G=0,R=255,A=255)),((Position=(X=512.000000,Y=-0.000008,Z=0.000000),(Normal=(X=127,Y=254,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-0.000002,Z=32.000000),(Normal=(X=127,Y=254,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-0.000002,Z=32.000000),(Normal=(X=127,Y=254,Z=127,W=255),(Color=(B=0,G=0,R=255,A=255)),((Position=(X=512.000000,Y=-191.999939,Z=32.000015),(Normal=(X=254,Y=127,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-0.000002,Z=32.000000),(Normal=(X=254,Y=127,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-0.000008,Z=0.000000),(Normal=(X=254,Y=127,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-191.999969,Z=0.000014),(Normal=(X=254,Y=127,Z=127,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-191.999939,Z=32.000015),(Normal=(X=127,Y=127,Z=254,W=255),(Color=(B=0,G=0,R=255,A=255)),((Position=(X=0.000000,Y=-0.000002,Z=32.000000),(Normal=(X=127,Y=127,Z=254,W=255),(Color=(B=0,G=0,R=255,A=255)),((Position=(X=512.000000,Y=-0.000002,Z=32.000000),(Normal=(X=127,Y=127,Z=254,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=512.000000,Y=-191.999939,Z=32.000015),(Normal=(X=127,Y=127,Z=254,W=255),(Color=(B=255,G=255,R=255,A=255)),((Position=(X=0.000000,Y=-191.999969,Z=0.000014),(Normal=(X=0,Y=127,Z=127,W=255),(Color=(B=0,G=0,R=255,A=255)),((Position=(X=0.000000,Y=-0.000008,Z=0.000000),(Normal=(X=0,Y=127,Z=127,W=255),(Color=(B=0,G=0,R=255,A=255)),((Position=(X=0.000000,Y=-0.000002,Z=32.000000),(Normal=(X=0,Y=127,Z=127,W=255),(Color=(B=0,G=0,R=255,A=255)),((Position=(X=0.000000,Y=-191.999939,Z=32.000015),(Normal=(X=0,Y=127,Z=127,W=255),(Color=(B=0,G=0,R=255,A=255)) ColorVertexData(26)=(ffffffff,ffffffff,ffffffff,ffffffff,ffffffff,ffffffff,ffffffff,ffffffff,ffffffff,ffffffff,ffff0000,ffffffff,ffffffff,ffff0000,ffffffff,ffffffff,ffffffff,ffffffff,ffff0000,ffff0000,ffffffff,ffffffff,ffff0000,ffff0000,ffff0000,ffff0000)
-    
+
 }
