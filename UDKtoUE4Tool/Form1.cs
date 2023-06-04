@@ -20,6 +20,8 @@ namespace UDKtoUE4Tool
         private string input;
         private string path;
 
+        private StaticMesh StaticMeshes;
+
         private int NumberOfAssets;
         private int NumberOfKactors;
         private int NumberofSKMesh;
